@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3a74cdf-4a8d-4246-bd75-55e49183039c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +13,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Fight$test.coverage" NAME="test Coverage Results" MODIFIED="1533637374403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv/Tests" />
     <SUITE FILE_PATH="coverage/Fight$main.coverage" NAME="main Coverage Results" MODIFIED="1533744799533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
-    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1533823690971" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
+    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1533827904079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1856564489">
@@ -62,13 +62,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="7" />
-          <entry key="py" value="39" />
+          <entry key="py" value="1526" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="7" />
-          <entry key="Python" value="39" />
+          <entry key="Python" value="1526" />
         </counts>
       </usages-collector>
     </session>
@@ -78,16 +78,19 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/venv/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="540" lean-forward="true" selection-start-line="540" selection-end-line="540" />
+            <state relative-caret-position="673">
+              <caret line="629" column="21" lean-forward="true" selection-start-line="629" selection-start-column="21" selection-end-line="629" selection-end-column="21" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <marker date="1533823419984" expanded="true" signature="65:988" ph="..." />
-                <marker date="1533823419984" expanded="true" signature="985:988" ph="..." />
-                <marker date="1533823419984" expanded="true" signature="5249:6161" ph="..." />
-                <marker date="1533823419984" expanded="true" signature="6009:6161" ph="..." />
-                <marker date="1533823419984" expanded="true" signature="8039:18512" ph="..." />
-                <marker date="1533823419984" expanded="true" signature="9056:9108" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="65:1062" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="1059:1062" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="5323:6235" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="6083:6235" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="8119:21051" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="9136:9188" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="18085:18332" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="18922:19754" ph="..." />
+                <marker date="1533830785473" expanded="true" signature="19840:19846" ph="..." />
               </folding>
             </state>
           </provider>
@@ -133,6 +136,8 @@
     <findStrings>
       <find>applyXp</find>
       <find>displayCharacter</find>
+      <find>getXpNeededForNextLevel</find>
+      <find>generateFoe</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -157,7 +162,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="872" />
     <option name="y" value="179" />
     <option name="width" value="1400" />
@@ -283,14 +288,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18976545" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.329718" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.329718" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -319,18 +325,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/venv/main.py</url>
-          <line>593</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/venv/main.py</url>
-          <line>495</line>
+          <line>498</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/venv/main.py</url>
-          <line>524</line>
-          <option name="timeStamp" value="15" />
+          <line>600</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -367,16 +368,19 @@
     <entry file="file://$PROJECT_DIR$/venv/test.txt" />
     <entry file="file://$PROJECT_DIR$/venv/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="540" lean-forward="true" selection-start-line="540" selection-end-line="540" />
+        <state relative-caret-position="673">
+          <caret line="629" column="21" lean-forward="true" selection-start-line="629" selection-start-column="21" selection-end-line="629" selection-end-column="21" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <marker date="1533823419984" expanded="true" signature="65:988" ph="..." />
-            <marker date="1533823419984" expanded="true" signature="985:988" ph="..." />
-            <marker date="1533823419984" expanded="true" signature="5249:6161" ph="..." />
-            <marker date="1533823419984" expanded="true" signature="6009:6161" ph="..." />
-            <marker date="1533823419984" expanded="true" signature="8039:18512" ph="..." />
-            <marker date="1533823419984" expanded="true" signature="9056:9108" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="65:1062" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="1059:1062" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="5323:6235" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="6083:6235" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="8119:21051" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="9136:9188" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="18085:18332" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="18922:19754" ph="..." />
+            <marker date="1533830785473" expanded="true" signature="19840:19846" ph="..." />
           </folding>
         </state>
       </provider>

@@ -17,6 +17,9 @@ class Indenter:
     def print(self, text):
         print('\t' * self.level + text)
 
+    def indent_text(self, text):
+        return '\t' * self.level + text
+
 
 class ManagedFile:
     def __init__(self, name, mode):
@@ -245,12 +248,12 @@ class Character:
         self.character_class = new_class
         new_class.initClass(self.stats)
 
-    def displayCharacter(self):
+    def display_character(self):
         with Indenter() as indent:
             indent.print('Name: {}'.format(self.name))
             indent.print("Level: {}".format(self.level))
             indent.print(
-                "Experience points: {}/{}".format(self.xp, self.experience_helper.getXpNeededForNextLevel(self.level)))
+                "Experience points: {}/{}".format(self.xp, self.experience_helper.get_xp_needed_for_next_level(self.level)))
             self.stats.displayStats(indent)
             self.character_class.displayClass(indent)
 
@@ -342,16 +345,16 @@ class BattleEngine:
             with indent:
                 indent.print('{} inflicted {} damage to {} ({}/{})'.format(attacker.name, damage, defender.name,
                                                                            defender.stats.hp, defender.stats.max_hp))
-        self.checkiffoeko(defender, indent)
+        self.check_if_foe_ko(defender, indent)
 
-    def checkiffoeko(self, character, indent):
+    def check_if_foe_ko(self, character, indent):
         if character.stats.hp == 0:
             indent.print('{} is KO !'.format(character.name))
 
     def checkIfBattleOver(self):
         return all(c.stats.hp == 0 for c in self.character_list) or all(f.stats.hp == 0 for f in self.foe_list)
 
-    def handlevictory(self):
+    def handle_victory(self):
         if any(c.stats.hp > 0 for c in self.character_list):
             xp_value = sum(map(lambda f: f.xp, self.foe_list))
             xp_gained_per_character = xp_value / len(self.character_list)
@@ -361,7 +364,7 @@ class BattleEngine:
             xp_helper = ExperienceHelper()
             xp_helper.applyXp(xp_gained_per_character, character_alive)
 
-    def handledefeat(self):
+    def handle_defeat(self):
         if all(c.stats.hp == 0 for c in self.character_list):
             print("Defeat")
 
@@ -378,8 +381,8 @@ class BattleEngine:
                 self.attack(attacker, defender, 10, DamageType.PHY_DMG)
             turn += 1
             time.sleep(0.25)
-        self.handlevictory()
-        self.handledefeat()
+        self.handle_victory()
+        self.handle_defeat()
 
     # Precondition : One of fighter_list is not dead.
     def chooseFighter(self, fighter_list):
@@ -456,7 +459,7 @@ class Level:
                     foe_list.append(foe)
         return foe_list
 
-    def generateFoe(self, foe_number, foe_list):
+    def generate_foe(self, foe_number, foe_list):
         return_list = list()
         p = list()
         for f in foe_list:
@@ -477,7 +480,7 @@ class Level:
             print("Battle {}".format(battle_number))
             foe_number = random.randint(1, 4)
             generable_foe_list = self.loadCreaturesFromFile()
-            foe_list = self.generateFoe(foe_number, generable_foe_list)
+            foe_list = self.generate_foe(foe_number, generable_foe_list)
             # for n in range(0, foe_number):
             #     foe_stats = FoeStats(n, 5, 5, 5, 5, 100, 10)
             #     foe_name = "Goblin"
@@ -499,29 +502,30 @@ class Level:
 class ExperienceHelper:
 
     def __init__(self):
-        self.xp_values = self.loadLevelThreshold()
+        self.xp_values = self.load_level_threshold()
 
     def applyXp(self, xp_gained, character_list):
         for c in character_list:
             c.xp += xp_gained
             current_level = c.level
-            xp_needed_for_next_level = self.getXpNeededForNextLevel(current_level)
+            xp_needed_for_next_level = self.get_xp_needed_for_next_level(current_level)
             while c.xp >= xp_needed_for_next_level > 0:
-                self.applyLevelUp(c)
+                self.apply_level_up(c)
                 current_level = c.level
-                xp_needed_for_next_level = self.getXpNeededForNextLevel(current_level)
+                xp_needed_for_next_level = self.get_xp_needed_for_next_level(current_level)
 
-    def applyLevelUp(self, character):
+    def apply_level_up(self, character):
         character.level = int(character.level + 1)
         with Indenter() as indent:
             indent.print("Level up! {} is now level {}.".format(character.name, character.level))
 
-    def loadLevelThreshold(self):
+    def load_level_threshold(self):
         with ManagedFile('Utilities\level_threshold.txt', 'r') as f:
             xp_values = f.readlines()
             return list(map(lambda x: x.strip(), xp_values))
 
-    def getXpNeededForNextLevel(self, current_level):
+    @staticmethod
+    def get_xp_needed_for_next_level(self, current_level):
         if not self.xp_values[current_level + 1].isdigit() or not self.xp_values[-1].isdigit():
             return -1
         if len(self.xp_values) > current_level + 1:
@@ -530,27 +534,84 @@ class ExperienceHelper:
             return int(self.xp_values[-1])
 
 
+class PartyManager:
+    def __init__(self, party):
+        self.party = party
+
+    def heal_party(self):
+        for c in self.party:
+            c.stats.hp = c.stats.max_hp
+
+    def view_party(self):
+        for c in self.party:
+            c.display_character()
+
+
 class Menu:
 
     def __init__(self, character_list):
         self.character_list = character_list
+        self.party_manager = PartyManager(character_list)
 
-    def startlevel(self, level_number):
+    def start_level(self, level_number):
         with Level(1, level_number) as level:
             level.progress(character_list)
 
-    def asklevel(self):
+    def ask_level(self):
         while "Input is wrong":
             level_number = input("Enter level(1-2):")
             if level_number.isdigit() and int(level_number) <= 2:
                 break
         return level_number
 
-    def manageparty(self):
-        # TO DO
-        print("Not implemented yet.")
+    def manage_party(self, indent):
+        indent.print("Party Manager.")
+        with indent:
+            prompt_text = indent.indent_text("Press v to view your party.\n")
+            prompt_text += indent.indent_text("Press c to change the class of a party member.\n")
+            prompt_text += indent.indent_text("Press l to level up a party member.\n")
+            prompt_text += indent.indent_text("Press a to equip abilities and talents.\n")
+            choice = ''
+            choice_accepted = list({'V', 'C', 'L', 'A'})
+            while choice not in choice_accepted:
+                choice = input(prompt_text).strip().upper()
+            if choice == 'V':
+                self.party_manager.view_party()
+            elif choice == 'C':
+                print("Not implemented yet.")
+            elif choice == 'L':
+                print("Not implemented yet.")
+            elif choice == 'A':
+                print("Not implemented yet.")
+
+    def quit_game(self):
+        exit()
+
+    def display_menu(self):
+        with Indenter() as indent:
+            indent.print("Main menu.")
+            with indent:
+                prompt_text = indent.indent_text("Press p to start playing.\n")
+                prompt_text += indent.indent_text("Press m to manage your party.\n")
+                prompt_text += indent.indent_text("Press h to heal your party.\n")
+                prompt_text += indent.indent_text('Press q to quit.\n')
+                choice = ''
+                choice_accepted = list({'P', 'M', 'H', 'Q'})
+                while choice not in choice_accepted:
+                    choice = input(prompt_text).strip().upper()
+                if choice == 'P':
+                    self.start_level(self.ask_level())
+                elif choice == 'M':
+                    self.manage_party(indent)
+                elif choice == 'H':
+                    self.party_manager.heal_party()
+                    indent.print("*Healing sound*")
+                    indent.print("Your party is healed.")
+                elif choice == 'Q':
+                    self.quit_game()
 
 
+# -------------------------- main function -------------------------- #
 biggs_id = 1
 wedge_id = 2
 goblin_id = 3
@@ -559,37 +620,14 @@ wedge_stat = CharacterStats(wedge_id, 20, 20, 20, 20, 1000, 50)
 scholar = Scholar(biggs_id)
 holyknight = HolyKnight(wedge_id)
 biggs = Character(biggs_id, "Biggs", biggs_stat, scholar)
-biggs.displayCharacter()
+biggs.display_character()
 wedge = Character(wedge_id, "Wedge", wedge_stat, holyknight)
-wedge.displayCharacter()
-character_list = list()
-character_list.append(biggs)
-character_list.append(wedge)
+wedge.display_character()
+my_party = list()
+my_party.append(biggs)
+my_party.append(wedge)
 
-menu = Menu(character_list)
-menu.startlevel(menu.asklevel())
+menu = Menu(my_party)
+while "User has not quit":
+    menu.display_menu()
 
-for c in character_list:
-    c.displayCharacter()
-
-# turn = 0
-# while(any(c.stats.hp > 0 for c in character_list)):
-#     turn += 1
-#     print("Battle {}".format(turn))
-#     foe_list = list()
-#     foe_number = random.randint(1,4)
-#     for n in range(0, foe_number):
-#         foe_stats = FoeStats(n, 5, 5, 5, 5, 100, 10)
-#         foe_name = "Goblin"
-#         if(n > 0):
-#             foe_name +=" {}".format(n+1)
-#         goblin = Foe(n, foe_name, foe_stats)
-#         foe_list.append(goblin)
-#     with Indenter() as indent:
-#         indent.print("Your party encounters:")
-#         with indent:
-#             for foe in foe_list:
-#                 indent.print(foe.name)
-#     with BattleEngine(character_list, foe_list) as battle:
-#         battle.fight()
-# print("Wedge and Biggs died at Battle {}".format(turn))
