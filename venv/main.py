@@ -524,7 +524,6 @@ class ExperienceHelper:
             xp_values = f.readlines()
             return list(map(lambda x: x.strip(), xp_values))
 
-    @staticmethod
     def get_xp_needed_for_next_level(self, current_level):
         if not self.xp_values[current_level + 1].isdigit() or not self.xp_values[-1].isdigit():
             return -1
