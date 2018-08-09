@@ -51,6 +51,8 @@ class Stats:
 
 class CharacterStats(Stats):
 
+    unspent_points = 0
+
     def __str__(self):
         return ("Character stats: \n\t"
                 "Physical Strength: {}\n\t"
@@ -62,7 +64,7 @@ class CharacterStats(Stats):
                 .format(self.phy_str, self.mag_pow, self.phy_res, self.mag_res, self.hp, self.max_hp, self.ap,
                         self.max_ap))
 
-    def displayStats(self, indent):
+    def display_stats(self, indent):
         indent.print("Character Stats:")
         with indent:
             indent.print("Physical Strength: {}".format(self.phy_str))
@@ -254,7 +256,7 @@ class Character:
             indent.print("Level: {}".format(self.level))
             indent.print(
                 "Experience points: {}/{}".format(self.xp, self.experience_helper.get_xp_needed_for_next_level(self.level)))
-            self.stats.displayStats(indent)
+            self.stats.display_stats(indent)
             self.character_class.displayClass(indent)
 
 
@@ -273,7 +275,7 @@ class Foe:
     def displayFoe(self):
         with Indenter() as indent:
             indent.print('Name: {}'.format(self.name))
-            self.stats.displayStats(indent)
+            self.stats.display_stats(indent)
 
     def clone(self):
         cloned_stats = FoeStats(self.id,
@@ -302,7 +304,7 @@ class FoeStats(Stats):
                 .format(self.phy_str, self.mag_pow, self.phy_res, self.mag_res, self.hp, self.max_hp, self.ap,
                         self.max_ap))
 
-    def displayStats(self, indent):
+    def display_stats(self, indent):
         indent.print("Foe Stats:")
         with indent:
             indent.print("Physical Strength: {}".format(self.phy_str))
@@ -516,6 +518,7 @@ class ExperienceHelper:
 
     def apply_level_up(self, character):
         character.level = int(character.level + 1)
+        character.stats.unspent_points += 10
         with Indenter() as indent:
             indent.print("Level up! {} is now level {}.".format(character.name, character.level))
 
@@ -545,6 +548,34 @@ class PartyManager:
         for c in self.party:
             c.display_character()
 
+    def select_party_member(self):
+        with Indenter() as indent:
+            pm_number = 0
+            for pm in self.party:
+                indent.print("{} the {} [{}]".format(pm.name, pm.character_class.class_name,pm_number))
+                pm_number += 1
+            while "A party member is not picked.":
+                choice = input('Choose a party member.')
+                if choice.isdigit() and 0 <= int(choice) < pm_number:
+                    break
+            party_member = self.party[int(choice)]
+            return party_member
+
+    def change_class(self):
+        party_member = self.select_party_member()
+        with Indenter() as indent:
+            indent.print("{} the {}.".format(party_member.name, party_member.character_class.class_name))
+        print('Not implemented yet.')
+
+    def spend_stat_points(self):
+        party_member = self.select_party_member()
+        with Indenter() as indent:
+            indent.print("{} the {}.".format(party_member.name, party_member.character_class.class_name))
+            with indent:
+                indent.print(str(party_member.stats))
+                indent.print("Points to spend: {}".format(party_member.stats.unspent_points))
+                indent.print("Not implemented yet.")
+
 
 class Menu:
 
@@ -554,7 +585,7 @@ class Menu:
 
     def start_level(self, level_number):
         with Level(1, level_number) as level:
-            level.progress(character_list)
+            level.progress(self.character_list)
 
     def ask_level(self):
         while "Input is wrong":
@@ -568,7 +599,7 @@ class Menu:
         with indent:
             prompt_text = indent.indent_text("Press v to view your party.\n")
             prompt_text += indent.indent_text("Press c to change the class of a party member.\n")
-            prompt_text += indent.indent_text("Press l to level up a party member.\n")
+            prompt_text += indent.indent_text("Press l to spend stat points on a party member.\n")
             prompt_text += indent.indent_text("Press a to equip abilities and talents.\n")
             choice = ''
             choice_accepted = list({'V', 'C', 'L', 'A'})
@@ -577,9 +608,9 @@ class Menu:
             if choice == 'V':
                 self.party_manager.view_party()
             elif choice == 'C':
-                print("Not implemented yet.")
+                self.party_manager.change_class()
             elif choice == 'L':
-                print("Not implemented yet.")
+                self.party_manager.spend_stat_points()
             elif choice == 'A':
                 print("Not implemented yet.")
 
