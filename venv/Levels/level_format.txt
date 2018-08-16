@@ -1,0 +1,10 @@
+# File Format :
+# Foe_Name
+# Physical Strength
+# Magic Power
+# Physical Resistance
+# Magic Resistance
+# Max HP
+# Max AP
+# Probability
+# XP awarded
