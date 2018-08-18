@@ -3,6 +3,7 @@ import random
 import time
 
 max_level = 3
+combat_text_speed = .25 # in seconds
 
 # For debug only
 def trace(func):
@@ -25,7 +26,7 @@ class Indenter:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.level -= 1
 
-    def print(self, text):
+    def print_(self, text):
         print('\t' * self.level + text)
 
     def indent_text(self, text):
@@ -76,16 +77,17 @@ class CharacterStats(Stats):
                         self.max_ap))
 
     def display_stats(self, indent):
-        indent.print("Character Stats:")
+        indent.print_("Character Stats:")
         with indent:
-            indent.print("Physical Strength: {}".format(self.phy_str))
-            indent.print("Magic Power: {}".format(self.mag_pow))
-            indent.print("Physical Resistance: {}".format(self.phy_res))
-            indent.print("Magic Resistance: {}".format(self.mag_res))
-            indent.print("Health Points: {}/{}".format(self.hp, self.max_hp))
-            indent.print("Ability Points: {}/{}".format(self.ap, self.max_ap))
+            indent.print_("Physical Strength: {}".format(self.phy_str))
+            indent.print_("Magic Power: {}".format(self.mag_pow))
+            indent.print_("Physical Resistance: {}".format(self.phy_res))
+            indent.print_("Magic Resistance: {}".format(self.mag_res))
+            indent.print_("Health Points: {}/{}".format(self.hp, self.max_hp))
+            indent.print_("Ability Points: {}/{}".format(self.ap, self.max_ap))
 
     def add_stats_points(self, phy_str, mag_pow, phy_res, mag_res, max_hp, max_ap):
+        """Add stats points"""
         self.phy_str += phy_str
         self.mag_pow += mag_pow
         self.phy_res += phy_res
@@ -100,6 +102,7 @@ class CharacterStats(Stats):
             self.ap = self.max_ap
 
     def spend_points(self, points):
+        """Remove the spent points from the character's points pool."""
         if points > self.unspent_points:
             self.unspent_points = 0
         else:
@@ -115,6 +118,7 @@ class CharacterClass:
     mag_res_mult = 0
     hp_mult = 0
     ap_mult = 0
+    ability_list = list()
 
     def __init__(self, id):
         self.id = id
@@ -154,14 +158,49 @@ class CharacterClass:
         character_stats.max_ap /= self.ap_mult
 
     def display_class(self, indent):
-        indent.print(self.class_name)
+        indent.print_(self.class_name)
         with indent:
-            indent.print("Physical Strength Multiplier: {}".format(self.phy_str_mult))
-            indent.print("Magic Power Multiplier: {}".format(self.mag_pow_mult))
-            indent.print("Physical Resistance Multiplier: {}".format(self.phy_res_mult))
-            indent.print("Magic Resistance Multiplier: {}".format(self.mag_res_mult))
-            indent.print("Health Points Multiplier: {}".format(self.hp_mult))
-            indent.print("Ability Points Multiplier: {}".format(self.ap_mult))
+            indent.print_("Physical Strength Multiplier: {}".format(self.phy_str_mult))
+            indent.print_("Magic Power Multiplier: {}".format(self.mag_pow_mult))
+            indent.print_("Physical Resistance Multiplier: {}".format(self.phy_res_mult))
+            indent.print_("Magic Resistance Multiplier: {}".format(self.mag_res_mult))
+            indent.print_("Health Points Multiplier: {}".format(self.hp_mult))
+            indent.print_("Ability Points Multiplier: {}".format(self.ap_mult))
+
+    def init_abilities(self):
+        """Initialises the abilities of the class"""
+        ability_list = list()
+        if isinstance(self, Squire):
+            # Ability(self, ability_name, ability_dmg, ability_dmg_type, ability_description):
+            normal_attack_ability = Ability("Normal Attack", 10, DamageType.PHY_DMG, "A normal physical attack.", 0)
+            normal_attack_ability.ability_acquired = True
+            magic_attack_ability = Ability("Magic Attack",10, DamageType.MAG_DMG, "A normal magic attack.", 2)
+            ability_list.append(normal_attack_ability)
+            ability_list.append(magic_attack_ability)
+        elif isinstance(self, Knight):
+            normal_attack_ability = Ability("Normal Attack", 12, DamageType.PHY_DMG, "A normal physical attack.", 0)
+            normal_attack_ability.ability_acquired = True
+            bash_ability = Ability("Normal Attack", 18, DamageType.PHY_DMG, "A blunt strike that attempts to stun the enemy. (It does not)", 4)
+            furious_strike_ability = Ability("Normal Attack", 30, DamageType.PHY_DMG, "A strong slash to defeat the enemy.", 10)
+            ability_list.append(bash_ability)
+            ability_list.append(furious_strike_ability)
+        elif isinstance(self, Wizard):
+            normal_attack_ability = Ability("Normal Attack", 12, DamageType.MAG_DMG, "A normal magic attack.", 2)
+            normal_attack_ability.ability_acquired = True
+            staff_strike_ability = Ability("Staff strike", 1, DamageType.PHY_DMG, "The wizard tries to hit the enemy with its staff instead of casting spells.", 0)
+            staff_strike_ability.ability_acquired = True
+            fire_attack_ability = Ability("Fire", 15, DamageType.MAG_DMG, "A fire attack.", 5)
+            ice_attack_ability = Ability("Ice", 15, DamageType.MAG_DMG, "An ice attack.", 5)
+            thunder_attack_ability = Ability("Thunder", 15, DamageType.MAG_DMG, "A thunder attack.", 5)
+            wind_attack_ability = Ability("Wind", 15, DamageType.MAG_DMG, "A wind attack.")
+            ability_list.append(normal_attack_ability)
+            ability_list.append(staff_strike_ability)
+            ability_list.append(fire_attack_ability)
+            ability_list.append(ice_attack_ability)
+            ability_list.append(thunder_attack_ability)
+            ability_list.append(wind_attack_ability)
+        self.ability_list = ability_list
+
 
 
 class Squire(CharacterClass):
@@ -272,11 +311,12 @@ class Cleric(CharacterClass):
     ap_mult = 1.2
 
 class Ability:
-    def __init__(self, ability_name, ability_dmg, ability_dmg_type, ability_description):
+    def __init__(self, ability_name, ability_dmg, ability_dmg_type, ability_description, ap_cost):
         self.ability_name = ability_name
         self.ability_dmg = ability_dmg
         self.ability_dmg_type = ability_dmg_type
         self.ability_description = ability_description
+        self.ap_cost = ap_cost
         self.ability_acquired = False
 
 
@@ -306,9 +346,9 @@ class Character:
 
     def display_character(self):
         with Indenter() as indent:
-            indent.print('Name: {}'.format(self.name))
-            indent.print("Level: {}".format(self.level))
-            indent.print(
+            indent.print_('Name: {}'.format(self.name))
+            indent.print_("Level: {}".format(self.level))
+            indent.print_(
                 "Experience points: {}/{}".format(self.xp, self.experience_helper.get_xp_needed_for_next_level(self.level)))
             self.stats.display_stats(indent)
             self.character_class.display_class(indent)
@@ -333,7 +373,7 @@ class Foe:
 
     def display_foe(self):
         with Indenter() as indent:
-            indent.print('Name: {}'.format(self.name))
+            indent.print_('Name: {}'.format(self.name))
             self.stats.display_stats(indent)
 
     def clone(self):
@@ -364,14 +404,14 @@ class FoeStats(Stats):
                         self.max_ap))
 
     def display_stats(self, indent):
-        indent.print("Foe Stats:")
+        indent.print_("Foe Stats:")
         with indent:
-            indent.print("Physical Strength: {}".format(self.phy_str))
-            indent.print("Magic Power: {}".format(self.mag_pow))
-            indent.print("Physical Resistance: {}".format(self.phy_res))
-            indent.print("Magic Resistance: {}".format(self.mag_res))
-            indent.print("Health Points: {}/{}".format(self.hp, self.max_hp))
-            indent.print("Ability Points: {}/{}".format(self.ap, self.max_ap))
+            indent.print_("Physical Strength: {}".format(self.phy_str))
+            indent.print_("Magic Power: {}".format(self.mag_pow))
+            indent.print_("Physical Resistance: {}".format(self.phy_res))
+            indent.print_("Magic Resistance: {}".format(self.mag_res))
+            indent.print_("Health Points: {}/{}".format(self.hp, self.max_hp))
+            indent.print_("Ability Points: {}/{}".format(self.ap, self.max_ap))
 
 
 class DamageType(Enum):
@@ -404,13 +444,13 @@ class BattleEngine:
         defender.stats.hp = defender.stats.hp - damage if defender.stats.hp - damage > 0 else 0
         with Indenter() as indent:
             with indent:
-                indent.print('{} inflicted {} damage to {} ({}/{})'.format(attacker.name, damage, defender.name,
+                indent.print_('{} inflicted {} damage to {} ({}/{})'.format(attacker.name, damage, defender.name,
                                                                            defender.stats.hp, defender.stats.max_hp))
         self.check_if_foe_ko(defender, indent)
 
     def check_if_foe_ko(self, character, indent):
         if character.stats.hp == 0:
-            indent.print('{} is KO !'.format(character.name))
+            indent.print_('{} is KO !'.format(character.name))
 
     def check_if_battle_over(self):
         return all(c.stats.hp == 0 for c in self.character_list) or all(f.stats.hp == 0 for f in self.foe_list)
@@ -441,7 +481,7 @@ class BattleEngine:
                 defender = self.choose_fighter(self.character_list)
                 self.attack(attacker, defender, 10, DamageType.PHY_DMG)
             turn += 1
-            time.sleep(0.25)
+            time.sleep(combat_text_speed)
         self.handle_victory()
         self.handle_defeat()
 
@@ -560,10 +600,10 @@ class Level:
             #     goblin = Foe(n, foe_name, foe_stats)
             #     foe_list.append(goblin)
             with Indenter() as indent:
-                indent.print("Your party encounters:")
+                indent.print_("Your party encounters:")
                 with indent:
                     for foe in foe_list:
-                        indent.print(foe.name)
+                        indent.print_(foe.name)
             with BattleEngine(character_list, foe_list) as battle:
                 battle.fight()
         print("Your party died at Battle {}".format(battle_number))
@@ -575,6 +615,7 @@ class ExperienceHelper:
         self.xp_values = self.load_level_threshold()
 
     def apply_xp(self, xp_gained, character_list):
+        """Add xp to the whole party. Level up a party member if necessary."""
         for c in character_list:
             c.xp += xp_gained
             current_level = c.level
@@ -585,17 +626,20 @@ class ExperienceHelper:
                 xp_needed_for_next_level = self.get_xp_needed_for_next_level(current_level)
 
     def apply_level_up(self, character):
+        """Add a level and stat points to the selected character."""
         character.level = int(character.level + 1)
         character.stats.unspent_points += 10
         with Indenter() as indent:
-            indent.print("Level up! {} is now level {}.".format(character.name, character.level))
+            indent.print_("Level up! {} is now level {}.".format(character.name, character.level))
 
     def load_level_threshold(self):
+        """Load the xp needed for a level up from the file Utilities\level_threshold.txt"""
         with ManagedFile('Utilities\level_threshold.txt', 'r') as f:
             xp_values = f.readlines()
             return list(map(lambda x: x.strip(), xp_values))
 
     def get_xp_needed_for_next_level(self, current_level):
+        """Return the xp needed to reach the next level (current_level + 1)"""
         if not self.xp_values[current_level + 1].isdigit() or not self.xp_values[-1].isdigit():
             return -1
         if len(self.xp_values) > current_level + 1:
@@ -609,18 +653,21 @@ class PartyManager:
         self.party = party
 
     def heal_party(self):
+        """Set the current hp of each party member to its maximum."""
         for c in self.party:
             c.stats.hp = c.stats.max_hp
 
     def view_party(self):
+        """Display each member of the party."""
         for c in self.party:
             c.display_character()
 
     def select_party_member(self):
+        """Ask the user to select a party member and returns it."""
         with Indenter() as indent:
             pm_number = 0
             for pm in self.party:
-                indent.print("{} the {} [{}]".format(pm.name, pm.character_class.class_name,pm_number))
+                indent.print_("{} the {} [{}]".format(pm.name, pm.character_class.class_name,pm_number))
                 pm_number += 1
             while "A party member is not picked.":
                 choice = input('Choose a party member.')
@@ -630,34 +677,40 @@ class PartyManager:
             return party_member
 
     def change_class(self):
+        """Change the class of a party member."""
         party_member = self.select_party_member()
         with Indenter() as indent:
-            indent.print("{} the {}.".format(party_member.name, party_member.character_class.class_name))
+            indent.print_("{} the {}.".format(party_member.name, party_member.character_class.class_name))
         print('Not implemented yet.')
 
     def change_name(self):
+        """"Choose a party member. Change it's name."""
         party_member = self.select_party_member()
         with Indenter() as indent:
-            indent.print("{} the {}.".format(party_member.name, party_member.character_class.class_name))
+            indent.print_("{} the {}.".format(party_member.name, party_member.character_class.class_name))
             new_name_confirmed = False
             while not new_name_confirmed:
                 new_name = input(indent.indent_text("What shall be {} new name ?".format(party_member.name))).strip()
-                confirmation = input("""Do you confirm {} as {}'s new name ?(Y/N)""".format(new_name, party_member.name)).strip().upper()
+                confirmation = input("""Do you confirm {} as {}'s new name ?(Press Y or N or press Q to stop changing name)""".format(new_name, party_member.name)).strip().upper()
                 if confirmation == 'Y':
                     new_name_confirmed = True
+                if confirmation == 'Q':
+                    indent.print_("You have not changed {}'s name".format(party_member.name))
+                    return
             party_member.name = new_name
 
     def spend_stat_points(self):
+        """Select a party member. Choose the points to spend on which attributes if there are any."""
         party_member = self.select_party_member()
         with Indenter() as indent:
-            indent.print("{} the {}.".format(party_member.name, party_member.character_class.class_name))
+            indent.print_("{} the {}.".format(party_member.name, party_member.character_class.class_name))
             if party_member.stats.unspent_points == 0:
-                indent.print("No points to spend.")
+                indent.print_("No points to spend.")
                 return
             else:
                 with indent:
-                    indent.print(str(party_member.stats))
-                    indent.print("Points to spend: {}".format(party_member.stats.unspent_points))
+                    indent.print_(str(party_member.stats))
+                    indent.print_("Points to spend: {}".format(party_member.stats.unspent_points))
                     points_spent = False
                     while not points_spent:
                         points_to_spend = party_member.stats.unspent_points
@@ -674,9 +727,9 @@ class PartyManager:
                                     phy_str_points = 0
                                 elif not phy_str_points.isdigit():
                                     phy_str_points = -1
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                                 elif phy_str_points.isdigit() and int(phy_str_points) > points_to_spend:
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                         phy_str_points = int(phy_str_points)
                         points_to_spend -= phy_str_points
 
@@ -692,9 +745,9 @@ class PartyManager:
                                     mag_pow_points = 0
                                 elif not mag_pow_points.isdigit():
                                     mag_pow_points = -1
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                                 elif mag_pow_points.isdigit() and int(mag_pow_points) > points_to_spend:
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                         mag_pow_points = int(mag_pow_points)
                         points_to_spend -= mag_pow_points
 
@@ -710,9 +763,9 @@ class PartyManager:
                                     phy_res_points = 0
                                 elif not phy_res_points.isdigit():
                                     phy_res_points = -1
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                                 elif phy_res_points.isdigit() and int(phy_res_points) > points_to_spend:
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                         phy_res_points = int(phy_res_points)
                         points_to_spend -= phy_res_points
 
@@ -728,9 +781,9 @@ class PartyManager:
                                     mag_res_points = 0
                                 elif not mag_res_points.isdigit():
                                     mag_res_points = -1
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                                 elif mag_res_points.isdigit() and int(mag_res_points) > points_to_spend:
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                         mag_res_points = int(mag_res_points)
                         points_to_spend -= mag_res_points
 
@@ -746,9 +799,9 @@ class PartyManager:
                                     max_hp_points = 0
                                 elif not max_hp_points.isdigit():
                                     max_hp_points = -1
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                                 elif max_hp_points.isdigit() and int(max_hp_points) > points_to_spend:
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                         max_hp_points = int(max_hp_points)
                         points_to_spend -= max_hp_points
                         max_hp_points *= 10
@@ -765,9 +818,9 @@ class PartyManager:
                                     max_ap_points = 0
                                 elif not max_ap_points.isdigit():
                                     max_ap_points = -1
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                                 elif max_ap_points.isdigit() and int(max_ap_points) > points_to_spend:
-                                    indent.print("Enter a valid integer.")
+                                    indent.print_("Enter a valid integer.")
                         max_ap_points = int(max_ap_points)
                         points_to_spend -= max_ap_points
 
@@ -775,11 +828,11 @@ class PartyManager:
                         if not points_to_spend < 0:
                             points_spent = True
                         else:
-                            indent.print("Invalid operation.")
+                            indent.print_("Invalid operation.")
                     party_member.add_stats_points(phy_str_points, mag_pow_points, phy_res_points, mag_res_points, max_hp_points, max_ap_points)
                     party_member.stats.spend_points(phy_str_points + mag_pow_points + phy_res_points + mag_res_points + max_hp_points/10 + max_ap_points)
-                    indent.print("New stats.\n")
-                    indent.print(str(party_member.stats))
+                    indent.print_("New stats.\n")
+                    indent.print_(str(party_member.stats))
 
 
 class Menu:
@@ -789,10 +842,12 @@ class Menu:
         self.party_manager = PartyManager(character_list)
 
     def start_level(self, level_number):
+        """Start the level defined by its number."""
         with Level(1, level_number) as level:
             level.progress(self.character_list)
 
     def ask_level(self):
+        """"Ask the user which level to start."""
         while "Input is wrong":
             level_number = input("Enter level(1-{}):".format(max_level))
             if level_number.isdigit() and int(level_number) <= max_level:
@@ -800,7 +855,13 @@ class Menu:
         return level_number
 
     def manage_party(self, indent):
-        indent.print("Party Manager.")
+        """Display a menu to manage the player's party:
+            - View Party
+            - Change Class
+            - Spend stat points
+            - Equip abilities and talents
+            - Change the name"""
+        indent.print_("Party Manager.")
         with indent:
             prompt_text = indent.indent_text("Press v to view your party.\n")
             prompt_text += indent.indent_text("Press c to change the class of a party member.\n")
@@ -824,11 +885,20 @@ class Menu:
 
     @staticmethod
     def quit_game():
+        """Exit the game."""
+        with Indenter() as indent:
+            indent.print_("Save game? (Y/N)")
+            user_choice = input().strip().upper()
+            while user_choice not in ("Y","N"):
+                user_choice = input().strip().upper()
+            if user_choice == 'Y':
+                print("Saving is not implemented yet.")
         exit()
 
     def display_menu(self):
+        """Display the main menu of the game."""
         with Indenter() as indent:
-            indent.print("Main menu.")
+            indent.print_("Main menu.")
             with indent:
                 prompt_text = indent.indent_text("Press p to start playing.\n")
                 prompt_text += indent.indent_text("Press m to manage your party.\n")
@@ -844,8 +914,8 @@ class Menu:
                     self.manage_party(indent)
                 elif choice == 'H':
                     self.party_manager.heal_party()
-                    indent.print("*Healing sound*")
-                    indent.print("Your party is healed.")
+                    indent.print_("*Healing sound*")
+                    indent.print_("Your party is healed.")
                 elif choice == 'Q':
                     self.quit_game()
 
