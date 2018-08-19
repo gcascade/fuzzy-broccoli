@@ -1,9 +1,11 @@
 from enum import Enum
+from abc import ABCMeta, abstractmethod
 import random
 import time
+import copy
 
 max_level = 3
-combat_text_speed = .25 # in seconds
+combat_text_speed = 0.25 # in seconds
 
 # For debug only
 def trace(func):
@@ -27,10 +29,16 @@ class Indenter:
         self.level -= 1
 
     def print_(self, text):
-        print('\t' * self.level + text)
+        new_text = text.splitlines()
+        for line in new_text:
+            print('\t' * self.level + line)
 
     def indent_text(self, text):
-        return '\t' * self.level + text
+        new_text = text.splitlines()
+        ret = ''
+        for line in new_text:
+            ret += '\t' * self.level + line + "\n"
+        return ret
 
 
 class ManagedFile:
@@ -45,6 +53,10 @@ class ManagedFile:
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.file:
             self.file.close()
+
+
+class FileContentException(Exception):
+    pass
 
 
 class Stats:
@@ -109,9 +121,10 @@ class CharacterStats(Stats):
             self.unspent_points -= points
 
 
-class CharacterClass:
+class CharacterClass(metaclass=ABCMeta):
     class_name = "Classless"
     class_xp = 0
+    class_level = 0
     phy_str_mult = 0
     mag_pow_mult = 0
     phy_res_mult = 0
@@ -122,6 +135,12 @@ class CharacterClass:
 
     def __init__(self, id):
         self.id = id
+        self.experience_helper = ExperienceHelper()
+        try:
+            self.ability_list = self.get_class_abitilies_from_file()
+        except FileContentException:
+            print("An error occurred loading abilities, please check the content of the Abilities directory.")
+
 
     def __str__(self):
         return ("{}\n\t"
@@ -158,8 +177,11 @@ class CharacterClass:
         character_stats.max_ap /= self.ap_mult
 
     def display_class(self, indent):
-        indent.print_(self.class_name)
+        indent.print_("Class: {}".format(self.class_name))
         with indent:
+            indent.print_("Level: {}".format(self.class_level))
+            indent.print_(
+                "Class Experience points: {}/{}".format(self.class_xp, self.experience_helper.get_xp_needed_for_next_level(self.class_level)))
             indent.print_("Physical Strength Multiplier: {}".format(self.phy_str_mult))
             indent.print_("Magic Power Multiplier: {}".format(self.mag_pow_mult))
             indent.print_("Physical Resistance Multiplier: {}".format(self.phy_res_mult))
@@ -167,40 +189,59 @@ class CharacterClass:
             indent.print_("Health Points Multiplier: {}".format(self.hp_mult))
             indent.print_("Ability Points Multiplier: {}".format(self.ap_mult))
 
-    def init_abilities(self):
-        """Initialises the abilities of the class"""
-        ability_list = list()
-        if isinstance(self, Squire):
-            # Ability(self, ability_name, ability_dmg, ability_dmg_type, ability_description):
-            normal_attack_ability = Ability("Normal Attack", 10, DamageType.PHY_DMG, "A normal physical attack.", 0)
-            normal_attack_ability.ability_acquired = True
-            magic_attack_ability = Ability("Magic Attack",10, DamageType.MAG_DMG, "A normal magic attack.", 2)
-            ability_list.append(normal_attack_ability)
-            ability_list.append(magic_attack_ability)
-        elif isinstance(self, Knight):
-            normal_attack_ability = Ability("Normal Attack", 12, DamageType.PHY_DMG, "A normal physical attack.", 0)
-            normal_attack_ability.ability_acquired = True
-            bash_ability = Ability("Normal Attack", 18, DamageType.PHY_DMG, "A blunt strike that attempts to stun the enemy. (It does not)", 4)
-            furious_strike_ability = Ability("Normal Attack", 30, DamageType.PHY_DMG, "A strong slash to defeat the enemy.", 10)
-            ability_list.append(bash_ability)
-            ability_list.append(furious_strike_ability)
-        elif isinstance(self, Wizard):
-            normal_attack_ability = Ability("Normal Attack", 12, DamageType.MAG_DMG, "A normal magic attack.", 2)
-            normal_attack_ability.ability_acquired = True
-            staff_strike_ability = Ability("Staff strike", 1, DamageType.PHY_DMG, "The wizard tries to hit the enemy with its staff instead of casting spells.", 0)
-            staff_strike_ability.ability_acquired = True
-            fire_attack_ability = Ability("Fire", 15, DamageType.MAG_DMG, "A fire attack.", 5)
-            ice_attack_ability = Ability("Ice", 15, DamageType.MAG_DMG, "An ice attack.", 5)
-            thunder_attack_ability = Ability("Thunder", 15, DamageType.MAG_DMG, "A thunder attack.", 5)
-            wind_attack_ability = Ability("Wind", 15, DamageType.MAG_DMG, "A wind attack.")
-            ability_list.append(normal_attack_ability)
-            ability_list.append(staff_strike_ability)
-            ability_list.append(fire_attack_ability)
-            ability_list.append(ice_attack_ability)
-            ability_list.append(thunder_attack_ability)
-            ability_list.append(wind_attack_ability)
-        self.ability_list = ability_list
-
+    def get_class_abitilies_from_file(self):
+        filename = f"Abilities/{self.class_name}.txt"
+        return_list = list()
+        with ManagedFile(filename,'r') as file:
+            class_name = file.readline().strip()
+            if class_name != self.class_name:
+                raise FileContentException
+            else:
+                while "All abilities not loaded.":
+                    # 1 - Ability Name
+                    ability_name = file.readline().strip()
+                    if ability_name == '':
+                        break
+                    # 2 - Ability Damage
+                    ability_damage = file.readline().strip()
+                    if not ability_damage.isdigit():
+                        raise FileContentException
+                    else:
+                        ability_damage = int(ability_damage)
+                    # 3 - Ability Damage Type
+                    ability_damage_type = file.readline().strip()
+                    if (not ability_damage_type.isdigit()) and (not 0 <= int(ability_damage_type) < 3):
+                        raise FileContentException
+                    else:
+                        ability_damage_type = DamageType(int(ability_damage_type))
+                    # 4 - Ability Description
+                    ability_description = file.readline().strip()
+                    # 5 - Ability AP Cost
+                    ability_ap_cost = file.readline().strip()
+                    if not ability_ap_cost.isdigit():
+                        raise FileContentException
+                    else:
+                        ability_ap_cost = int(ability_ap_cost)
+                    # 6 - Ability Is Default Ability ?
+                    ability_is_default = file.readline().strip()
+                    if not ability_is_default.isdigit():
+                        raise FileContentException
+                    else:
+                        ability_is_default = bool(int(ability_is_default))
+                    # 7 - Ability Level Acquired
+                    ability_level_acquired = file.readline().strip()
+                    if not ability_level_acquired.isdigit():
+                        raise FileContentException
+                    else:
+                        ability_level_acquired = int(ability_level_acquired)
+                    # 8 - Ability CP Cost
+                    ability_cp_cost = file.readline().strip()
+                    if not ability_cp_cost.isdigit():
+                        raise FileContentException
+                    ability_cp_cost = int(ability_cp_cost)
+                    ability = Ability(ability_name, ability_damage, ability_damage_type, ability_description, ability_ap_cost, ability_is_default, ability_level_acquired, ability_cp_cost)
+                    return_list.append(ability)
+        return return_list
 
 
 class Squire(CharacterClass):
@@ -211,6 +252,7 @@ class Squire(CharacterClass):
     mag_res_mult = .8
     hp_mult = .8
     ap_mult = .8
+
 
 class Knight(CharacterClass):
     class_name = "Knight"
@@ -301,6 +343,7 @@ class Scholar(CharacterClass):
     hp_mult = 1
     ap_mult = 2
 
+
 class Cleric(CharacterClass):
     class_name = "Cleric"
     phy_str_mult = .8
@@ -310,14 +353,47 @@ class Cleric(CharacterClass):
     hp_mult = .9
     ap_mult = 1.2
 
+# class ClassBehavior():
+#
+# class SquireBehavior(ClassBehavior):
+
 class Ability:
-    def __init__(self, ability_name, ability_dmg, ability_dmg_type, ability_description, ap_cost):
+    def __init__(self, ability_name, ability_dmg, ability_dmg_type, ability_description, ap_cost, is_default, level_acquired, cp_cost):
         self.ability_name = ability_name
         self.ability_dmg = ability_dmg
         self.ability_dmg_type = ability_dmg_type
         self.ability_description = ability_description
         self.ap_cost = ap_cost
-        self.ability_acquired = False
+        self.ability_acquired = is_default
+        self.level_acquired = level_acquired
+        self.cp_cost = cp_cost
+
+    @staticmethod
+    def default_ability():
+        return Ability("Normal Attack", 10, DamageType.PHY_DMG, "A normal attack", 0, 0, 0, 0)
+
+    def __str__(self):
+        acquired_text = {
+            True: "Yes",
+            False : "No",
+        }
+        damage_type_text = {
+            DamageType.PHY_DMG: 'Physical Damage',
+            DamageType.MAG_DMG: 'Magic Damage',
+            DamageType.PURE_DMG: 'Pure Damage',
+        }
+        with Indenter() as indent:
+            ret = indent.indent_text("Name: {}\n".format(self.ability_name))
+            with indent:
+                ret += indent.indent_text("Damage: {}\n".format(self.ability_dmg))
+                ret += indent.indent_text("Damage Type: {}\n".format(damage_type_text[self.ability_dmg_type]))
+                ret += indent.indent_text("Description: {}\n".format(self.ability_description))
+                ret += indent.indent_text("AP Cost: {} AP\n".format(self.ap_cost))
+                ret += indent.indent_text("Acquired: {}\n".format(acquired_text[self.ability_acquired]))
+                if not self.ability_acquired:
+                    ret += indent.indent_text("Available at : {}".format(self.level_acquired))
+                    ret += indent.indent_text("CP Cost: {}".format(self.cp_cost))
+        return ret
 
 
 class Passive:
@@ -330,6 +406,7 @@ class Passive:
 class Character:
     xp = 0
     level = 0
+    class_points = 0
 
     def __init__(self, id, name, stats, character_class):
         self.id = id
@@ -358,6 +435,9 @@ class Character:
         self.stats.add_stats_points(phy_str, mag_pow, phy_res, mag_res, max_hp, max_ap)
         self.character_class.init_class(self.stats)
 
+    def spend_ap(self, ap):
+        self.stats.ap -= ap
+
 
 class Foe:
     # Probability in percentage
@@ -377,18 +457,10 @@ class Foe:
             self.stats.display_stats(indent)
 
     def clone(self):
-        cloned_stats = FoeStats(self.id,
-                                self.stats.phy_str,
-                                self.stats.mag_pow,
-                                self.stats.phy_res,
-                                self.stats.mag_res,
-                                self.stats.max_hp,
-                                self.stats.max_ap)
-        cloned_name = self.name
-        foe = Foe(self.id, cloned_name, cloned_stats)
-        foe.xp = self.xp
-        foe.probability = self.probability
-        return foe
+        return copy.deepcopy(self)
+
+    def spend_ap(self, ap):
+        self.stats.ap -= ap
 
 
 class FoeStats(Stats):
@@ -415,9 +487,14 @@ class FoeStats(Stats):
 
 
 class DamageType(Enum):
-    PHY_DMG = 1
-    MAG_DMG = 2
-    PURE_DMG = 3
+    PHY_DMG = 0
+    MAG_DMG = 1
+    PURE_DMG = 2
+
+
+class AbilityTarget(Enum):
+    SINGLE = 0
+    AOE = 1
 
 
 class BattleEngine:
@@ -433,7 +510,9 @@ class BattleEngine:
     def __exit__(self, exc_type, exc_val, exc_tb):
         print('Battle end.')
 
-    def attack(self, attacker, defender, attack_power, damage_type):
+    def attack(self, attacker, defender, ability):
+        attack_power = ability.ability_dmg
+        damage_type = ability.ability_dmg_type
         if damage_type == DamageType.PHY_DMG:
             damage = attack_power * (attacker.stats.phy_str / defender.stats.phy_res)
         elif damage_type == DamageType.MAG_DMG:
@@ -441,12 +520,35 @@ class BattleEngine:
         else:
             damage = attack_power
         damage = round(damage)
+        attacker.spend_ap(ability.ap_cost)
         defender.stats.hp = defender.stats.hp - damage if defender.stats.hp - damage > 0 else 0
         with Indenter() as indent:
             with indent:
-                indent.print_('{} inflicted {} damage to {} ({}/{})'.format(attacker.name, damage, defender.name,
-                                                                           defender.stats.hp, defender.stats.max_hp))
+                indent.print_(f'{ability.ability_name}! {attacker.name} ({round(attacker.stats.ap)}/{round(attacker.stats.max_ap)}AP) inflicted {damage}'
+                              f' damage to {defender.name} ({round(defender.stats.hp)}/{round(defender.stats.max_hp)}HP)')
         self.check_if_foe_ko(defender, indent)
+
+    def choose_ability(self, attacker):
+        """Choose an ability for the attacker. Return a default ability if the attacker is a Foe or if no abilities are found."""
+        if isinstance(attacker, Foe):
+            return Ability.default_ability()
+        else:
+            ability_learnt_and_available = list(filter(lambda a : a.ability_acquired and a.ap_cost <= attacker.stats.ap, attacker.character_class.ability_list))
+            if not ability_learnt_and_available:
+                return Ability.default_ability()
+            else:
+                ability = random.choice(ability_learnt_and_available)
+                return ability
+
+    # Precondition : One of fighter_list is not dead.
+    def choose_fighter(self, fighter_list):
+        if all(f.stats.hp == 0 for f in fighter_list):
+            return
+        while "Fighter is dead":
+            attacker = random.choice(fighter_list)
+            if attacker.stats.hp != 0:
+                return attacker
+
 
     def check_if_foe_ko(self, character, indent):
         if character.stats.hp == 0:
@@ -464,10 +566,15 @@ class BattleEngine:
                 print("{} gained {} experience points.".format(c.name, xp_gained_per_character))
             xp_helper = ExperienceHelper()
             xp_helper.apply_xp(xp_gained_per_character, character_alive)
+            xp_helper.apply_class_xp(xp_gained_per_character, character_alive)
 
     def handle_defeat(self):
         if all(c.stats.hp == 0 for c in self.character_list):
             print("Defeat")
+
+    def refresh_ap(self):
+        for c in self.character_list:
+            c.stats.ap = c.stats.max_ap
 
     def fight(self):
         turn = 1
@@ -475,24 +582,18 @@ class BattleEngine:
             if turn % 2 == 1:
                 attacker = self.choose_fighter(self.character_list)
                 defender = self.choose_fighter(self.foe_list)
-                self.attack(attacker, defender, 10, DamageType.PHY_DMG)
+                ability = self.choose_ability(attacker)
+                self.attack(attacker, defender, ability)
             else:
                 attacker = self.choose_fighter(self.foe_list)
                 defender = self.choose_fighter(self.character_list)
-                self.attack(attacker, defender, 10, DamageType.PHY_DMG)
+                ability = self.choose_ability(attacker)
+                self.attack(attacker, defender, ability)
             turn += 1
             time.sleep(combat_text_speed)
         self.handle_victory()
         self.handle_defeat()
-
-    # Precondition : One of fighter_list is not dead.
-    def choose_fighter(self, fighter_list):
-        if all(f.stats.hp == 0 for f in fighter_list):
-            return
-        while "Fighter is dead":
-            attacker = random.choice(fighter_list)
-            if attacker.stats.hp != 0:
-                return attacker
+        self.refresh_ap()
 
 
 class Level:
@@ -579,7 +680,7 @@ class Level:
         for n in range(0, foe_number):
             foe = random.choice(p)
             if any(f.name.strip() == foe.name.strip() for f in return_list):
-                # TO DO correct foe number
+                # TODO  correct foe number
                 foe.name += " {}".format(n + 1)
             return_list.append(foe)
         return return_list
@@ -625,12 +726,30 @@ class ExperienceHelper:
                 current_level = c.level
                 xp_needed_for_next_level = self.get_xp_needed_for_next_level(current_level)
 
+    def apply_class_xp(self, xp_gained, character_list):
+        """Add class xp to the whole party. Level up a class if necessary."""
+        for c in character_list:
+            c.character_class.class_xp += xp_gained
+            class_current_level = c.character_class.class_level
+            c.class_points += xp_gained/10 #TODO Better system.
+            xp_needed_for_next_class_level = self.get_xp_needed_for_next_level(class_current_level)
+            while c.character_class.class_xp >= xp_needed_for_next_class_level > 0:
+                self.apply_class_level_up(c)
+                class_current_level = c.character_class.class_level
+                xp_needed_for_next_class_level = self.get_xp_needed_for_next_level(class_current_level)
+
     def apply_level_up(self, character):
         """Add a level and stat points to the selected character."""
         character.level = int(character.level + 1)
         character.stats.unspent_points += 10
         with Indenter() as indent:
             indent.print_("Level up! {} is now level {}.".format(character.name, character.level))
+
+    def apply_class_level_up(self, character):
+        """Add a level to the character class."""
+        character.character_class.class_level += 1
+        with Indenter() as indent:
+            indent.print_(f"Level up! {character.name} is now a level {character.character_class.class_level} {character.character_class.class_name}.")
 
     def load_level_threshold(self):
         """Load the xp needed for a level up from the file Utilities\level_threshold.txt"""
@@ -656,6 +775,7 @@ class PartyManager:
         """Set the current hp of each party member to its maximum."""
         for c in self.party:
             c.stats.hp = c.stats.max_hp
+            c.stats.ap = c.stats.max_ap
 
     def view_party(self):
         """Display each member of the party."""
@@ -834,6 +954,18 @@ class PartyManager:
                     indent.print_("New stats.\n")
                     indent.print_(str(party_member.stats))
 
+    def view_and_learn_abilities(self):
+        """Select a party member. View his current abilities and spend CP on"""
+        party_member = self.select_party_member()
+        with Indenter() as indent:
+            indent.print_("{} the {}".format(party_member.name, party_member.character_class.class_name))
+            with indent:
+                indent.print_("List of {} abilities:".format(party_member.character_class.class_name))
+                with indent:
+                    for ability in party_member.character_class.ability_list:
+                        indent.print_(str(ability))
+            indent.print_("Buying abilities is not implemented yet.")
+
 
 class Menu:
 
@@ -854,34 +986,35 @@ class Menu:
                 break
         return level_number
 
-    def manage_party(self, indent):
+    def manage_party(self):
         """Display a menu to manage the player's party:
             - View Party
             - Change Class
             - Spend stat points
             - Equip abilities and talents
             - Change the name"""
-        indent.print_("Party Manager.")
-        with indent:
-            prompt_text = indent.indent_text("Press v to view your party.\n")
-            prompt_text += indent.indent_text("Press c to change the class of a party member.\n")
-            prompt_text += indent.indent_text("Press l to spend stat points on a party member.\n")
-            prompt_text += indent.indent_text("Press a to equip abilities and talents.\n")
-            prompt_text += indent.indent_text("Press n to change the name of a party member.\n")
-            choice = ''
-            choice_accepted = list({'V', 'C', 'L', 'A', 'N'})
-            while choice not in choice_accepted:
-                choice = input(prompt_text).strip().upper()
-            if choice == 'V':
-                self.party_manager.view_party()
-            elif choice == 'C':
-                self.party_manager.change_class()
-            elif choice == 'L':
-                self.party_manager.spend_stat_points()
-            elif choice == 'A':
-                print("Not implemented yet.")
-            elif choice == 'N':
-                self.party_manager.change_name()
+        with Indenter() as indent:
+            indent.print_("Party Manager.")
+            with indent:
+                prompt_text = indent.indent_text("Press v to view your party.\n")
+                prompt_text += indent.indent_text("Press c to change the class of a party member.\n")
+                prompt_text += indent.indent_text("Press l to spend stat points on a party member.\n")
+                prompt_text += indent.indent_text("Press a to equip abilities and talents.\n")
+                prompt_text += indent.indent_text("Press n to change the name of a party member.\n")
+                choice = ''
+                choice_accepted = list({'V', 'C', 'L', 'A', 'N'})
+                while choice not in choice_accepted:
+                    choice = input(prompt_text).strip().upper()
+                if choice == 'V':
+                    self.party_manager.view_party()
+                elif choice == 'C':
+                    self.party_manager.change_class()
+                elif choice == 'L':
+                    self.party_manager.spend_stat_points()
+                elif choice == 'A':
+                    self.party_manager.view_and_learn_abilities()
+                elif choice == 'N':
+                    self.party_manager.change_name()
 
     @staticmethod
     def quit_game():
@@ -911,7 +1044,7 @@ class Menu:
                 if choice == 'P':
                     self.start_level(self.ask_level())
                 elif choice == 'M':
-                    self.manage_party(indent)
+                    self.manage_party()
                 elif choice == 'H':
                     self.party_manager.heal_party()
                     indent.print_("*Healing sound*")
@@ -929,14 +1062,14 @@ elaine_stat = CharacterStats(elaine_id, 20, 20, 20, 20, 1000, 50)
 biggs_stat = CharacterStats(biggs_id, 20, 20, 20, 20, 1000, 50)
 wedge_stat = CharacterStats(wedge_id, 20, 20, 20, 20, 1000, 50)
 viviane_stat = CharacterStats(viviane_id, 20, 20, 20 ,20 ,1000, 50)
-scholar = Scholar(biggs_id)
-holyknight = HolyKnight(wedge_id)
-darkknight = DarkKnight(elaine_id)
-cleric = Cleric(viviane_id)
-elaine = Character(elaine_id, "Elaine", elaine_stat, darkknight)
-biggs = Character(biggs_id, "Biggs", biggs_stat, scholar)
-wedge = Character(wedge_id, "Wedge", wedge_stat, holyknight)
-viviane = Character(viviane_id, "Viviane", viviane_stat, cleric)
+elaine_job = Wizard(elaine_id)
+biggs_job = Knight(biggs_id)
+wedge_job = Knight(wedge_id)
+viviane_job = Squire(viviane_id)
+elaine = Character(elaine_id, "Elaine", elaine_stat, elaine_job)
+biggs = Character(biggs_id, "Biggs", biggs_stat, biggs_job)
+wedge = Character(wedge_id, "Wedge", wedge_stat, wedge_job)
+viviane = Character(viviane_id, "Viviane", viviane_stat, viviane_job)
 my_party = list()
 my_party.append(biggs)
 my_party.append(wedge)

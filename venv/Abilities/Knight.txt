@@ -1,0 +1,26 @@
+Knight
+Normal Attack
+12
+0
+A normal physical attack.
+0
+1
+0
+0
+Bash
+18
+0
+A blunt strike that attempts to stun the enemy. (It does not)
+4
+0
+2
+100
+Furious Slash
+30
+0
+A strong slash to defeat the enemy.
+10
+0
+5
+500
+

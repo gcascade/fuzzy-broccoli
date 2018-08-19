@@ -1,0 +1,49 @@
+Wizard
+Normal Attack
+12
+1
+A normal magic attack
+2
+1
+0
+0
+Staff strike
+1
+0
+You know, when you have no AP ...
+0
+1
+0
+0
+Fire
+15
+1
+A fire attack
+5
+0
+2
+100
+Ice
+15
+1
+An ice attack
+5
+0
+2
+100
+Thunder
+15
+1
+A thunder attack
+5
+0
+2
+100
+Wind
+15
+1
+A wind attack
+5
+0
+2
+100

@@ -1,0 +1,17 @@
+Squire
+Normal Attack
+10
+0
+A normal physical attack.
+0
+1
+0
+0
+Magic Attack
+10
+1
+A normal magic attack.
+2
+0
+2
+100

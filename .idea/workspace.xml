@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/venv/Abilities/Template.txt" line="4" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d3a74cdf-4a8d-4246-bd75-55e49183039c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/venv/Abilities/Knight.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/Abilities/Squire.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/Abilities/Template.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/Abilities/Wizard.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/Game/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/Tests/Level1Benchmark.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Fight$main.coverage" NAME="main Coverage Results" MODIFIED="1533744799533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
-    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1534595395097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
     <SUITE FILE_PATH="coverage/Fight$test.coverage" NAME="test Coverage Results" MODIFIED="1533637374403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv/Tests" />
+    <SUITE FILE_PATH="coverage/Fight$main.coverage" NAME="main Coverage Results" MODIFIED="1533744799533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
+    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1534714104036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1856564489">
@@ -75,19 +83,104 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="1041423820">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="Python Console" value="14" />
+          <entry key="py" value="5797" />
+          <entry key="txt" value="353" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="PLAIN_TEXT" value="353" />
+          <entry key="Python" value="5811" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="6" />
+          <entry key="txt" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="PLAIN_TEXT" value="4" />
+          <entry key="Python" value="6" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/venv/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="200" column="51" selection-start-line="200" selection-start-column="51" selection-end-line="200" selection-end-column="51" />
+            <state relative-caret-position="238">
+              <caret line="357" column="38" lean-forward="true" selection-start-line="357" selection-start-column="38" selection-end-line="357" selection-end-column="38" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <element signature="e#5503#5646#0" />
-                <element signature="e#5682#5827#0" />
+                <element signature="e#193#473#0" />
+                <element signature="e#492#1002#0" />
+                <element signature="e#854#1137#0" />
+                <element signature="e#1242#1486#0" />
+                <element signature="e#1523#3353#0" />
+                <element signature="e#3449#10138#0" />
+                <element signature="e#10112#10255#0" />
+                <element signature="e#8710#8855#0" />
+                <element signature="e#8892#9038#0" />
+                <element signature="e#9074#9217#0" />
+                <element signature="e#9254#9396#0" />
+                <element signature="e#9431#9576#0" />
+                <element signature="e#9617#9769#0" />
+                <element signature="e#9810#9962#0" />
+                <element signature="e#10002#10153#0" />
+                <element signature="e#10191#10335#0" />
+                <element signature="e#10371#10515#0" />
+                <element signature="e#11358#13110#0" />
+                <element signature="e#10905#11110#0" />
+                <element signature="e#13379#14659#0" />
+                <element signature="e#13351#14345#0" />
+                <element signature="e#17578#22112#0" />
+                <element signature="e#24105#24207#0" />
+                <element signature="e#24252#24829#0" />
+                <element signature="e#24867#25138#0" />
+                <element signature="e#25175#26081#0" />
+                <element signature="e#26124#34817#0" />
+                <marker date="1534714308622" expanded="true" signature="1362:1374" ph="..." />
+                <marker date="1534714308622" expanded="true" signature="11372:11375" ph="..." />
+                <marker date="1534714308622" expanded="true" signature="11413:11415" ph="..." />
+                <marker date="1534714308622" expanded="true" signature="16347:16377" ph="..." />
+                <marker date="1534714308622" expanded="true" signature="17864:18674" ph="..." />
+                <marker date="1534714308622" expanded="true" signature="19841:19847" ph="..." />
+                <marker date="1534714308622" expanded="true" signature="26564:26570" ph="..." />
+                <marker date="1534714308622" expanded="true" signature="27241:27247" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/Abilities/Squire.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/Abilities/Template.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="14" lean-forward="true" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -118,14 +211,26 @@
       <find>displayXp</find>
       <find>mag_pow__points</find>
       <find>applyXp</find>
-      <find>clone</find>
-      <find />
-      <find />
-      <find />
+      <find>for i</find>
+      <find>not in (</find>
+      <find>in</find>
       <find>DMG_TYPE</find>
+      <find>clone</find>
+      <find>clone(self)</find>
+      <find>clone(self</find>
+      <find>staticmethod</find>
+      <find>DamageType</find>
+      <find>ManagedFile</find>
+      <find>do</find>
+      <find>enum</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="gcascade" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -139,6 +244,11 @@
         <option value="$PROJECT_DIR$/venv/Levels/level_format.txt" />
         <option value="$PROJECT_DIR$/venv/Levels/Level_2.txt" />
         <option value="$PROJECT_DIR$/venv/Levels/Level_3.txt" />
+        <option value="$PROJECT_DIR$/venv/Abilities/Squire.txt" />
+        <option value="$PROJECT_DIR$/venv/Abilities/Template.txt" />
+        <option value="$PROJECT_DIR$/venv/Abilities/Knight.txt" />
+        <option value="$PROJECT_DIR$/venv/Abilities/Wizard.txt" />
+        <option value="$PROJECT_DIR$/venv/__init__.py" />
         <option value="$PROJECT_DIR$/venv/main.py" />
       </list>
     </option>
@@ -149,14 +259,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="NodePackageJsonFileManager">
-    <packageJsonPaths />
-  </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="143" />
-    <option name="y" value="198" />
+    <option name="x" value="1718" />
+    <option name="y" value="221" />
     <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="height" value="1096" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -179,7 +286,7 @@
               <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
               <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
               <item name="venv" type="462c0819:PsiDirectoryNode" />
-              <item name="Levels" type="462c0819:PsiDirectoryNode" />
+              <item name="Utilities" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -195,11 +302,12 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Geoffroy\Documents\GitHub\Fight\venv\Levels" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Geoffroy\Documents\GitHub\Fight\venv" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\geoff\Documents\GitHub\fuzzy-broccoli\venv\Game" />
+      <recent name="C:\Users\Geoffroy\Documents\GitHub\Fight\venv\Levels" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -233,6 +341,9 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Fight" />
@@ -252,6 +363,9 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python.main" />
@@ -277,31 +391,40 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32943678" />
-      <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18958333" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="SciView" order="3" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1913646" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3985122" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3286334" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39804772" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.329718" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.329718" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.329718" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.329718" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,8 +438,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/venv/main.py</url>
-          <line>105</line>
-          <option name="timeStamp" value="1" />
+          <line>192</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/main.py</url>
+          <line>536</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -326,7 +454,6 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="4" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -339,59 +466,7 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13379">
-          <caret line="787" column="44" lean-forward="true" selection-start-line="787" selection-start-column="44" selection-end-line="787" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#5503#5646#0" />
-            <element signature="e#5682#5827#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10132">
-          <caret line="598" column="20" lean-forward="true" selection-start-line="598" selection-start-column="20" selection-end-line="598" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#5503#5646#0" />
-            <element signature="e#5682#5827#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Utilities/level_threshold.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="2" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Levels/Level_2.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="2" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Levels/Level_1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/random.py" />
-    <entry file="file://$PROJECT_DIR$/venv/Tests/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="17" selection-start-line="17" selection-end-line="18" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharm2018.2/system/python_stubs/1241775056/builtins.py" />
     <entry file="file://$PROJECT_DIR$/venv/test.txt" />
     <entry file="file://$PROJECT_DIR$/venv/Levels/Level_1.txt">
@@ -432,14 +507,116 @@
     <entry file="file://$PROJECT_DIR$/venv/pyvenv.cfg">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/main.py">
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="200" column="51" selection-start-line="200" selection-start-column="51" selection-end-line="200" selection-end-column="51" />
+        <state relative-caret-position="176">
+          <caret line="1067" selection-start-line="1067" selection-end-line="1067" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/enum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="290" selection-start-line="290" selection-end-line="290" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Abilities/Knight.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="35" lean-forward="true" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Abilities/Wizard.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Abilities/Template.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="14" lean-forward="true" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Abilities/Squire.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Game/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#5503#5646#0" />
-            <element signature="e#5682#5827#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Tests/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" selection-start-line="17" selection-end-line="18" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Tests/Level1Benchmark.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="357" column="38" lean-forward="true" selection-start-line="357" selection-start-column="38" selection-end-line="357" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#193#473#0" />
+            <element signature="e#492#1002#0" />
+            <element signature="e#854#1137#0" />
+            <element signature="e#1242#1486#0" />
+            <element signature="e#1523#3353#0" />
+            <element signature="e#3449#10138#0" />
+            <element signature="e#10112#10255#0" />
+            <element signature="e#8710#8855#0" />
+            <element signature="e#8892#9038#0" />
+            <element signature="e#9074#9217#0" />
+            <element signature="e#9254#9396#0" />
+            <element signature="e#9431#9576#0" />
+            <element signature="e#9617#9769#0" />
+            <element signature="e#9810#9962#0" />
+            <element signature="e#10002#10153#0" />
+            <element signature="e#10191#10335#0" />
+            <element signature="e#10371#10515#0" />
+            <element signature="e#11358#13110#0" />
+            <element signature="e#10905#11110#0" />
+            <element signature="e#13379#14659#0" />
+            <element signature="e#13351#14345#0" />
+            <element signature="e#17578#22112#0" />
+            <element signature="e#24105#24207#0" />
+            <element signature="e#24252#24829#0" />
+            <element signature="e#24867#25138#0" />
+            <element signature="e#25175#26081#0" />
+            <element signature="e#26124#34817#0" />
+            <marker date="1534714308622" expanded="true" signature="1362:1374" ph="..." />
+            <marker date="1534714308622" expanded="true" signature="11372:11375" ph="..." />
+            <marker date="1534714308622" expanded="true" signature="11413:11415" ph="..." />
+            <marker date="1534714308622" expanded="true" signature="16347:16377" ph="..." />
+            <marker date="1534714308622" expanded="true" signature="17864:18674" ph="..." />
+            <marker date="1534714308622" expanded="true" signature="19841:19847" ph="..." />
+            <marker date="1534714308622" expanded="true" signature="26564:26570" ph="..." />
+            <marker date="1534714308622" expanded="true" signature="27241:27247" ph="..." />
           </folding>
         </state>
       </provider>

@@ -1,0 +1,21 @@
+File start with Class Name
+then each ability goes by the following:
+Ability Name
+Ability Damage
+Damage Type (PHY/MAG/PURE) : 0/1/2
+Ability Description
+AP Cost
+Default Ability (No/Yes): 0/1
+Level Acquired
+CP Cost
+
+Example:
+Squire
+Normal Attack
+10
+0
+A normal physical attack.
+0
+1
+0
+0
