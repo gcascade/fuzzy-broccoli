@@ -5,7 +5,7 @@ import time
 import copy
 
 max_level = 3
-combat_text_speed = 0.25 # in seconds
+combat_text_speed = .25 # in seconds
 
 # For debug only
 def trace(func):
@@ -427,6 +427,7 @@ class Character:
             indent.print_("Level: {}".format(self.level))
             indent.print_(
                 "Experience points: {}/{}".format(self.xp, self.experience_helper.get_xp_needed_for_next_level(self.level)))
+            indent.print_("CP: {}".format(self.class_points))
             self.stats.display_stats(indent)
             self.character_class.display_class(indent)
 
@@ -731,7 +732,7 @@ class ExperienceHelper:
         for c in character_list:
             c.character_class.class_xp += xp_gained
             class_current_level = c.character_class.class_level
-            c.class_points += xp_gained/10 #TODO Better system.
+            c.class_points += round(xp_gained/10) #TODO Better system.
             xp_needed_for_next_class_level = self.get_xp_needed_for_next_level(class_current_level)
             while c.character_class.class_xp >= xp_needed_for_next_class_level > 0:
                 self.apply_class_level_up(c)
@@ -964,7 +965,35 @@ class PartyManager:
                 with indent:
                     for ability in party_member.character_class.ability_list:
                         indent.print_(str(ability))
-            indent.print_("Buying abilities is not implemented yet.")
+            if any(a.ability_acquired == False for a in party_member.character_class.ability_list):
+                input_text = indent.indent_text("Acquire new abilities ? (Y/N)")
+                choice = ''
+                while choice != 'N':
+                    choice = input(input_text).strip().upper()
+                    if choice == 'Y':
+                        ability_input_text = ''
+                        learnable_abilities = list(filter(lambda a : a.ability_acquired == False, party_member.character_class.ability_list))
+                        for i in range(len(learnable_abilities)):
+                            ability_input_text += f"{learnable_abilities[i].ability_name}[{i}]: {learnable_abilities[i].cp_cost} CP\n"
+                        ability_input_text += "Choose an ability to learn. Press Q to go back."
+                        acceptable_choice = list(map(lambda n : str(n), range(len(learnable_abilities))))
+                        acceptable_choice.append("Q")
+                        ability_chosen = input(ability_input_text).strip().upper()
+                        if ability_chosen in acceptable_choice and ability_chosen != 'Q':
+                            self.acquire_abilities(party_member, learnable_abilities[int(ability_chosen)])
+            else:
+                indent.print_("You have learned all {} abilities.".format(party_member.character_class.class_name))
+
+    def acquire_abilities(self, party_member, ability):
+        "Learn said ability for the selected party member."
+        if party_member.class_points < ability.cp_cost:
+            print("You don't have enough CP to learn this ability. (Current CP: {}. Required: {}.)".format(party_member.class_points, ability.cp_cost))
+        elif party_member.character_class.class_level < ability.level_acquired:
+            print("Your class is not high enough to learn this ability. (Current level: {}. Required: {}.".format(party_member.character_class.class_level, ability.level_acquired))
+        else:
+            ability.ability_acquired = True
+            party_member.class_points -= ability.cp_cost
+            print("{} learned {}".format(party_member.name, ability.ability_name))
 
 
 class Menu:
@@ -982,7 +1011,7 @@ class Menu:
         """"Ask the user which level to start."""
         while "Input is wrong":
             level_number = input("Enter level(1-{}):".format(max_level))
-            if level_number.isdigit() and int(level_number) <= max_level:
+            if level_number.isdigit() and 0 < int(level_number) <= max_level:
                 break
         return level_number
 
@@ -996,25 +1025,49 @@ class Menu:
         with Indenter() as indent:
             indent.print_("Party Manager.")
             with indent:
-                prompt_text = indent.indent_text("Press v to view your party.\n")
-                prompt_text += indent.indent_text("Press c to change the class of a party member.\n")
-                prompt_text += indent.indent_text("Press l to spend stat points on a party member.\n")
-                prompt_text += indent.indent_text("Press a to equip abilities and talents.\n")
-                prompt_text += indent.indent_text("Press n to change the name of a party member.\n")
+                prompt_text = indent.indent_text("Press 0 to view your party.\n")
+                prompt_text += indent.indent_text("Press 1 to change the class of a party member.\n")
+                prompt_text += indent.indent_text("Press 2 to spend stat points on a party member.\n")
+                prompt_text += indent.indent_text("Press 3 to acquire abilities and equip talents.\n")
+                prompt_text += indent.indent_text("Press 4 to change the name of a party member.\n")
                 choice = ''
-                choice_accepted = list({'V', 'C', 'L', 'A', 'N'})
-                while choice not in choice_accepted:
+                choice_accepted = range(5)
+                while not choice.isdigit() or int(choice) not in choice_accepted:
                     choice = input(prompt_text).strip().upper()
-                if choice == 'V':
+                if choice == '0':
                     self.party_manager.view_party()
-                elif choice == 'C':
+                elif choice == '1':
                     self.party_manager.change_class()
-                elif choice == 'L':
+                elif choice == '2':
                     self.party_manager.spend_stat_points()
-                elif choice == 'A':
+                elif choice == '3':
                     self.party_manager.view_and_learn_abilities()
-                elif choice == 'N':
+                elif choice == '4':
                     self.party_manager.change_name()
+
+    def display_menu(self):
+        """Display the main menu of the game."""
+        with Indenter() as indent:
+            indent.print_("Main menu.")
+            with indent:
+                prompt_text = indent.indent_text("Press 0 to start playing.\n")
+                prompt_text += indent.indent_text("Press 1 to manage your party.\n")
+                prompt_text += indent.indent_text("Press 2 to heal your party.\n")
+                prompt_text += indent.indent_text('Press 3 to quit.\n')
+                choice = ''
+                choice_accepted = range(4)
+                while not choice.isdigit() or int(choice) not in choice_accepted:
+                    choice = input(prompt_text).strip()
+                if choice == '0':
+                    self.start_level(self.ask_level())
+                elif choice == '1':
+                    self.manage_party()
+                elif choice == '2':
+                    self.party_manager.heal_party()
+                    indent.print_("*Healing sound*")
+                    indent.print_("Your party is healed.")
+                elif choice == '3':
+                    self.quit_game()
 
     @staticmethod
     def quit_game():
@@ -1027,30 +1080,6 @@ class Menu:
             if user_choice == 'Y':
                 print("Saving is not implemented yet.")
         exit()
-
-    def display_menu(self):
-        """Display the main menu of the game."""
-        with Indenter() as indent:
-            indent.print_("Main menu.")
-            with indent:
-                prompt_text = indent.indent_text("Press p to start playing.\n")
-                prompt_text += indent.indent_text("Press m to manage your party.\n")
-                prompt_text += indent.indent_text("Press h to heal your party.\n")
-                prompt_text += indent.indent_text('Press q to quit.\n')
-                choice = ''
-                choice_accepted = list({'P', 'M', 'H', 'Q'})
-                while choice not in choice_accepted:
-                    choice = input(prompt_text).strip().upper()
-                if choice == 'P':
-                    self.start_level(self.ask_level())
-                elif choice == 'M':
-                    self.manage_party()
-                elif choice == 'H':
-                    self.party_manager.heal_party()
-                    indent.print_("*Healing sound*")
-                    indent.print_("Your party is healed.")
-                elif choice == 'Q':
-                    self.quit_game()
 
 
 # -------------------------- main function -------------------------- #

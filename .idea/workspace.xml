@@ -5,12 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d3a74cdf-4a8d-4246-bd75-55e49183039c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/venv/Abilities/Knight.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Abilities/Squire.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Abilities/Template.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Abilities/Wizard.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Game/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Tests/Level1Benchmark.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/main.py" afterDir="false" />
     </list>
@@ -23,7 +17,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Fight$test.coverage" NAME="test Coverage Results" MODIFIED="1533637374403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv/Tests" />
     <SUITE FILE_PATH="coverage/Fight$main.coverage" NAME="main Coverage Results" MODIFIED="1533744799533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
-    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1534714104036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
+    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1534783611000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1856564489">
@@ -87,21 +81,22 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="1" />
+          <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="14" />
-          <entry key="py" value="5797" />
+          <entry key="py" value="7495" />
           <entry key="txt" value="353" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="353" />
-          <entry key="Python" value="5811" />
+          <entry key="Python" value="7509" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -123,45 +118,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/venv/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="357" column="38" lean-forward="true" selection-start-line="357" selection-start-column="38" selection-end-line="357" selection-end-column="38" />
+            <state relative-caret-position="119">
+              <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <element signature="e#193#473#0" />
-                <element signature="e#492#1002#0" />
-                <element signature="e#854#1137#0" />
-                <element signature="e#1242#1486#0" />
-                <element signature="e#1523#3353#0" />
-                <element signature="e#3449#10138#0" />
-                <element signature="e#10112#10255#0" />
-                <element signature="e#8710#8855#0" />
-                <element signature="e#8892#9038#0" />
-                <element signature="e#9074#9217#0" />
-                <element signature="e#9254#9396#0" />
-                <element signature="e#9431#9576#0" />
-                <element signature="e#9617#9769#0" />
-                <element signature="e#9810#9962#0" />
-                <element signature="e#10002#10153#0" />
-                <element signature="e#10191#10335#0" />
-                <element signature="e#10371#10515#0" />
-                <element signature="e#11358#13110#0" />
-                <element signature="e#10905#11110#0" />
-                <element signature="e#13379#14659#0" />
-                <element signature="e#13351#14345#0" />
-                <element signature="e#17578#22112#0" />
-                <element signature="e#24105#24207#0" />
-                <element signature="e#24252#24829#0" />
-                <element signature="e#24867#25138#0" />
-                <element signature="e#25175#26081#0" />
-                <element signature="e#26124#34817#0" />
-                <marker date="1534714308622" expanded="true" signature="1362:1374" ph="..." />
-                <marker date="1534714308622" expanded="true" signature="11372:11375" ph="..." />
-                <marker date="1534714308622" expanded="true" signature="11413:11415" ph="..." />
-                <marker date="1534714308622" expanded="true" signature="16347:16377" ph="..." />
-                <marker date="1534714308622" expanded="true" signature="17864:18674" ph="..." />
-                <marker date="1534714308622" expanded="true" signature="19841:19847" ph="..." />
-                <marker date="1534714308622" expanded="true" signature="26564:26570" ph="..." />
-                <marker date="1534714308622" expanded="true" signature="27241:27247" ph="..." />
+                <marker date="1534783695011" expanded="true" signature="1361:1373" ph="..." />
+                <marker date="1534783695011" expanded="true" signature="11371:11374" ph="..." />
+                <marker date="1534783695011" expanded="true" signature="11412:11414" ph="..." />
+                <marker date="1534783695011" expanded="true" signature="16408:16438" ph="..." />
               </folding>
             </state>
           </provider>
@@ -171,7 +135,7 @@
         <entry file="file://$PROJECT_DIR$/venv/Abilities/Squire.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
-              <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -223,6 +187,9 @@
       <find>ManagedFile</find>
       <find>do</find>
       <find>enum</find>
+      <find>is_acquired</find>
+      <find>filter</find>
+      <find>class_points</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -259,9 +226,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1718" />
-    <option name="y" value="221" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="123" />
+    <option name="y" value="186" />
     <option name="width" value="1936" />
     <option name="height" value="1096" />
   </component>
@@ -270,6 +237,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -292,7 +260,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -401,15 +368,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1913646" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19349681" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3286334" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286334" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39804772" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -443,7 +410,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/venv/main.py</url>
-          <line>536</line>
+          <line>537</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
@@ -542,27 +509,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Abilities/Template.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="14" lean-forward="true" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Abilities/Squire.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Game/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -578,46 +528,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="357" column="38" lean-forward="true" selection-start-line="357" selection-start-column="38" selection-end-line="357" selection-end-column="38" />
+        <state relative-caret-position="119">
+          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#193#473#0" />
-            <element signature="e#492#1002#0" />
-            <element signature="e#854#1137#0" />
-            <element signature="e#1242#1486#0" />
-            <element signature="e#1523#3353#0" />
-            <element signature="e#3449#10138#0" />
-            <element signature="e#10112#10255#0" />
-            <element signature="e#8710#8855#0" />
-            <element signature="e#8892#9038#0" />
-            <element signature="e#9074#9217#0" />
-            <element signature="e#9254#9396#0" />
-            <element signature="e#9431#9576#0" />
-            <element signature="e#9617#9769#0" />
-            <element signature="e#9810#9962#0" />
-            <element signature="e#10002#10153#0" />
-            <element signature="e#10191#10335#0" />
-            <element signature="e#10371#10515#0" />
-            <element signature="e#11358#13110#0" />
-            <element signature="e#10905#11110#0" />
-            <element signature="e#13379#14659#0" />
-            <element signature="e#13351#14345#0" />
-            <element signature="e#17578#22112#0" />
-            <element signature="e#24105#24207#0" />
-            <element signature="e#24252#24829#0" />
-            <element signature="e#24867#25138#0" />
-            <element signature="e#25175#26081#0" />
-            <element signature="e#26124#34817#0" />
-            <marker date="1534714308622" expanded="true" signature="1362:1374" ph="..." />
-            <marker date="1534714308622" expanded="true" signature="11372:11375" ph="..." />
-            <marker date="1534714308622" expanded="true" signature="11413:11415" ph="..." />
-            <marker date="1534714308622" expanded="true" signature="16347:16377" ph="..." />
-            <marker date="1534714308622" expanded="true" signature="17864:18674" ph="..." />
-            <marker date="1534714308622" expanded="true" signature="19841:19847" ph="..." />
-            <marker date="1534714308622" expanded="true" signature="26564:26570" ph="..." />
-            <marker date="1534714308622" expanded="true" signature="27241:27247" ph="..." />
+            <marker date="1534783695011" expanded="true" signature="1361:1373" ph="..." />
+            <marker date="1534783695011" expanded="true" signature="11371:11374" ph="..." />
+            <marker date="1534783695011" expanded="true" signature="11412:11414" ph="..." />
+            <marker date="1534783695011" expanded="true" signature="16408:16438" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Abilities/Squire.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Abilities/Template.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="14" lean-forward="true" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
         </state>
       </provider>
     </entry>
