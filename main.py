@@ -1,5 +1,5 @@
 from enum import Enum
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 import random
 import time
 import copy
@@ -133,14 +133,12 @@ class CharacterClass(metaclass=ABCMeta):
     ap_mult = 0
     ability_list = list()
 
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
         self.experience_helper = ExperienceHelper()
         try:
-            self.ability_list = self.get_class_abitilies_from_file()
+            self.ability_list = self.get_class_abilities_from_file()
         except FileContentException:
             print("An error occurred loading abilities, please check the content of the Abilities directory.")
-
 
     def __str__(self):
         return ("{}\n\t"
@@ -189,7 +187,7 @@ class CharacterClass(metaclass=ABCMeta):
             indent.print_("Health Points Multiplier: {}".format(self.hp_mult))
             indent.print_("Ability Points Multiplier: {}".format(self.ap_mult))
 
-    def get_class_abitilies_from_file(self):
+    def get_class_abilities_from_file(self):
         filename = f"Abilities/{self.class_name}.txt"
         return_list = list()
         with ManagedFile(filename,'r') as file:
@@ -242,6 +240,26 @@ class CharacterClass(metaclass=ABCMeta):
                     ability = Ability(ability_name, ability_damage, ability_damage_type, ability_description, ability_ap_cost, ability_is_default, ability_level_acquired, ability_cp_cost)
                     return_list.append(ability)
         return return_list
+
+    @staticmethod
+    def get_dict_of_class():
+        class_dictionary = {
+            Squire.class_name: Squire(),
+            Knight.class_name: Knight(),
+            Wizard.class_name: Wizard(),
+            Rogue.class_name: Rogue(),
+            Archer.class_name: Archer(),
+            Monk.class_name: Monk(),
+            Cleric.class_name: Cleric(),
+            Necromancer.class_name: Necromancer(),
+            HolyKnight.class_name: HolyKnight(),
+            DarkKnight.class_name: DarkKnight(),
+            Barbarian.class_name: Barbarian(),
+            Scholar.class_name: Scholar(),
+            Ninja.class_name: Ninja(),
+            Beastmaster.class_name: Beastmaster(),
+        }
+        return class_dictionary
 
 
 class Squire(CharacterClass):
@@ -304,6 +322,16 @@ class Monk(CharacterClass):
     ap_mult = 1
 
 
+class Cleric(CharacterClass):
+    class_name = "Cleric"
+    phy_str_mult = .8
+    mag_pow_mult = 1.2
+    phy_res_mult = .8
+    mag_res_mult = 1
+    hp_mult = .9
+    ap_mult = 1.2
+
+
 class HolyKnight(CharacterClass):
     class_name = "Holy Knight"
     phy_str_mult = 1.5
@@ -344,18 +372,39 @@ class Scholar(CharacterClass):
     ap_mult = 2
 
 
-class Cleric(CharacterClass):
-    class_name = "Cleric"
-    phy_str_mult = .8
-    mag_pow_mult = 1.2
-    phy_res_mult = .8
-    mag_res_mult = 1
-    hp_mult = .9
+class Ninja(CharacterClass):
+    class_name = "Ninja"
+    phy_str_mult = 1.4
+    mag_pow_mult = 1.4
+    phy_res_mult = 1
+    mag_res_mult = 1.4
+    hp_mult = 1
+    ap_mult = 1.2
+
+
+class Beastmaster(CharacterClass):
+    class_name = "Beastmaster"
+    phy_str_mult = 1.5
+    mag_pow_mult = 1
+    phy_res_mult = 1.5
+    mag_res_mult = 1.5
+    hp_mult = 2
+    ap_mult = 1
+
+
+class Necromancer(CharacterClass):
+    class_name = "Necromancer"
+    phy_str_mult = 1.4
+    mag_pow_mult = 1.4
+    phy_res_mult = 1
+    mag_res_mult = 1.4
+    hp_mult = 1
     ap_mult = 1.2
 
 # class ClassBehavior():
 #
 # class SquireBehavior(ClassBehavior):
+
 
 class Ability:
     def __init__(self, ability_name, ability_dmg, ability_dmg_type, ability_description, ap_cost, is_default, level_acquired, cp_cost):
@@ -412,13 +461,15 @@ class Character:
         self.id = id
         self.name = name
         self.stats = stats
-        self.character_class = character_class
+        self.class_dict = CharacterClass.get_dict_of_class()
+        self.character_class = self.class_dict.get(character_class.class_name)
         self.experience_helper = ExperienceHelper()
-        character_class.init_class(self.stats)
+        self.character_class.init_class(self.stats)
 
     def change_character_class(self, new_class):
         self.character_class.exit_class(self.stats)
-        self.character_class = new_class
+        self.class_dict[self.character_class.class_name] = copy.deepcopy(self.character_class)
+        self.character_class = self.class_dict.get(new_class.class_name)
         new_class.init_class(self.stats)
 
     def display_character(self):
@@ -730,7 +781,7 @@ class ExperienceHelper:
     def apply_class_xp(self, xp_gained, character_list):
         """Add class xp to the whole party. Level up a class if necessary."""
         for c in character_list:
-            c.character_class.class_xp += xp_gained
+            c.character_class.class_xp += round(xp_gained)
             class_current_level = c.character_class.class_level
             c.class_points += round(xp_gained/10) #TODO Better system.
             xp_needed_for_next_class_level = self.get_xp_needed_for_next_level(class_current_level)
@@ -788,7 +839,7 @@ class PartyManager:
         with Indenter() as indent:
             pm_number = 0
             for pm in self.party:
-                indent.print_("{} the {} [{}]".format(pm.name, pm.character_class.class_name,pm_number))
+                indent.print_("{} the {} [{}]".format(pm.name, pm.character_class.class_name, pm_number))
                 pm_number += 1
             while "A party member is not picked.":
                 choice = input('Choose a party member.')
@@ -802,7 +853,22 @@ class PartyManager:
         party_member = self.select_party_member()
         with Indenter() as indent:
             indent.print_("{} the {}.".format(party_member.name, party_member.character_class.class_name))
-        print('Not implemented yet.')
+            i = 0
+            class_available = dict()
+            indent.print_("Available classes:")
+            for k, v in party_member.class_dict.items():
+                print(f"{k},".ljust(20) + f"level {v.class_level}".ljust(30) + f"[{i}]")
+                class_available[i] = k
+                i += 1
+            choice_accepted = range(i + 1)
+            choice = ''
+            while not choice.isdigit() or int(choice) not in choice_accepted:
+                choice = input("Choose class [0-{}]".format(i - 1))
+            key_chosen = class_available[int(choice)]
+            class_chosen = party_member.class_dict[key_chosen]
+            party_member.change_character_class(class_chosen)
+            indent.print_("{}'s class was changed.".format(party_member.name))
+
 
     def change_name(self):
         """"Choose a party member. Change it's name."""
@@ -812,7 +878,9 @@ class PartyManager:
             new_name_confirmed = False
             while not new_name_confirmed:
                 new_name = input(indent.indent_text("What shall be {} new name ?".format(party_member.name))).strip()
-                confirmation = input("""Do you confirm {} as {}'s new name ?(Press Y or N or press Q to stop changing name)""".format(new_name, party_member.name)).strip().upper()
+                confirmation = input("Do you confirm {} as {}'s new name ?"
+                                     "(Press Y or N or press Q to stop changing name)"
+                                     .format(new_name, party_member.name)).strip().upper()
                 if confirmation == 'Y':
                     new_name_confirmed = True
                 if confirmation == 'Q':
@@ -1091,10 +1159,10 @@ elaine_stat = CharacterStats(elaine_id, 20, 20, 20, 20, 1000, 50)
 biggs_stat = CharacterStats(biggs_id, 20, 20, 20, 20, 1000, 50)
 wedge_stat = CharacterStats(wedge_id, 20, 20, 20, 20, 1000, 50)
 viviane_stat = CharacterStats(viviane_id, 20, 20, 20 ,20 ,1000, 50)
-elaine_job = Wizard(elaine_id)
-biggs_job = Knight(biggs_id)
-wedge_job = Knight(wedge_id)
-viviane_job = Squire(viviane_id)
+elaine_job = Wizard()
+biggs_job = Knight()
+wedge_job = Knight()
+viviane_job = Squire()
 elaine = Character(elaine_id, "Elaine", elaine_stat, elaine_job)
 biggs = Character(biggs_id, "Biggs", biggs_stat, biggs_job)
 wedge = Character(wedge_id, "Wedge", wedge_stat, wedge_job)
@@ -1108,4 +1176,3 @@ my_party.append(viviane)
 menu = Menu(my_party)
 while "User has not quit":
     menu.display_menu()
-

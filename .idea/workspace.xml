@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/venv/Abilities/Template.txt" line="4" />
+    <bookmark url="file://$PROJECT_DIR$/Abilities/Template.txt" line="4" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d3a74cdf-4a8d-4246-bd75-55e49183039c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Abilities/Barbarian.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Beastmaster.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Cleric.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Dark Knight.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Holy Knight.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Monk.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Necromancer.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Ninja.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Rogue.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Abilities/Scholar.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tests/Level1Benchmark.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/Scripts/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Fight.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Fight.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Abilities/Knight.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Knight.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Abilities/Squire.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Squire.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Abilities/Template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Template.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Abilities/Wizard.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Wizard.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Game/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Game/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Levels/Level_1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/Level_1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Levels/Level_2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/Level_2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Levels/Level_3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/Level_3.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Levels/level_format.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Levels/level_format.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Tests/Level1Benchmark.py" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Archer.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Tests/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Utilities/level_threshold.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Utilities/level_threshold.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,6 +41,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1534875852416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Fight$test.coverage" NAME="test Coverage Results" MODIFIED="1533637374403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv/Tests" />
     <SUITE FILE_PATH="coverage/Fight$main.coverage" NAME="main Coverage Results" MODIFIED="1533744799533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
     <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1534783611000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
@@ -82,69 +109,76 @@
         <counts>
           <entry key="project.closed" value="1" />
           <entry key="project.open.time.19" value="1" />
-          <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.8" value="2" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="14" />
-          <entry key="py" value="7495" />
-          <entry key="txt" value="353" />
+          <entry key="py" value="9097" />
+          <entry key="txt" value="446" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="353" />
-          <entry key="Python" value="7509" />
+          <entry key="PLAIN_TEXT" value="446" />
+          <entry key="Python" value="9111" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="6" />
-          <entry key="txt" value="4" />
+          <entry key="py" value="7" />
+          <entry key="txt" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="4" />
-          <entry key="Python" value="6" />
+          <entry key="PLAIN_TEXT" value="16" />
+          <entry key="Python" value="7" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/venv/main.py">
+      <file pinned="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+            <state relative-caret-position="163">
+              <caret line="133" column="25" lean-forward="true" selection-start-line="133" selection-start-column="25" selection-end-line="133" selection-end-column="25" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <marker date="1534783695011" expanded="true" signature="1361:1373" ph="..." />
-                <marker date="1534783695011" expanded="true" signature="11371:11374" ph="..." />
-                <marker date="1534783695011" expanded="true" signature="11412:11414" ph="..." />
-                <marker date="1534783695011" expanded="true" signature="16408:16438" ph="..." />
+                <element signature="e#1756#3586#0" />
+                <element signature="e#4745#4765#0" />
+                <element signature="e#4818#5201#0" />
+                <element signature="e#5254#5637#0" />
+                <element signature="e#5684#6495#0" />
+                <element signature="e#6550#9322#0" />
+                <element signature="e#9359#9502#0" />
+                <element signature="e#9539#9684#0" />
+                <element signature="e#9721#9867#0" />
+                <element signature="e#9903#10046#0" />
+                <element signature="e#10083#10225#0" />
+                <element signature="e#10260#10405#0" />
+                <element signature="e#10604#10748#0" />
+                <element signature="e#10446#10598#0" />
+                <element signature="e#10639#10791#0" />
+                <element signature="e#10831#10982#0" />
+                <element signature="e#11020#11164#0" />
+                <element signature="e#11548#11693#0" />
+                <element signature="e#11733#11883#0" />
+                <element signature="e#12178#12328#0" />
+                <element signature="e#29422#30328#0" />
+                <element signature="e#30371#39064#0" />
+                <element signature="e#39114#41071#0" />
+                <element signature="e#41137#41855#0" />
+                <marker date="1534875850428" expanded="true" signature="1345:1357" ph="..." />
+                <marker date="1534875850428" expanded="true" signature="12249:12596" ph="..." />
+                <marker date="1534875850428" expanded="true" signature="12620:12623" ph="..." />
+                <marker date="1534875850428" expanded="true" signature="12661:12664" ph="..." />
+                <marker date="1534875850428" expanded="true" signature="17883:17913" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/Abilities/Squire.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/Abilities/Template.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="14" lean-forward="true" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -160,8 +194,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>displayCharacter</find>
-      <find>getXpNeededForNextLevel</find>
       <find>generateFoe</find>
       <find>get_xp_needed_for_next_level</find>
       <find>displayStats</find>
@@ -190,6 +222,8 @@
       <find>is_acquired</find>
       <find>filter</find>
       <find>class_points</find>
+      <find>PartyManager</find>
+      <find>deepcopy</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -217,6 +251,18 @@
         <option value="$PROJECT_DIR$/venv/Abilities/Wizard.txt" />
         <option value="$PROJECT_DIR$/venv/__init__.py" />
         <option value="$PROJECT_DIR$/venv/main.py" />
+        <option value="$PROJECT_DIR$/Abilities/Rogue.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Cleric.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Beastmaster.txt" />
+        <option value="$PROJECT_DIR$/Abilities/HolyKnight.txt" />
+        <option value="$PROJECT_DIR$/Abilities/DarkKnight.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Archer.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Barbarian.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Scholar.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Ninja.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Monk.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Necromancer.txt" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -237,7 +283,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -245,21 +290,11 @@
               <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
               <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
-              <item name="Utilities" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -267,14 +302,17 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Geoffroy\Documents\GitHub\Fight\venv" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\geoff\Documents\GitHub\fuzzy-broccoli" />
+      <recent name="C:\Users\geoff\Documents\GitHub\fuzzy-broccoli\venv" />
       <recent name="C:\Users\geoff\Documents\GitHub\fuzzy-broccoli\venv\Game" />
       <recent name="C:\Users\Geoffroy\Documents\GitHub\Fight\venv\Levels" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Geoffroy\Documents\GitHub\Fight\venv" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -289,7 +327,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.main (1)">
+    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Fight" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\geoff\PycharmProjects\untitled\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Fight" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -303,7 +363,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/main.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\geoff\Documents\GitHub\fuzzy-broccoli\main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -337,9 +397,11 @@
     <list>
       <item itemvalue="Python.main" />
       <item itemvalue="Python.test" />
+      <item itemvalue="Python.main (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.test" />
       </list>
@@ -371,12 +433,12 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19349681" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.195629" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286334" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3286334" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39804772" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -404,12 +466,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/venv/main.py</url>
-          <line>192</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/venv/main.py</url>
+          <url>file://$PROJECT_DIR$/main.py</url>
           <line>537</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
@@ -436,35 +493,35 @@
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/random.py" />
     <entry file="file://$USER_HOME$/.PyCharm2018.2/system/python_stubs/1241775056/builtins.py" />
     <entry file="file://$PROJECT_DIR$/venv/test.txt" />
-    <entry file="file://$PROJECT_DIR$/venv/Levels/Level_1.txt">
+    <entry file="file://$PROJECT_DIR$/Levels/Level_1.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Levels/Level_2.txt">
+    <entry file="file://$PROJECT_DIR$/Levels/Level_2.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="2" lean-forward="true" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Utilities/level_threshold.txt">
+    <entry file="file://$PROJECT_DIR$/Utilities/level_threshold.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="2" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Levels/level_format.txt">
+    <entry file="file://$PROJECT_DIR$/Levels/level_format.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="12" lean-forward="true" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Levels/Level_3.txt">
+    <entry file="file://$PROJECT_DIR$/Levels/Level_3.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" column="2" lean-forward="true" selection-start-line="17" selection-start-column="2" selection-end-line="17" selection-end-column="2" />
@@ -495,62 +552,167 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Abilities/Knight.txt">
+    <entry file="file://$PROJECT_DIR$/Abilities/Knight.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="20" column="35" lean-forward="true" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Abilities/Wizard.txt">
+    <entry file="file://$PROJECT_DIR$/Abilities/Wizard.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Game/__init__.py">
+    <entry file="file://$PROJECT_DIR$/Game/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Tests/test.py">
+    <entry file="file://$PROJECT_DIR$/Tests/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" selection-start-line="17" selection-end-line="18" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Tests/Level1Benchmark.py">
+    <entry file="file://$PROJECT_DIR$/Tests/Level1Benchmark.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <marker date="1534783695011" expanded="true" signature="1361:1373" ph="..." />
-            <marker date="1534783695011" expanded="true" signature="11371:11374" ph="..." />
-            <marker date="1534783695011" expanded="true" signature="11412:11414" ph="..." />
-            <marker date="1534783695011" expanded="true" signature="16408:16438" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Abilities/Squire.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Abilities/Template.txt">
+    <entry file="file://$PROJECT_DIR$/Abilities/Template.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="3" column="14" lean-forward="true" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Rogue.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="5" selection-start-column="5" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Cleric.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="6" selection-start-column="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Beastmaster.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Holy Knight.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="10" selection-start-column="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Dark Knight.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="10" selection-start-column="10" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Archer.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="6" selection-start-column="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Barbarian.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="9" selection-start-column="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Scholar.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="7" selection-start-column="7" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Ninja.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="5" selection-start-column="5" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Squire.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Monk.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="4" selection-start-column="4" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Necromancer.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Scripts/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="133" column="25" lean-forward="true" selection-start-line="133" selection-start-column="25" selection-end-line="133" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#1756#3586#0" />
+            <element signature="e#4745#4765#0" />
+            <element signature="e#4818#5201#0" />
+            <element signature="e#5254#5637#0" />
+            <element signature="e#5684#6495#0" />
+            <element signature="e#6550#9322#0" />
+            <element signature="e#9359#9502#0" />
+            <element signature="e#9539#9684#0" />
+            <element signature="e#9721#9867#0" />
+            <element signature="e#9903#10046#0" />
+            <element signature="e#10083#10225#0" />
+            <element signature="e#10260#10405#0" />
+            <element signature="e#10604#10748#0" />
+            <element signature="e#10446#10598#0" />
+            <element signature="e#10639#10791#0" />
+            <element signature="e#10831#10982#0" />
+            <element signature="e#11020#11164#0" />
+            <element signature="e#11548#11693#0" />
+            <element signature="e#11733#11883#0" />
+            <element signature="e#12178#12328#0" />
+            <element signature="e#29422#30328#0" />
+            <element signature="e#30371#39064#0" />
+            <element signature="e#39114#41071#0" />
+            <element signature="e#41137#41855#0" />
+            <marker date="1534875850428" expanded="true" signature="1345:1357" ph="..." />
+            <marker date="1534875850428" expanded="true" signature="12249:12596" ph="..." />
+            <marker date="1534875850428" expanded="true" signature="12620:12623" ph="..." />
+            <marker date="1534875850428" expanded="true" signature="12661:12664" ph="..." />
+            <marker date="1534875850428" expanded="true" signature="17883:17913" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
