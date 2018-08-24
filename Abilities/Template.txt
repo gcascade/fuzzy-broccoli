@@ -8,6 +8,8 @@ AP Cost
 Default Ability (No/Yes): 0/1
 Level Acquired
 CP Cost
+Ability Type (ATTACK, HEAL, BUFF, OTHER) : 0/1/2/3
+Ability Target (SINGLE / AOE): 0/1
 
 Example:
 Squire
@@ -17,5 +19,7 @@ Normal Attack
 A normal physical attack.
 0
 1
+0
+0
 0
 0

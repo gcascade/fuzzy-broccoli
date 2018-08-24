@@ -7,6 +7,8 @@ A normal physical attack.
 1
 0
 0
+0
+0
 Magic Attack
 10
 1
@@ -15,3 +17,15 @@ A normal magic attack.
 0
 2
 100
+0
+0
+Apply Bandage
+20
+0
+Apply a bandage to a target. It is a physical heal. What does that even mean ?
+4
+0
+5
+100
+1
+0

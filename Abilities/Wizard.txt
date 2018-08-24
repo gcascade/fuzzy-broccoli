@@ -7,12 +7,16 @@ A normal magic attack
 1
 0
 0
+0
+0
 Staff strike
 1
 0
 You know, when you have no AP ...
 0
 1
+0
+0
 0
 0
 Fire
@@ -23,6 +27,8 @@ A fire attack
 0
 2
 100
+0
+0
 Ice
 15
 1
@@ -31,6 +37,8 @@ An ice attack
 0
 2
 100
+0
+0
 Thunder
 15
 1
@@ -39,6 +47,8 @@ A thunder attack
 0
 2
 100
+0
+0
 Wind
 15
 1
@@ -47,3 +57,5 @@ A wind attack
 0
 2
 100
+0
+0

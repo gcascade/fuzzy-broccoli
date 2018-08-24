@@ -1,11 +1,13 @@
 from enum import Enum
 from abc import ABCMeta
+from lxml import etree
 import random
 import time
 import copy
 
 max_level = 3
-combat_text_speed = .25 # in seconds
+combat_text_speed = .25  # in seconds
+
 
 # For debug only
 def trace(func):
@@ -59,10 +61,31 @@ class FileContentException(Exception):
     pass
 
 
+class XmlHelper:
+
+    @staticmethod
+    def export_party_to_xml(party):
+        characters = etree.Element("Characters")
+        for character in party:
+            characters.append(character.to_xml())
+        return characters
+
+    @staticmethod
+    def write_xml_to_file(xml, filename):
+        tree = etree.ElementTree(xml)
+        tree.write(filename)
+
+
 class Stats:
 
     def __init__(self, id, phy_str, mag_pow, phy_res, mag_res, max_hp, max_ap):
         self.id = id
+        self.base_phy_str = phy_str
+        self.base_mag_pow = mag_pow
+        self.base_phy_res = phy_res
+        self.base_mag_res = mag_res
+        self.base_max_hp = max_hp
+        self.base_max_ap = max_ap
         self.phy_str = phy_str
         self.mag_pow = mag_pow
         self.phy_res = phy_res
@@ -100,6 +123,12 @@ class CharacterStats(Stats):
 
     def add_stats_points(self, phy_str, mag_pow, phy_res, mag_res, max_hp, max_ap):
         """Add stats points"""
+        self.base_phy_str += phy_str
+        self.base_mag_pow += mag_pow
+        self.base_phy_res += phy_res
+        self.base_mag_res += mag_res
+        self.base_max_hp += max_hp
+        self.base_max_ap += max_ap
         self.phy_str += phy_str
         self.mag_pow += mag_pow
         self.phy_res += phy_res
@@ -179,7 +208,8 @@ class CharacterClass(metaclass=ABCMeta):
         with indent:
             indent.print_("Level: {}".format(self.class_level))
             indent.print_(
-                "Class Experience points: {}/{}".format(self.class_xp, self.experience_helper.get_xp_needed_for_next_level(self.class_level)))
+                "Class Experience points: {}/{}".format(self.class_xp,
+                                                        self.experience_helper.get_xp_needed_for_next_level(self.class_level)))
             indent.print_("Physical Strength Multiplier: {}".format(self.phy_str_mult))
             indent.print_("Magic Power Multiplier: {}".format(self.mag_pow_mult))
             indent.print_("Physical Resistance Multiplier: {}".format(self.phy_res_mult))
@@ -190,7 +220,7 @@ class CharacterClass(metaclass=ABCMeta):
     def get_class_abilities_from_file(self):
         filename = f"Abilities/{self.class_name}.txt"
         return_list = list()
-        with ManagedFile(filename,'r') as file:
+        with ManagedFile(filename, 'r') as file:
             class_name = file.readline().strip()
             if class_name != self.class_name:
                 raise FileContentException
@@ -237,7 +267,29 @@ class CharacterClass(metaclass=ABCMeta):
                     if not ability_cp_cost.isdigit():
                         raise FileContentException
                     ability_cp_cost = int(ability_cp_cost)
-                    ability = Ability(ability_name, ability_damage, ability_damage_type, ability_description, ability_ap_cost, ability_is_default, ability_level_acquired, ability_cp_cost)
+                    # 9 - Ability Type
+                    ability_type = file.readline().strip()
+                    if (not ability_type.isdigit()) and (not 0 <= int(ability_type) < 4):
+                        raise FileContentException
+                    else:
+                        ability_type = AbilityType(int(ability_type))
+                    # 10 - Ability Target
+                    ability_target = file.readline().strip()
+                    if (not ability_target.isdigit()) and (not 0 <= int(ability_target) < 2):
+                        raise FileContentException
+                    else:
+                        ability_target = AbilityTarget(int(ability_target))
+                    # Create Ability
+                    ability = Ability(ability_name,
+                                      ability_damage,
+                                      ability_damage_type,
+                                      ability_description,
+                                      ability_ap_cost,
+                                      ability_is_default,
+                                      ability_level_acquired,
+                                      ability_cp_cost,
+                                      ability_type,
+                                      ability_target)
                     return_list.append(ability)
         return return_list
 
@@ -260,6 +312,16 @@ class CharacterClass(metaclass=ABCMeta):
             Beastmaster.class_name: Beastmaster(),
         }
         return class_dictionary
+
+    def to_xml(self):
+        class_ = etree.Element("Class")
+        etree.SubElement(class_, "Name").text = self.class_name
+        etree.SubElement(class_, "Level").text = str(self.class_level)
+        etree.SubElement(class_, "XP").text = str(self.class_xp)
+        abilities = etree.SubElement(class_, "Abilities")
+        for ability in self.ability_list:
+            abilities.append(ability.to_xml())
+        return class_
 
 
 class Squire(CharacterClass):
@@ -407,7 +469,7 @@ class Necromancer(CharacterClass):
 
 
 class Ability:
-    def __init__(self, ability_name, ability_dmg, ability_dmg_type, ability_description, ap_cost, is_default, level_acquired, cp_cost):
+    def __init__(self, ability_name, ability_dmg, ability_dmg_type, ability_description, ap_cost, is_default, level_acquired, cp_cost, ability_type, ability_target):
         self.ability_name = ability_name
         self.ability_dmg = ability_dmg
         self.ability_dmg_type = ability_dmg_type
@@ -416,15 +478,26 @@ class Ability:
         self.ability_acquired = is_default
         self.level_acquired = level_acquired
         self.cp_cost = cp_cost
+        self.ability_type = ability_type
+        self.ability_target = ability_target
 
     @staticmethod
     def default_ability():
-        return Ability("Normal Attack", 10, DamageType.PHY_DMG, "A normal attack", 0, 0, 0, 0)
+        return Ability("Normal Attack",
+                       10,
+                       DamageType.PHY_DMG,
+                       "A normal attack",
+                       0,
+                       0,
+                       0,
+                       0,
+                       AbilityType.ATTACK,
+                       AbilityTarget.SINGLE)
 
     def __str__(self):
         acquired_text = {
             True: "Yes",
-            False : "No",
+            False: "No",
         }
         damage_type_text = {
             DamageType.PHY_DMG: 'Physical Damage',
@@ -443,6 +516,20 @@ class Ability:
                     ret += indent.indent_text("Available at : {}".format(self.level_acquired))
                     ret += indent.indent_text("CP Cost: {}".format(self.cp_cost))
         return ret
+
+    def to_xml(self):
+        ability = etree.Element("Ability")
+        etree.SubElement(ability, "Name").text = self.ability_name
+        etree.SubElement(ability, "Damage").text = str(self.ability_dmg)
+        etree.SubElement(ability, "DamageType").text = str(self.ability_dmg_type.value)
+        etree.SubElement(ability, "Description").text = self.ability_description
+        etree.SubElement(ability, "AP").text = str(self.ap_cost)
+        etree.SubElement(ability, "Acquired").text = str(self.ability_acquired)
+        etree.SubElement(ability, "Level").text = str(self.level_acquired)
+        etree.SubElement(ability, "CP").text = str(self.cp_cost)
+        etree.SubElement(ability, "Type").text = str(self.ability_type.value)
+        etree.SubElement(ability, "Target").text = str(self.ability_target.value)
+        return ability
 
 
 class Passive:
@@ -477,7 +564,8 @@ class Character:
             indent.print_('Name: {}'.format(self.name))
             indent.print_("Level: {}".format(self.level))
             indent.print_(
-                "Experience points: {}/{}".format(self.xp, self.experience_helper.get_xp_needed_for_next_level(self.level)))
+                "Experience points: {}/{}".format(self.xp,
+                                                  self.experience_helper.get_xp_needed_for_next_level(self.level)))
             indent.print_("CP: {}".format(self.class_points))
             self.stats.display_stats(indent)
             self.character_class.display_class(indent)
@@ -489,6 +577,18 @@ class Character:
 
     def spend_ap(self, ap):
         self.stats.ap -= ap
+
+    def to_xml(self):
+        character = etree.Element("Character")
+        etree.SubElement(character, "Name").text = self.name
+        etree.SubElement(character, "XP").text = str(self.xp)
+        etree.SubElement(character, "Level").text = str(self.level)
+        etree.SubElement(character, "CP").text = str(self.class_points)
+        etree.SubElement(character, "CurrentClass").text = self.character_class.class_name
+        classes = etree.SubElement(character, "Classes")
+        for key in self.class_dict:
+            classes.append(self.class_dict[key].to_xml())
+        return character
 
 
 class Foe:
@@ -549,6 +649,13 @@ class AbilityTarget(Enum):
     AOE = 1
 
 
+class AbilityType(Enum):
+    ATTACK = 0
+    HEAL = 1
+    BUFF = 2
+    OTHER = 3
+
+
 class BattleEngine:
 
     def __init__(self, character_list, foe_list):
@@ -562,30 +669,58 @@ class BattleEngine:
     def __exit__(self, exc_type, exc_val, exc_tb):
         print('Battle end.')
 
-    def attack(self, attacker, defender, ability):
+    def attack(self, attacker, defenders, ability):
         attack_power = ability.ability_dmg
         damage_type = ability.ability_dmg_type
-        if damage_type == DamageType.PHY_DMG:
-            damage = attack_power * (attacker.stats.phy_str / defender.stats.phy_res)
-        elif damage_type == DamageType.MAG_DMG:
-            damage = attack_power * (attacker.stats.mag_pow / defender.stats.mag_res)
-        else:
-            damage = attack_power
-        damage = round(damage)
         attacker.spend_ap(ability.ap_cost)
-        defender.stats.hp = defender.stats.hp - damage if defender.stats.hp - damage > 0 else 0
-        with Indenter() as indent:
-            with indent:
-                indent.print_(f'{ability.ability_name}! {attacker.name} ({round(attacker.stats.ap)}/{round(attacker.stats.max_ap)}AP) inflicted {damage}'
-                              f' damage to {defender.name} ({round(defender.stats.hp)}/{round(defender.stats.max_hp)}HP)')
-        self.check_if_foe_ko(defender, indent)
+        for defender in defenders:
+            if damage_type == DamageType.PHY_DMG:
+                damage = attack_power * (attacker.stats.phy_str / defender.stats.phy_res)
+            elif damage_type == DamageType.MAG_DMG:
+                damage = attack_power * (attacker.stats.mag_pow / defender.stats.mag_res)
+            else:
+                damage = attack_power
+            damage = round(damage)
+            defender.stats.hp = defender.stats.hp - damage if defender.stats.hp - damage > 0 else 0
+            with Indenter() as indent:
+                with indent:
+                    indent.print_(f'{ability.ability_name}! '
+                                  f'{attacker.name} ({round(attacker.stats.ap)}/{round(attacker.stats.max_ap)}AP)'
+                                  f' inflicted {damage}'
+                                  f' damage to {defender.name}'
+                                  f' ({round(defender.stats.hp)}/{round(defender.stats.max_hp)}HP)')
+            self.check_if_foe_ko(defender, indent)
+
+    def heal(self, caster, targets, ability):
+        """Heal the target(s) with the ability.
+        A heal is amplified by the caster's power and the target's resistance."""
+        attack_power = ability.ability_dmg
+        damage_type = ability.ability_dmg_type
+        caster.spend_ap(ability.ap_cost)
+        for target in targets:
+            if damage_type == DamageType.PHY_DMG:
+                heal = attack_power * caster.stats.phy_str * target.stats.phy_res / caster.stats.max_hp
+            elif damage_type == DamageType.MAG_DMG:
+                heal = attack_power * caster.stats.mag_pow * target.stats.mag_res / caster.stats.max_hp
+            elif damage_type == DamageType.PURE_DMG:
+                heal = attack_power * caster.stats.phy_str * caster.stats.mag_pow * target.stats.phy_res * target.stats.mag_res / caster.stats.max_hp
+            else:
+                heal = attack_power
+            heal = round(heal)
+            target.stats.hp = target.stats.max_hp if target.stats.hp + heal > target.stats.max_hp else target.stats.hp + heal
+            with Indenter() as indent:
+                with indent:
+                    indent.print_(f'{ability.ability_name}! {caster.name} ({caster.stats.ap}/{caster.stats.max_ap}AP)'
+                                  f' healed {target.name} for '
+                                  f'{heal} HP. ({round(target.stats.hp)}/{round(target.stats.max_hp)}HP)')
 
     def choose_ability(self, attacker):
-        """Choose an ability for the attacker. Return a default ability if the attacker is a Foe or if no abilities are found."""
+        """Choose an ability for the attacker.
+         Return a default ability if the attacker is a Foe or if no abilities are found."""
         if isinstance(attacker, Foe):
             return Ability.default_ability()
         else:
-            ability_learnt_and_available = list(filter(lambda a : a.ability_acquired and a.ap_cost <= attacker.stats.ap, attacker.character_class.ability_list))
+            ability_learnt_and_available = list(filter(lambda a: a.ability_acquired and a.ap_cost <= attacker.stats.ap, attacker.character_class.ability_list))
             if not ability_learnt_and_available:
                 return Ability.default_ability()
             else:
@@ -600,7 +735,6 @@ class BattleEngine:
             attacker = random.choice(fighter_list)
             if attacker.stats.hp != 0:
                 return attacker
-
 
     def check_if_foe_ko(self, character, indent):
         if character.stats.hp == 0:
@@ -631,16 +765,38 @@ class BattleEngine:
     def fight(self):
         turn = 1
         while not self.check_if_battle_over():
-            if turn % 2 == 1:
+            is_party_turn = turn % 2 == 1
+            if is_party_turn:
                 attacker = self.choose_fighter(self.character_list)
-                defender = self.choose_fighter(self.foe_list)
-                ability = self.choose_ability(attacker)
-                self.attack(attacker, defender, ability)
             else:
                 attacker = self.choose_fighter(self.foe_list)
-                defender = self.choose_fighter(self.character_list)
-                ability = self.choose_ability(attacker)
-                self.attack(attacker, defender, ability)
+            ability = self.choose_ability(attacker)
+            if ability.ability_type == AbilityType.ATTACK:
+                if ability.ability_target == AbilityTarget.SINGLE:
+                    defender = list()
+                    if is_party_turn:
+                        defender.append(self.choose_fighter(self.foe_list))
+                    else:
+                        defender.append(self.choose_fighter(self.character_list))
+                    self.attack(attacker, defender, ability)
+                elif ability.ability_target == AbilityTarget.AOE:
+                    if is_party_turn:
+                        self.attack(attacker, self.foe_list, ability)
+                    else:
+                        self.attack(attacker, self.character_list, ability)
+            elif ability.ability_type == AbilityType.HEAL:
+                if ability.ability_target == AbilityTarget.SINGLE:
+                    target = list()
+                    if is_party_turn:
+                        target.append(self.choose_fighter(self.character_list))
+                    else:
+                        target.append(self.choose_fighter(self.foe_list))
+                    self.heal(attacker, target, ability)
+                elif ability.ability_target == AbilityTarget.AOE:
+                    if is_party_turn:
+                        self.heal(attacker, self.character_list, ability)
+                    else:
+                        self.heal(attacker, self.foe_list, ability)
             turn += 1
             time.sleep(combat_text_speed)
         self.handle_victory()
@@ -690,7 +846,7 @@ class Level:
         with ManagedFile('Levels\Level_{}.txt'.format(self.level_number), 'r') as f:
             line = f.readline()
             if line != 'Level_{}\n'.format(self.level_number):
-                print('An error occured opening file.')
+                print('An error occurred opening file.')
             else:
                 foe_number = 1
                 while line:
@@ -759,7 +915,12 @@ class Level:
                         indent.print_(foe.name)
             with BattleEngine(character_list, foe_list) as battle:
                 battle.fight()
-        print("Your party died at Battle {}".format(battle_number))
+            if battle_number == 100:
+                break
+        if battle_number == 100:
+            print("Your party completed level {}.".format(self.level_number))
+        else:
+            print("Your party died at Battle {}".format(battle_number))
 
 
 class ExperienceHelper:
@@ -783,7 +944,7 @@ class ExperienceHelper:
         for c in character_list:
             c.character_class.class_xp += round(xp_gained)
             class_current_level = c.character_class.class_level
-            c.class_points += round(xp_gained/10) #TODO Better system.
+            c.class_points += round(xp_gained/10)  #TODO Better system.
             xp_needed_for_next_class_level = self.get_xp_needed_for_next_level(class_current_level)
             while c.character_class.class_xp >= xp_needed_for_next_class_level > 0:
                 self.apply_class_level_up(c)
@@ -869,13 +1030,13 @@ class PartyManager:
             party_member.change_character_class(class_chosen)
             indent.print_("{}'s class was changed.".format(party_member.name))
 
-
     def change_name(self):
         """"Choose a party member. Change it's name."""
         party_member = self.select_party_member()
         with Indenter() as indent:
             indent.print_("{} the {}.".format(party_member.name, party_member.character_class.class_name))
             new_name_confirmed = False
+            new_name = ''
             while not new_name_confirmed:
                 new_name = input(indent.indent_text("What shall be {} new name ?".format(party_member.name))).strip()
                 confirmation = input("Do you confirm {} as {}'s new name ?"
@@ -901,6 +1062,12 @@ class PartyManager:
                     indent.print_(str(party_member.stats))
                     indent.print_("Points to spend: {}".format(party_member.stats.unspent_points))
                     points_spent = False
+                    phy_str_points = -1
+                    mag_pow_points = -1
+                    phy_res_points = -1
+                    mag_res_points = -1
+                    max_hp_points = -1
+                    max_ap_points = -1
                     while not points_spent:
                         points_to_spend = party_member.stats.unspent_points
 
@@ -909,7 +1076,6 @@ class PartyManager:
                         with indent:
                             input_phy_str += indent.indent_text("Current: {}\n".format(party_member.stats.phy_str))
                             input_phy_str += indent.indent_text("Points available: {}\n".format(points_to_spend))
-                            phy_str_points = -1
                             while not -1 < int(phy_str_points) < points_to_spend + 1:
                                 phy_str_points = input(input_phy_str).strip()
                                 if phy_str_points == '':
@@ -927,7 +1093,6 @@ class PartyManager:
                         with indent:
                             input_mag_pow += indent.indent_text("Current: {}\n".format(party_member.stats.mag_pow))
                             input_mag_pow += indent.indent_text("Points available: {}\n".format(points_to_spend))
-                            mag_pow_points = -1
                             while not -1 < int(mag_pow_points) < points_to_spend + 1:
                                 mag_pow_points = input(input_mag_pow).strip()
                                 if mag_pow_points == '':
@@ -945,7 +1110,6 @@ class PartyManager:
                         with indent:
                             input_phy_res += indent.indent_text("Current: {}\n".format(party_member.stats.phy_res))
                             input_phy_res += indent.indent_text("Points available: {}\n".format(points_to_spend))
-                            phy_res_points = -1
                             while not -1 < int(phy_res_points) < points_to_spend + 1:
                                 phy_res_points = input(input_phy_res).strip()
                                 if phy_res_points == '':
@@ -963,7 +1127,6 @@ class PartyManager:
                         with indent:
                             input_mag_res += indent.indent_text("Current: {}\n".format(party_member.stats.mag_res))
                             input_mag_res += indent.indent_text("Points available: {}\n".format(points_to_spend))
-                            mag_res_points = -1
                             while not -1 < int(mag_res_points) < points_to_spend + 1:
                                 mag_res_points = input(input_mag_res).strip()
                                 if mag_res_points == '':
@@ -981,7 +1144,6 @@ class PartyManager:
                         with indent:
                             input_max_hp += indent.indent_text("Current: {}\n".format(party_member.stats.max_hp))
                             input_max_hp += indent.indent_text("Points available(1 point = 10 HP): {}\n".format(points_to_spend))
-                            max_hp_points = -1
                             while not -1 < int(max_hp_points) < points_to_spend + 1:
                                 max_hp_points = input(input_max_hp).strip()
                                 if max_hp_points == '':
@@ -1000,7 +1162,6 @@ class PartyManager:
                         with indent:
                             input_max_ap += indent.indent_text("Current: {}\n".format(party_member.stats.max_ap))
                             input_max_ap += indent.indent_text("Points available: {}\n".format(points_to_spend))
-                            max_ap_points = -1
                             while not -1 < int(max_ap_points) < points_to_spend + 1:
                                 max_ap_points = input(input_max_ap).strip()
                                 if max_ap_points == '':
@@ -1033,18 +1194,18 @@ class PartyManager:
                 with indent:
                     for ability in party_member.character_class.ability_list:
                         indent.print_(str(ability))
-            if any(a.ability_acquired == False for a in party_member.character_class.ability_list):
+            if any(a.ability_acquired is False for a in party_member.character_class.ability_list):
                 input_text = indent.indent_text("Acquire new abilities ? (Y/N)")
                 choice = ''
                 while choice != 'N':
                     choice = input(input_text).strip().upper()
                     if choice == 'Y':
                         ability_input_text = ''
-                        learnable_abilities = list(filter(lambda a : a.ability_acquired == False, party_member.character_class.ability_list))
+                        learnable_abilities = list(filter(lambda a: a.ability_acquired is False, party_member.character_class.ability_list))
                         for i in range(len(learnable_abilities)):
                             ability_input_text += f"{learnable_abilities[i].ability_name}[{i}]: {learnable_abilities[i].cp_cost} CP\n"
                         ability_input_text += "Choose an ability to learn. Press Q to go back."
-                        acceptable_choice = list(map(lambda n : str(n), range(len(learnable_abilities))))
+                        acceptable_choice = list(map(lambda n: str(n), range(len(learnable_abilities))))
                         acceptable_choice.append("Q")
                         ability_chosen = input(ability_input_text).strip().upper()
                         if ability_chosen in acceptable_choice and ability_chosen != 'Q':
@@ -1053,7 +1214,7 @@ class PartyManager:
                 indent.print_("You have learned all {} abilities.".format(party_member.character_class.class_name))
 
     def acquire_abilities(self, party_member, ability):
-        "Learn said ability for the selected party member."
+        """"Learn said ability for the selected party member."""
         if party_member.class_points < ability.cp_cost:
             print("You don't have enough CP to learn this ability. (Current CP: {}. Required: {}.)".format(party_member.class_points, ability.cp_cost))
         elif party_member.character_class.class_level < ability.level_acquired:
@@ -1143,7 +1304,7 @@ class Menu:
         with Indenter() as indent:
             indent.print_("Save game? (Y/N)")
             user_choice = input().strip().upper()
-            while user_choice not in ("Y","N"):
+            while user_choice not in ("Y", "N"):
                 user_choice = input().strip().upper()
             if user_choice == 'Y':
                 print("Saving is not implemented yet.")
@@ -1158,7 +1319,7 @@ viviane_id = 4
 elaine_stat = CharacterStats(elaine_id, 20, 20, 20, 20, 1000, 50)
 biggs_stat = CharacterStats(biggs_id, 20, 20, 20, 20, 1000, 50)
 wedge_stat = CharacterStats(wedge_id, 20, 20, 20, 20, 1000, 50)
-viviane_stat = CharacterStats(viviane_id, 20, 20, 20 ,20 ,1000, 50)
+viviane_stat = CharacterStats(viviane_id, 20, 20, 20, 20, 1000, 50)
 elaine_job = Wizard()
 biggs_job = Knight()
 wedge_job = Knight()
@@ -1172,6 +1333,9 @@ my_party.append(biggs)
 my_party.append(wedge)
 my_party.append(elaine)
 my_party.append(viviane)
+# filename = "Characters.xml"
+# party_xml = XmlHelper.export_party_to_xml(my_party)
+# XmlHelper.write_xml_to_file(party_xml, filename)
 
 menu = Menu(my_party)
 while "User has not quit":
