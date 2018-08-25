@@ -95,6 +95,16 @@ class Stats:
         self.ap = max_ap
         self.max_ap = max_ap
 
+    def to_xml(self):
+        stats_xml = etree.Element("Stats")
+        etree.SubElement(stats_xml, "Phy_str").text = str(self.base_phy_str)
+        etree.SubElement(stats_xml, "Mag_pow").text = str(self.base_mag_pow)
+        etree.SubElement(stats_xml, "Phy_res").text = str(self.base_phy_res)
+        etree.SubElement(stats_xml, "Mag_res").text = str(self.base_mag_res)
+        etree.SubElement(stats_xml, "HP").text = str(self.base_max_hp)
+        etree.SubElement(stats_xml, "AP").text = str(self.base_max_ap)
+        return stats_xml
+
 
 class CharacterStats(Stats):
 
@@ -585,6 +595,7 @@ class Character:
         etree.SubElement(character, "Level").text = str(self.level)
         etree.SubElement(character, "CP").text = str(self.class_points)
         etree.SubElement(character, "CurrentClass").text = self.character_class.class_name
+        character.append(self.stats.to_xml())
         classes = etree.SubElement(character, "Classes")
         for key in self.class_dict:
             classes.append(self.class_dict[key].to_xml())
@@ -613,6 +624,17 @@ class Foe:
 
     def spend_ap(self, ap):
         self.stats.ap -= ap
+
+    def to_xml(self):
+        foe = etree.Element("Foe")
+        etree.SubElement(foe, "Name").text = self.name
+        foe.append(self.stats.to_xml())
+        etree.SubElement(foe, "XP").text = str(self.xp)
+        return foe
+
+    def export_foe_to_xml(self):
+        foe_xml = self.to_xml()
+        XmlHelper.write_xml_to_file(foe_xml, "Data/Foe/{}.xml".format(self.name))
 
 
 class FoeStats(Stats):
@@ -670,6 +692,7 @@ class BattleEngine:
         print('Battle end.')
 
     def attack(self, attacker, defenders, ability):
+        """Attack the target(s) with the ability."""
         attack_power = ability.ability_dmg
         damage_type = ability.ability_dmg_type
         attacker.spend_ap(ability.ap_cost)
@@ -876,24 +899,32 @@ class Level:
                     foe.probability = creature_probability
                     foe.xp = creature_xp
                     foe_number += 1
+                    foe.export_foe_to_xml()
                     foe_list.append(foe)
         return foe_list
 
     def generate_foe(self, foe_number, foe_list):
+        """Generate {foe_number) foe(s) from the list."""
         return_list = list()
-        p = list()
+        prob_list = list()
+        foe_number_by_name = dict()
         for f in foe_list:
             for _ in range(0, f.probability):
-                p.append(f.clone())
+                prob_list.append(f.clone())
         for n in range(0, foe_number):
-            foe = random.choice(p)
-            if any(f.name.strip() == foe.name.strip() for f in return_list):
-                # TODO  correct foe number
-                foe.name += " {}".format(n + 1)
+            foe = random.choice(prob_list)
+            if foe_number_by_name.get(foe.name) is None:
+                foe_number_by_name[foe.name] = 1
+            else:
+                foe_number_by_name[foe.name] += 1
+            if foe_number_by_name.get(foe.name) is not None and foe_number_by_name[foe.name] != 1:
+                foe.name += f" {foe_number_by_name[foe.name]}"
             return_list.append(foe)
+        sorted(return_list, key=lambda x: x.name)
         return return_list
 
     def progress(self, character_list):
+        """Starts a series of battles until the 100th battle or until the party dies."""
         battle_number = 0
         while any(c.stats.hp > 0 for c in character_list):
             battle_number += 1
@@ -901,13 +932,6 @@ class Level:
             foe_number = random.randint(1, 4)
             generable_foe_list = self.load_creatures_from_file()
             foe_list = self.generate_foe(foe_number, generable_foe_list)
-            # for n in range(0, foe_number):
-            #     foe_stats = FoeStats(n, 5, 5, 5, 5, 100, 10)
-            #     foe_name = "Goblin"
-            #     if (n > 0):
-            #         foe_name += " {}".format(n + 1)
-            #     goblin = Foe(n, foe_name, foe_stats)
-            #     foe_list.append(goblin)
             with Indenter() as indent:
                 indent.print_("Your party encounters:")
                 with indent:
@@ -1298,8 +1322,7 @@ class Menu:
                 elif choice == '3':
                     self.quit_game()
 
-    @staticmethod
-    def quit_game():
+    def quit_game(self):
         """Exit the game."""
         with Indenter() as indent:
             indent.print_("Save game? (Y/N)")
@@ -1307,7 +1330,9 @@ class Menu:
             while user_choice not in ("Y", "N"):
                 user_choice = input().strip().upper()
             if user_choice == 'Y':
-                print("Saving is not implemented yet.")
+                filename = "Data/Save.xml"
+                party_xml = XmlHelper.export_party_to_xml(self.character_list)
+                XmlHelper.write_xml_to_file(party_xml, filename)
         exit()
 
 
@@ -1333,9 +1358,6 @@ my_party.append(biggs)
 my_party.append(wedge)
 my_party.append(elaine)
 my_party.append(viviane)
-# filename = "Characters.xml"
-# party_xml = XmlHelper.export_party_to_xml(my_party)
-# XmlHelper.write_xml_to_file(party_xml, filename)
 
 menu = Menu(my_party)
 while "User has not quit":
