@@ -1,1 +1,1 @@
-<Foe><Name>Queen Bee</Name><Stats><Phy_str>50.0</Phy_str><Mag_pow>10.0</Mag_pow><Phy_res>50.0</Phy_res><Mag_res>5.0</Mag_res><HP>2000.0</HP><AP>10.0</AP></Stats><XP>200</XP></Foe>
+<Foe><Name>Queen Bee</Name><Stats type="FoeStats"><Phy_str>50.0</Phy_str><Mag_pow>10.0</Mag_pow><Phy_res>50.0</Phy_res><Mag_res>5.0</Mag_res><HP>2000.0</HP><AP>10.0</AP></Stats><XP>200</XP></Foe>

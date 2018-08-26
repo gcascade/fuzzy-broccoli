@@ -1,6 +1,7 @@
 from enum import Enum
 from abc import ABCMeta
 from lxml import etree
+from pathlib import Path
 import random
 import time
 import copy
@@ -61,8 +62,11 @@ class FileContentException(Exception):
     pass
 
 
-class XmlHelper:
+class XmlFileContentException(FileContentException):
+    pass
 
+
+class XmlHelper:
     @staticmethod
     def export_party_to_xml(party):
         characters = etree.Element("Characters")
@@ -75,11 +79,30 @@ class XmlHelper:
         tree = etree.ElementTree(xml)
         tree.write(filename)
 
+    @staticmethod
+    def load_xml(filename):
+        tree = etree.parse(filename)
+        return tree
+
+    @staticmethod
+    def load_party_from_xml(party_xml):
+        party = list()
+        for party_member in party_xml.xpath("/Characters/Character"):
+           party.append(Character.create_from_xml(party_member))
+        return party
+
+    @staticmethod
+    def fetch_first_text_from_xml_and_value(xml, value):
+        value_xml = xml.xpath(value)
+        if len(value_xml) == 0:
+            return None
+        else:
+            return value_xml[0].text
+
 
 class Stats:
 
-    def __init__(self, id, phy_str, mag_pow, phy_res, mag_res, max_hp, max_ap):
-        self.id = id
+    def __init__(self, phy_str, mag_pow, phy_res, mag_res, max_hp, max_ap):
         self.base_phy_str = phy_str
         self.base_mag_pow = mag_pow
         self.base_phy_res = phy_res
@@ -103,7 +126,43 @@ class Stats:
         etree.SubElement(stats_xml, "Mag_res").text = str(self.base_mag_res)
         etree.SubElement(stats_xml, "HP").text = str(self.base_max_hp)
         etree.SubElement(stats_xml, "AP").text = str(self.base_max_ap)
+        if isinstance(self, CharacterStats):
+            stats_xml.set("type", "CharacterStats")
+            etree.SubElement(stats_xml, "UnspentPoints").text = str(self.unspent_points)
+        elif isinstance(self, FoeStats):
+            stats_xml.set("type", "FoeStats")
         return stats_xml
+
+    @staticmethod
+    def create_from_xml(xml):
+        phy_str_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Phy_str")
+        mag_pow_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Mag_pow")
+        phy_res_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Phy_res")
+        mag_res_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Mag_res")
+        max_hp_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "HP")
+        max_ap_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "AP")
+        if None in [phy_str_text, mag_pow_text, phy_res_text, mag_res_text, max_hp_text, max_ap_text]:
+            raise XmlFileContentException
+        if any(x.isdigit() is False for x in [phy_str_text, mag_pow_text, phy_res_text, mag_res_text, max_hp_text, max_ap_text]):
+            raise XmlFileContentException
+        phy_str = int(phy_str_text)
+        mag_pow = int(mag_pow_text)
+        phy_res = int(phy_res_text)
+        mag_res = int(mag_res_text)
+        max_hp = int(max_hp_text)
+        max_ap = int(max_ap_text)
+        stats_type = xml.get("type")
+        if stats_type == "CharacterStats":
+            stats = CharacterStats(phy_str, mag_pow, phy_res, mag_res, max_hp, max_ap)
+            unspent_points_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "UnspentPoints")
+            if unspent_points_text is None or not unspent_points_text.isdigit():
+                raise XmlFileContentException
+            stats.unspent_points = int(unspent_points_text)
+        elif stats_type == "FoeStats":
+            stats = FoeStats(phy_str, mag_pow, phy_res, mag_res, max_hp, max_ap)
+        else:
+            raise XmlFileContentException
+        return stats
 
 
 class CharacterStats(Stats):
@@ -158,6 +217,7 @@ class CharacterStats(Stats):
             self.unspent_points = 0
         else:
             self.unspent_points -= points
+            self.unspent_points = round(self.unspent_points)
 
 
 class CharacterClass(metaclass=ABCMeta):
@@ -332,6 +392,30 @@ class CharacterClass(metaclass=ABCMeta):
         for ability in self.ability_list:
             abilities.append(ability.to_xml())
         return class_
+
+    @staticmethod
+    def create_from_xml(xml):
+        name = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Name")
+        level_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Level")
+        xp_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "XP")
+        if None in [name, level_text, xp_text]:
+            raise XmlFileContentException
+        if any(not x.isdigit() for x in [level_text, xp_text]):
+            raise XmlFileContentException
+        level = int(level_text)
+        xp = int(xp_text)
+        character_class_dict = CharacterClass.get_dict_of_class()
+        if character_class_dict.get(name) is None:
+            raise XmlFileContentException
+        character_class = character_class_dict[name]
+        character_class.class_level = level
+        character_class.class_xp = xp
+        ability_list = list()
+        for ability_xml in xml.xpath("Abilities/Ability"):
+            ability = Ability.create_from_xml(ability_xml)
+            ability_list.append(ability)
+        character_class.ability_list = ability_list
+        return character_class
 
 
 class Squire(CharacterClass):
@@ -541,6 +625,59 @@ class Ability:
         etree.SubElement(ability, "Target").text = str(self.ability_target.value)
         return ability
 
+    @staticmethod
+    def create_from_xml(xml):
+        name = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Name")
+        damage_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Damage")
+        damage_type_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "DamageType")
+        description = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Description")
+        ap_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "AP")
+        acquired_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Acquired")
+        level_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Level")
+        cp_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "CP")
+        ability_type_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Type")
+        ability_target_text = XmlHelper.fetch_first_text_from_xml_and_value(xml, "Target")
+        if None in [name,
+                    damage_text,
+                    damage_type_text,
+                    description,
+                    ap_text,
+                    acquired_text,
+                    level_text,
+                    cp_text,
+                    ability_type_text,
+                    ability_target_text]:
+            raise XmlFileContentException
+        if any(x.isdigit is False for x in [damage_text,
+                                            damage_type_text,
+                                            ap_text,
+                                            level_text,
+                                            cp_text,
+                                            ability_type_text,
+                                            ability_target_text]):
+            raise XmlFileContentException
+        if acquired_text not in ["True", "False"]:
+            raise XmlFileContentException
+        if int(damage_type_text) not in DamageType.list():
+            raise XmlFileContentException
+        if int(ability_type_text) not in AbilityType.list():
+            raise XmlFileContentException
+        if int(ability_target_text) not in AbilityTarget.list():
+            raise XmlFileContentException
+        damage = int(damage_text)
+        ap = int(ap_text)
+        acquired = True if acquired_text == 'True' else False
+        level = int(level_text)
+        cp = int(cp_text)
+        damage_type_int = int(damage_type_text)
+        ability_type_int = int(ability_type_text)
+        ability_target_int = int(ability_target_text)
+        damage_type = DamageType(damage_type_int)
+        ability_type = AbilityType(ability_type_int)
+        ability_target = AbilityTarget(ability_target_int)
+        ability = Ability(name, damage, damage_type, description, ap, acquired, level, cp, ability_type, ability_target)
+        return ability
+
 
 class Passive:
     def __init__(self, passive_type, passive_name, passive_description):
@@ -554,8 +691,7 @@ class Character:
     level = 0
     class_points = 0
 
-    def __init__(self, id, name, stats, character_class):
-        self.id = id
+    def __init__(self, name, stats, character_class):
         self.name = name
         self.stats = stats
         self.class_dict = CharacterClass.get_dict_of_class()
@@ -599,6 +735,37 @@ class Character:
         classes = etree.SubElement(character, "Classes")
         for key in self.class_dict:
             classes.append(self.class_dict[key].to_xml())
+        return character
+
+    @staticmethod
+    def create_from_xml(character_xml):
+        name = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "Name")
+        xp_text = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "XP")
+        level_text = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "Level")
+        cp_text = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "CP")
+        current_class = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "CurrentClass")
+        if None in [name, xp_text, level_text, cp_text, current_class]:
+            raise XmlFileContentException
+        if any(x.isdigit() is False for x in [xp_text, level_text, cp_text]):
+            raise XmlFileContentException
+        stats_xml = character_xml.xpath("Stats")
+        if len(stats_xml) != 1:
+            raise XmlFileContentException
+        stats = Stats.create_from_xml(stats_xml[0])
+        class_dictionary = CharacterClass.get_dict_of_class()
+        for class_xml in character_xml.xpath("Classes/Class"):
+            my_class = CharacterClass.create_from_xml(class_xml)
+            if class_dictionary.get(my_class.class_name) is not None:
+                class_dictionary[my_class.class_name] = my_class
+        if class_dictionary.get(current_class) is None:
+            raise XmlFileContentException
+        my_current_class = class_dictionary[current_class]
+        character = Character(name, stats, my_current_class)
+        character.class_dict = class_dictionary
+        character.character_class = my_current_class
+        character.xp = int(xp_text)
+        character.level = int(level_text)
+        character.class_points = int(cp_text)
         return character
 
 
@@ -665,10 +832,18 @@ class DamageType(Enum):
     MAG_DMG = 1
     PURE_DMG = 2
 
+    @staticmethod
+    def list():
+        return list(map(lambda dt: dt.value, DamageType))
+
 
 class AbilityTarget(Enum):
     SINGLE = 0
     AOE = 1
+
+    @staticmethod
+    def list():
+        return list(map(lambda at: at.value, AbilityTarget))
 
 
 class AbilityType(Enum):
@@ -676,6 +851,10 @@ class AbilityType(Enum):
     HEAL = 1
     BUFF = 2
     OTHER = 3
+
+    @staticmethod
+    def list():
+        return list(map(lambda at: at.value, AbilityTarget))
 
 
 class BattleEngine:
@@ -893,13 +1072,13 @@ class Level:
                     creature_probability = int(line.strip())
                     line = f.readline()
                     creature_xp = int(line.strip())
-                    creature_stats = FoeStats(1, creature_phy_str, creature_mag_pow, creature_phy_res, creature_mag_res,
+                    creature_stats = FoeStats(creature_phy_str, creature_mag_pow, creature_phy_res, creature_mag_res,
                                               creature_max_hp, creature_max_ap)
                     foe = Foe(foe_number, creature_name, creature_stats)
                     foe.probability = creature_probability
                     foe.xp = creature_xp
                     foe_number += 1
-                    foe.export_foe_to_xml()
+                    foe.export_foe_to_xml() #TODO remove line
                     foe_list.append(foe)
         return foe_list
 
@@ -955,7 +1134,7 @@ class ExperienceHelper:
     def apply_xp(self, xp_gained, character_list):
         """Add xp to the whole party. Level up a party member if necessary."""
         for c in character_list:
-            c.xp += xp_gained
+            c.xp += round(xp_gained)
             current_level = c.level
             xp_needed_for_next_level = self.get_xp_needed_for_next_level(current_level)
             while c.xp >= xp_needed_for_next_level > 0:
@@ -1341,23 +1520,27 @@ biggs_id = 1
 wedge_id = 2
 elaine_id = 3
 viviane_id = 4
-elaine_stat = CharacterStats(elaine_id, 20, 20, 20, 20, 1000, 50)
-biggs_stat = CharacterStats(biggs_id, 20, 20, 20, 20, 1000, 50)
-wedge_stat = CharacterStats(wedge_id, 20, 20, 20, 20, 1000, 50)
-viviane_stat = CharacterStats(viviane_id, 20, 20, 20, 20, 1000, 50)
+elaine_stat = CharacterStats(20, 20, 20, 20, 1000, 50)
+biggs_stat = CharacterStats(20, 20, 20, 20, 1000, 50)
+wedge_stat = CharacterStats(20, 20, 20, 20, 1000, 50)
+viviane_stat = CharacterStats(20, 20, 20, 20, 1000, 50)
 elaine_job = Wizard()
 biggs_job = Knight()
 wedge_job = Knight()
 viviane_job = Squire()
-elaine = Character(elaine_id, "Elaine", elaine_stat, elaine_job)
-biggs = Character(biggs_id, "Biggs", biggs_stat, biggs_job)
-wedge = Character(wedge_id, "Wedge", wedge_stat, wedge_job)
-viviane = Character(viviane_id, "Viviane", viviane_stat, viviane_job)
+elaine = Character("Elaine", elaine_stat, elaine_job)
+biggs = Character("Biggs", biggs_stat, biggs_job)
+wedge = Character("Wedge", wedge_stat, wedge_job)
+viviane = Character("Viviane", viviane_stat, viviane_job)
 my_party = list()
 my_party.append(biggs)
 my_party.append(wedge)
 my_party.append(elaine)
 my_party.append(viviane)
+save = Path("Data/Save.xml")
+if save.exists():
+    tree = XmlHelper.load_xml("Data/Save.xml")
+    my_party = XmlHelper.load_party_from_xml(tree)
 
 menu = Menu(my_party)
 while "User has not quit":

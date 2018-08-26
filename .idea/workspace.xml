@@ -3,6 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="d3a74cdf-4a8d-4246-bd75-55e49183039c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Characters.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Characters.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Goblin King.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Goblin King.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Goblin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Goblin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Killer Bee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Killer Bee.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Mutant Slime.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Mutant Slime.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Queen Bee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Queen Bee.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Slime King.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Slime King.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -12,7 +20,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1535214650515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1535243326199" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Fight$test.coverage" NAME="test Coverage Results" MODIFIED="1533637374403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv/Tests" />
     <SUITE FILE_PATH="coverage/Fight$main.coverage" NAME="main Coverage Results" MODIFIED="1533744799533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
     <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1534783611000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
@@ -78,41 +86,43 @@
     <session id="1041423820">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.29" value="1" />
           <entry key="project.open.time.36" value="1" />
-          <entry key="project.open.time.8" value="2" />
+          <entry key="project.open.time.8" value="3" />
           <entry key="project.open.time.9" value="2" />
-          <entry key="project.opened" value="8" />
+          <entry key="project.opened" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="32" />
-          <entry key="py" value="15110" />
+          <entry key="py" value="19739" />
           <entry key="txt" value="733" />
+          <entry key="xml" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="733" />
-          <entry key="Python" value="15142" />
+          <entry key="Python" value="19771" />
+          <entry key="XML" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="11" />
+          <entry key="py" value="14" />
           <entry key="txt" value="32" />
-          <entry key="xml" value="15" />
+          <entry key="xml" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="32" />
-          <entry key="Python" value="11" />
-          <entry key="XML" value="15" />
+          <entry key="Python" value="14" />
+          <entry key="XML" value="22" />
         </counts>
       </usages-collector>
     </session>
@@ -122,12 +132,13 @@
       <file pinned="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="8" column="37" lean-forward="true" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
+            <state relative-caret-position="136">
+              <caret line="8" column="13" lean-forward="true" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <marker date="1535214762358" expanded="true" signature="1370:1741" ph="..." />
-                <marker date="1535214762358" expanded="true" signature="34134:34140" ph="..." />
+                <marker date="1535243342539" expanded="true" signature="1395:2391" ph="..." />
+                <marker date="1535243342539" expanded="true" signature="1468:1471" ph="..." />
+                <marker date="1535243342539" expanded="true" signature="42658:42664" ph="..." />
               </folding>
             </state>
           </provider>
@@ -144,17 +155,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>generateFoe</find>
-      <find>get_xp_needed_for_next_level</find>
-      <find>displayStats</find>
-      <find>checkIfBattleOver</find>
-      <find>chooseFighter</find>
-      <find>loadCreaturesFromFile</find>
-      <find>round</find>
-      <find>exitClass</find>
-      <find>initClass</find>
-      <find>displayClass</find>
-      <find>displayXp</find>
       <find>mag_pow__points</find>
       <find>applyXp</find>
       <find>for i</find>
@@ -174,6 +174,17 @@
       <find>class_points</find>
       <find>PartyManager</find>
       <find>deepcopy</find>
+      <find>any</find>
+      <find>CharacterStats</find>
+      <find>FoeStats</find>
+      <find>round</find>
+      <find>get_dict_of_class</find>
+      <find>Ability</find>
+      <find>to_xml</find>
+      <find>create_from_xml</find>
+      <find>unsp</find>
+      <find>UnspentPoints</find>
+      <find>create</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -216,6 +227,7 @@
         <option value="$PROJECT_DIR$/Abilities/Wizard.txt" />
         <option value="$PROJECT_DIR$/Abilities/Template.txt" />
         <option value="$PROJECT_DIR$/Abilities/Squire.txt" />
+        <option value="$PROJECT_DIR$/Data/Save.xml" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -249,17 +261,6 @@
               <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
               <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
               <item name="Data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
-              <item name="Data" type="462c0819:PsiDirectoryNode" />
-              <item name="Foe" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
-              <item name="Levels" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -404,12 +405,12 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20628998" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20842217" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3286334" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2624729" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39804772" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -439,23 +440,43 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>659</line>
+          <line>826</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>530</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>326</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>591</line>
+          <line>727</line>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>83</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>88</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>741</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>153</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>760</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>768</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -622,13 +643,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="310" selection-start-line="310" selection-end-line="310" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -645,13 +659,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Data/Foe/Goblin King.xml">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Characters.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="75" selection-start-column="75" selection-end-column="75" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Data/Foe/Goblin.xml">
       <provider selected="true" editor-type-id="text-editor" />
@@ -699,21 +706,43 @@
     <entry file="file://$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="308" selection-start-line="308" selection-end-line="308" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2018.2/system/python_stubs/-620406983/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="499" column="4" selection-start-line="499" selection-start-column="4" selection-end-line="499" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Characters.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="168" selection-start-column="168" selection-end-column="168" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Data/Save.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="45" lean-forward="true" selection-start-column="45" selection-end-column="45" />
+          <caret column="8580" selection-start-column="8580" selection-end-column="8580" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="8" column="37" lean-forward="true" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
+        <state relative-caret-position="136">
+          <caret line="8" column="13" lean-forward="true" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <marker date="1535214762358" expanded="true" signature="1370:1741" ph="..." />
-            <marker date="1535214762358" expanded="true" signature="34134:34140" ph="..." />
+            <marker date="1535243342539" expanded="true" signature="1395:2391" ph="..." />
+            <marker date="1535243342539" expanded="true" signature="1468:1471" ph="..." />
+            <marker date="1535243342539" expanded="true" signature="42658:42664" ph="..." />
           </folding>
         </state>
       </provider>

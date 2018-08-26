@@ -1,1 +1,1 @@
-<Foe><Name>Mutant Slime</Name><Stats><Phy_str>10.0</Phy_str><Mag_pow>10.0</Mag_pow><Phy_res>10.0</Phy_res><Mag_res>10.0</Mag_res><HP>225.0</HP><AP>10.0</AP></Stats><XP>30</XP></Foe>
+<Foe><Name>Mutant Slime</Name><Stats type="FoeStats"><Phy_str>10.0</Phy_str><Mag_pow>10.0</Mag_pow><Phy_res>10.0</Phy_res><Mag_res>10.0</Mag_res><HP>225.0</HP><AP>10.0</AP></Stats><XP>30</XP></Foe>
