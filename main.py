@@ -5,6 +5,8 @@ from pathlib import Path
 import random
 import time
 import copy
+import pygame
+import sys
 
 max_level = 3
 combat_text_speed = .25  # in seconds
@@ -63,6 +65,10 @@ class FileContentException(Exception):
 
 
 class XmlFileContentException(FileContentException):
+    pass
+
+
+class ListTooLongException(Exception):
     pass
 
 
@@ -1433,6 +1439,7 @@ class Menu:
     def __init__(self, character_list):
         self.character_list = character_list
         self.party_manager = PartyManager(character_list)
+        self.ui = UserInterface()
 
     def start_level(self, level_number):
         """Start the level defined by its number."""
@@ -1479,6 +1486,15 @@ class Menu:
 
     def display_menu(self):
         """Display the main menu of the game."""
+        self.ui.display_start_screen()
+        list_text_test = list()
+        list_text_test.append("Start a level")
+        list_text_test.append("Manage the party")
+        list_text_test.append("Heal party")
+        list_text_test.append("Quit")
+        while 1:
+            choice = self.ui.display_menu(list_text_test)
+            print("Choice = {}".format(choice))
         with Indenter() as indent:
             indent.print_("Main menu.")
             with indent:
@@ -1515,6 +1531,85 @@ class Menu:
         exit()
 
 
+class UserInterface:
+    length = 1000
+    height = 800
+    start_button_length = 50
+    start_button_height = 30
+    start_button_x_position = 500 - start_button_length / 2
+    start_button_y_position = 700 - start_button_height / 2
+    white_color = (224, 224, 224)
+    black_color = (32, 32, 32)
+    max_option_nb = 8
+
+    def __init__(self):
+        pygame.init()
+        self.clock = pygame.time.Clock()
+        self.font = pygame.font.Font(None, 36)
+        self.button_font = pygame.font.Font(None, 28)
+        self.surf = pygame.display.set_mode((self.length, self.height), pygame.SRCALPHA)
+
+    def display_start_screen(self):
+        self.reset_screen()
+        welcome_text = self.font.render("Welcome to the Fuzzy-broccoli game !", 1, self.white_color)
+        start_game = False
+        while True:
+            self.clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONUP:
+                    p = pygame.mouse.get_pos()
+                    if self.start_button_x_position <= p[0] <= self.start_button_x_position + self.start_button_length \
+                            and self.start_button_y_position <= p[1] <= self.start_button_y_position + self.start_button_height:
+                        welcome_text = self.font.render("Starting game...", 1, self.white_color)
+                        start_game = True
+            self.surf.fill((32, 32, 32))
+            play_text = self.button_font.render("Start", 1, self.white_color)
+            self.surf.blit(welcome_text, (300, 400))
+            self.surf.blit(play_text, (self.start_button_x_position, self.start_button_y_position))
+            pygame.display.update()
+            if start_game:
+                break
+
+    def display_menu(self, option_list):
+        if len(option_list) > self.max_option_nb:
+            raise ListTooLongException
+        self.reset_screen()
+        number = 1
+        for option in option_list:
+            text = self.button_font.render(option, 1, self.white_color)
+            if number <= 4:
+                self.surf.blit(text, (.055 * self.length, (.74 + .04 * number) * self.height))
+            else:
+                self.surf.blit(text, (.555 * self.length, (.74 + .04 * (number - 4)) * self.height))
+            number += 1
+        pygame.draw.rect(self.surf,
+                         self.white_color,
+                         (.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height), 1)
+        while True:
+            self.clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONUP:
+                    p = pygame.mouse.get_pos()
+                    for i in range(1, len(option_list) + 1):
+                        if i <= 4 \
+                                and .055 * self.length <= p[0] <= .3 * self.length \
+                                and (.74 + .04 * i) * self.height <= p[1] <= (.74 + .04 * (i + 1)) * self.height:
+                            return i
+                        if i > 4 \
+                                and .555 * self.length <= p[0] <= .8 * self.length \
+                                and (.74 + .04 * (i - 4)) * self.height <= p[1] <= (.74 + .04 * (i - 3)) * self.height:
+                            return i
+            pygame.display.update()
+
+    def reset_screen(self):
+        self.surf.fill(self.black_color)
+        pygame.display.update()
+
+
 # -------------------------- main function -------------------------- #
 biggs_id = 1
 wedge_id = 2
@@ -1529,9 +1624,9 @@ biggs_job = Knight()
 wedge_job = Knight()
 viviane_job = Squire()
 elaine = Character("Elaine", elaine_stat, elaine_job)
-biggs = Character("Biggs", biggs_stat, biggs_job)
-wedge = Character("Wedge", wedge_stat, wedge_job)
-viviane = Character("Viviane", viviane_stat, viviane_job)
+biggs = Character("Owen", biggs_stat, biggs_job)
+wedge = Character("Gawain", wedge_stat, wedge_job)
+viviane = Character("Vivienne", viviane_stat, viviane_job)
 my_party = list()
 my_party.append(biggs)
 my_party.append(wedge)
@@ -1545,3 +1640,40 @@ if save.exists():
 menu = Menu(my_party)
 while "User has not quit":
     menu.display_menu()
+
+
+# ui = UserInterface()
+# ui.display_start_screen()
+
+# pygame.init()
+# clock = pygame.time.Clock()
+# red = 255
+# surf = pygame.display.set_mode((1000, 800), pygame.SRCALPHA)
+# button_x_length = 60
+# button_x_start = 500 - button_x_length / 2
+# button_y_length = 30
+# button_y_start = 700 - button_y_length / 2
+# font = pygame.font.Font(None, 36)
+# button_font = pygame.font.Font(None, 28)
+# welcome_text = font.render("Welcome to the Fuzzy-broccoli game !", 1, (224, 224, 224))
+# while True:
+#     clock.tick(30)
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             sys.exit()
+#         if event.type == pygame.MOUSEBUTTONUP:
+#             p = pygame.mouse.get_pos()
+#             if button_x_start <= p[0] <= button_x_start + button_x_length and button_y_start <= p[1] <= button_y_start + button_y_length:
+#                 welcome_text = font.render("Starting game...", 1, (224, 224, 224))
+#                 save = Path("Data/Save.xml")
+#                 if save.exists():
+#                     tree = XmlHelper.load_xml("Data/Save.xml")
+#                     my_party = XmlHelper.load_party_from_xml(tree)
+#             else:
+#                 welcome_text = font.render("Click the start button, you idiot...", 1, (224, 224, 224))
+#     surf.fill((32, 32, 32))
+#     # pygame.draw.rect(surf, (0, 255, 0), (button_x_start, button_y_start, button_x_length, button_y_length))
+#     play_text = button_font.render("Start", 1, (224, 224, 224))
+#     surf.blit(welcome_text, (300, 400))
+#     surf.blit(play_text, (button_x_start, button_y_start))
+#     pygame.display.update()
