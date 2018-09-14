@@ -9,7 +9,8 @@ import pygame
 import sys
 
 max_level = 3
-combat_text_speed = .25  # in seconds
+combat_text_speed = .75  # in seconds
+text_speed = 1
 
 
 # For debug only
@@ -865,9 +866,10 @@ class AbilityType(Enum):
 
 class BattleEngine:
 
-    def __init__(self, character_list, foe_list):
+    def __init__(self, character_list, foe_list, ui):
         self.character_list = character_list
         self.foe_list = foe_list
+        self.ui = ui
 
     def __enter__(self):
         print('Battle start.')
@@ -890,14 +892,22 @@ class BattleEngine:
                 damage = attack_power
             damage = round(damage)
             defender.stats.hp = defender.stats.hp - damage if defender.stats.hp - damage > 0 else 0
-            with Indenter() as indent:
-                with indent:
-                    indent.print_(f'{ability.ability_name}! '
-                                  f'{attacker.name} ({round(attacker.stats.ap)}/{round(attacker.stats.max_ap)}AP)'
-                                  f' inflicted {damage}'
-                                  f' damage to {defender.name}'
-                                  f' ({round(defender.stats.hp)}/{round(defender.stats.max_hp)}HP)')
-            self.check_if_foe_ko(defender, indent)
+            text_to_display = f'{ability.ability_name}! ' \
+                              f'{attacker.name} ({round(attacker.stats.ap)}/{round(attacker.stats.max_ap)}AP)' \
+                              f' inflicted {damage}' \
+                              f' damage to {defender.name}' \
+                              f' ({round(defender.stats.hp)}/{round(defender.stats.max_hp)}HP)'
+            # with Indenter() as indent:
+            #     with indent:
+            #         indent.print_(f'{ability.ability_name}! '
+            #                       f'{attacker.name} ({round(attacker.stats.ap)}/{round(attacker.stats.max_ap)}AP)'
+            #                       f' inflicted {damage}'
+            #                       f' damage to {defender.name}'
+            #                       f' ({round(defender.stats.hp)}/{round(defender.stats.max_hp)}HP)')
+            ko_text = self.check_if_foe_ko(defender)
+            if ko_text is not None:
+                text_to_display += ko_text
+        self.ui.battle_ui(self.character_list, self.foe_list, text_to_display)
 
     def heal(self, caster, targets, ability):
         """Heal the target(s) with the ability.
@@ -916,11 +926,16 @@ class BattleEngine:
                 heal = attack_power
             heal = round(heal)
             target.stats.hp = target.stats.max_hp if target.stats.hp + heal > target.stats.max_hp else target.stats.hp + heal
-            with Indenter() as indent:
-                with indent:
-                    indent.print_(f'{ability.ability_name}! {caster.name} ({caster.stats.ap}/{caster.stats.max_ap}AP)'
-                                  f' healed {target.name} for '
-                                  f'{heal} HP. ({round(target.stats.hp)}/{round(target.stats.max_hp)}HP)')
+            text_to_display = f'{ability.ability_name}! {caster.name} ({caster.stats.ap}/{caster.stats.max_ap}AP)' \
+                                  f' healed {target.name} for ' \
+                                  f'{heal} HP. ({round(target.stats.hp)}/{round(target.stats.max_hp)}HP)'
+            # with Indenter() as indent:
+            #     with indent:
+            #         indent.print_(f'{ability.ability_name}! {caster.name} ({caster.stats.ap}/{caster.stats.max_ap}AP)'
+            #                       f' healed {target.name} for '
+            #                       f'{heal} HP. ({round(target.stats.hp)}/{round(target.stats.max_hp)}HP)')
+
+        self.ui.battle_ui(self.character_list, self.foe_list, text_to_display)
 
     def choose_ability(self, attacker):
         """Choose an ability for the attacker.
@@ -944,9 +959,9 @@ class BattleEngine:
             if attacker.stats.hp != 0:
                 return attacker
 
-    def check_if_foe_ko(self, character, indent):
+    def check_if_foe_ko(self, character):
         if character.stats.hp == 0:
-            indent.print_('{} is KO !'.format(character.name))
+            return '{} is KO !'.format(character.name)
 
     def check_if_battle_over(self):
         return all(c.stats.hp == 0 for c in self.character_list) or all(f.stats.hp == 0 for f in self.foe_list)
@@ -957,14 +972,16 @@ class BattleEngine:
             xp_gained_per_character = xp_value / len(self.character_list)
             character_alive = list(filter(lambda c: c.stats.hp > 0, self.character_list))
             for c in character_alive:
-                print("{} gained {} experience points.".format(c.name, xp_gained_per_character))
+                level_up_text = "{} gained {} experience points.".format(c.name, xp_gained_per_character)
+                self.ui.battle_ui(self.character_list, self.foe_list, level_up_text)
+                # print("{} gained {} experience points.".format(c.name, xp_gained_per_character))
             xp_helper = ExperienceHelper()
             xp_helper.apply_xp(xp_gained_per_character, character_alive)
             xp_helper.apply_class_xp(xp_gained_per_character, character_alive)
 
     def handle_defeat(self):
         if all(c.stats.hp == 0 for c in self.character_list):
-            print("Defeat")
+            self.ui.battle_ui(self.character_list, self.foe_list, "Defeat", True)
 
     def refresh_ap(self):
         for c in self.character_list:
@@ -1013,10 +1030,11 @@ class BattleEngine:
 
 
 class Level:
+    end_level = 100
 
-    def __init__(self, id, level_number):
-        self.id = id
+    def __init__(self, level_number, ui):
         self.level_number = level_number
+        self.ui = ui
 
     def __enter__(self):
         print("Level {}. Start".format(self.level_number))
@@ -1117,19 +1135,24 @@ class Level:
             foe_number = random.randint(1, 4)
             generable_foe_list = self.load_creatures_from_file()
             foe_list = self.generate_foe(foe_number, generable_foe_list)
-            with Indenter() as indent:
-                indent.print_("Your party encounters:")
-                with indent:
-                    for foe in foe_list:
-                        indent.print_(foe.name)
-            with BattleEngine(character_list, foe_list) as battle:
+            text = "Your party encounters:"
+            for foe in foe_list:
+                text +="\n{}".format(foe.name)
+            self.ui.battle_ui(character_list, foe_list, text)
+            time.sleep(text_speed)
+            # with Indenter() as indent:
+            #     indent.print_("Your party encounters:")
+            #     with indent:
+            #         for foe in foe_list:
+            #             indent.print_(foe.name)
+            with BattleEngine(character_list, foe_list, self.ui) as battle:
                 battle.fight()
-            if battle_number == 100:
+            if battle_number == self.end_level:
                 break
-        if battle_number == 100:
-            print("Your party completed level {}.".format(self.level_number))
+        if battle_number == self.end_level:
+            self.ui.battle_ui(character_list, foe_list, "Your party completed level {}.".format(self.level_number), True)
         else:
-            print("Your party died at Battle {}".format(battle_number))
+            self.ui.battle_ui(character_list, foe_list, "Your party died at Battle {}".format(battle_number), True)
 
 
 class ExperienceHelper:
@@ -1190,8 +1213,9 @@ class ExperienceHelper:
 
 
 class PartyManager:
-    def __init__(self, party):
+    def __init__(self, party, ui):
         self.party = party
+        self.ui = ui
 
     def heal_party(self):
         """Set the current hp of each party member to its maximum."""
@@ -1438,12 +1462,13 @@ class Menu:
 
     def __init__(self, character_list):
         self.character_list = character_list
-        self.party_manager = PartyManager(character_list)
+        self.ui = UserInterface()
+        self.party_manager = PartyManager(character_list, self.ui)
         self.ui = UserInterface()
 
     def start_level(self, level_number):
         """Start the level defined by its number."""
-        with Level(1, level_number) as level:
+        with Level(level_number, self.ui) as level:
             level.progress(self.character_list)
 
     def ask_level(self):
@@ -1461,74 +1486,99 @@ class Menu:
             - Spend stat points
             - Equip abilities and talents
             - Change the name"""
-        with Indenter() as indent:
-            indent.print_("Party Manager.")
-            with indent:
-                prompt_text = indent.indent_text("Press 0 to view your party.\n")
-                prompt_text += indent.indent_text("Press 1 to change the class of a party member.\n")
-                prompt_text += indent.indent_text("Press 2 to spend stat points on a party member.\n")
-                prompt_text += indent.indent_text("Press 3 to acquire abilities and equip talents.\n")
-                prompt_text += indent.indent_text("Press 4 to change the name of a party member.\n")
-                choice = ''
-                choice_accepted = range(5)
-                while not choice.isdigit() or int(choice) not in choice_accepted:
-                    choice = input(prompt_text).strip().upper()
-                if choice == '0':
-                    self.party_manager.view_party()
-                elif choice == '1':
-                    self.party_manager.change_class()
-                elif choice == '2':
-                    self.party_manager.spend_stat_points()
-                elif choice == '3':
-                    self.party_manager.view_and_learn_abilities()
-                elif choice == '4':
-                    self.party_manager.change_name()
+        option_list = list()
+        option_list.append("View your party")
+        option_list.append("Change the class of a party member")
+        option_list.append("Spend stat points on a party member")
+        option_list.append("Acquire abilities and equip talents")
+        option_list.append("Change the name of a party member")
+        choice = self.ui.display_menu(option_list)
+        # with Indenter() as indent:
+        #     indent.print_("Party Manager.")
+        #     with indent:
+        #         prompt_text = indent.indent_text("Press 0 to view your party.\n")
+        #         prompt_text += indent.indent_text("Press 1 to change the class of a party member.\n")
+        #         prompt_text += indent.indent_text("Press 2 to spend stat points on a party member.\n")
+        #         prompt_text += indent.indent_text("Press 3 to acquire abilities and equip talents.\n")
+        #         prompt_text += indent.indent_text("Press 4 to change the name of a party member.\n")
+        #         choice = ''
+        #         choice_accepted = range(5)
+        #         while not choice.isdigit() or int(choice) not in choice_accepted:
+        #             choice = input(prompt_text).strip().upper()
+        #         if choice == '0':
+        #             self.party_manager.view_party()
+        #         elif choice == '1':
+        #             self.party_manager.change_class()
+        #         elif choice == '2':
+        #             self.party_manager.spend_stat_points()
+        #         elif choice == '3':
+        #             self.party_manager.view_and_learn_abilities()
+        #         elif choice == '4':
+        #             self.party_manager.change_name()
 
     def display_menu(self):
         """Display the main menu of the game."""
         self.ui.display_start_screen()
-        list_text_test = list()
-        list_text_test.append("Start a level")
-        list_text_test.append("Manage the party")
-        list_text_test.append("Heal party")
-        list_text_test.append("Quit")
+        option_list = list()
+        option_list.append("Start a level")
+        option_list.append("Manage the party")
+        option_list.append("Heal party")
+        option_list.append("Quit")
         while 1:
-            choice = self.ui.display_menu(list_text_test)
+            choice = self.ui.display_menu(option_list)
             print("Choice = {}".format(choice))
-        with Indenter() as indent:
-            indent.print_("Main menu.")
-            with indent:
-                prompt_text = indent.indent_text("Press 0 to start playing.\n")
-                prompt_text += indent.indent_text("Press 1 to manage your party.\n")
-                prompt_text += indent.indent_text("Press 2 to heal your party.\n")
-                prompt_text += indent.indent_text('Press 3 to quit.\n')
-                choice = ''
-                choice_accepted = range(4)
-                while not choice.isdigit() or int(choice) not in choice_accepted:
-                    choice = input(prompt_text).strip()
-                if choice == '0':
-                    self.start_level(self.ask_level())
-                elif choice == '1':
-                    self.manage_party()
-                elif choice == '2':
-                    self.party_manager.heal_party()
-                    indent.print_("*Healing sound*")
-                    indent.print_("Your party is healed.")
-                elif choice == '3':
-                    self.quit_game()
+            if choice == 1:
+                self.start_level(self.ask_level())
+            elif choice == 2:
+                self.manage_party()
+            elif choice == 3:
+                self.party_manager.heal_party()
+                self.ui.display_text("*Healing sound*")
+                self.ui.display_text("Your party is healed.")
+            elif choice == 4:
+                self.quit_game()
+        # with Indenter() as indent:
+        #     indent.print_("Main menu.")
+        #     with indent:
+        #         prompt_text = indent.indent_text("Press 0 to start playing.\n")
+        #         prompt_text += indent.indent_text("Press 1 to manage your party.\n")
+        #         prompt_text += indent.indent_text("Press 2 to heal your party.\n")
+        #         prompt_text += indent.indent_text('Press 3 to quit.\n')
+        #         choice = ''
+        #         choice_accepted = range(4)
+        #         while not choice.isdigit() or int(choice) not in choice_accepted:
+        #             choice = input(prompt_text).strip()
+        #         if choice == '0':
+        #             self.start_level(self.ask_level())
+        #         elif choice == '1':
+        #             self.manage_party()
+        #         elif choice == '2':
+        #             self.party_manager.heal_party()
+        #             indent.print_("*Healing sound*")
+        #             indent.print_("Your party is healed.")
+        #         elif choice == '3':
+        #             self.quit_game()
 
     def quit_game(self):
         """Exit the game."""
-        with Indenter() as indent:
-            indent.print_("Save game? (Y/N)")
-            user_choice = input().strip().upper()
-            while user_choice not in ("Y", "N"):
-                user_choice = input().strip().upper()
-            if user_choice == 'Y':
-                filename = "Data/Save.xml"
-                party_xml = XmlHelper.export_party_to_xml(self.character_list)
-                XmlHelper.write_xml_to_file(party_xml, filename)
-        exit()
+        option_list = list()
+        option_list.append("Yes")
+        option_list.append("No")
+        choice = self.ui.display_menu(option_list)
+        if choice == 1:
+            filename = "Data/Save.xml"
+            party_xml = XmlHelper.export_party_to_xml(self.character_list)
+            XmlHelper.write_xml_to_file(party_xml, filename)
+            exit()
+        # with Indenter() as indent:
+        #     indent.print_("Save game? (Y/N)")
+        #     user_choice = input().strip().upper()
+        #     while user_choice not in ("Y", "N"):
+        #         user_choice = input().strip().upper()
+        #     if user_choice == 'Y':
+        #         filename = "Data/Save.xml"
+        #         party_xml = XmlHelper.export_party_to_xml(self.character_list)
+        #         XmlHelper.write_xml_to_file(party_xml, filename)
 
 
 class UserInterface:
@@ -1547,9 +1597,11 @@ class UserInterface:
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
         self.button_font = pygame.font.Font(None, 28)
+        self.small_font = pygame.font.Font(None, 24)
         self.surf = pygame.display.set_mode((self.length, self.height), pygame.SRCALPHA)
 
     def display_start_screen(self):
+        """Display the start screen. The user must click on the play game link to start the game."""
         self.reset_screen()
         welcome_text = self.font.render("Welcome to the Fuzzy-broccoli game !", 1, self.white_color)
         start_game = False
@@ -1573,6 +1625,11 @@ class UserInterface:
                 break
 
     def display_menu(self, option_list):
+        """
+        Display a menu with options that the user can click on
+        :param option_list: A list of string to be displayed as options
+        :return: A number from 1 to max_option_nb that references the user's choice from option_list
+        """
         if len(option_list) > self.max_option_nb:
             raise ListTooLongException
         self.reset_screen()
@@ -1596,14 +1653,79 @@ class UserInterface:
                     p = pygame.mouse.get_pos()
                     for i in range(1, len(option_list) + 1):
                         if i <= 4 \
-                                and .055 * self.length <= p[0] <= .3 * self.length \
+                                and .055 * self.length <= p[0] <= .5 * self.length \
                                 and (.74 + .04 * i) * self.height <= p[1] <= (.74 + .04 * (i + 1)) * self.height:
                             return i
                         if i > 4 \
-                                and .555 * self.length <= p[0] <= .8 * self.length \
+                                and .555 * self.length <= p[0] <= .9 * self.length \
                                 and (.74 + .04 * (i - 4)) * self.height <= p[1] <= (.74 + .04 * (i - 3)) * self.height:
                             return i
             pygame.display.update()
+
+    def display_text(self, text):
+        """
+        Display a text, the user must click to reach the function's end.
+        :param text: Text to display
+        """
+        self.reset_screen()
+        pygame.draw.rect(self.surf,
+                         self.white_color,
+                         (.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height), 1)
+        displayed_text = self.button_font.render(text, 1, self.white_color)
+        self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
+        while True:
+            self.clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONUP:
+                    return
+            pygame.display.update()
+
+    def battle_ui(self, party, enemy_party, text_to_display=None, wait_for_input=False):
+        """
+        Display the ui used in battle with a text
+        :param party: the player's party
+        :param enemy_party: the enemy's party
+        :param text_to_display: The text to display
+        :param wait_for_input: if the user must click after the data are displayed
+        """
+        self.reset_screen()
+        pygame.draw.rect(self.surf,
+                         self.white_color,
+                         (.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height), 1)
+        self.clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+        for n in range(0, len(party)):
+            pm_name = party[n].name
+            pm_name_text = self.small_font.render(pm_name, 1, self.white_color)
+            pm_hp_text = self.small_font.render(f"{party[n].stats.hp}/{party[n].stats.max_hp}", 1, self.white_color, self.black_color)
+            pm_ap_text = self.small_font.render(f"{party[n].stats.ap}/{party[n].stats.max_ap}", 1, self.white_color, self.black_color)
+            self.surf.blit(pm_name_text, (.2 * (n + 1) * self.length, .5 * self.height))
+            self.surf.blit(pm_hp_text, (.2 * (n + 1) * self.length, .55 * self.height))
+            self.surf.blit(pm_ap_text, (.2 * (n + 1) * self.length, .6 * self.height))
+        for n in range(0, len(enemy_party)):
+            foe_name = enemy_party[n].name
+            foe_name_text = self.small_font.render(foe_name, 1, self.white_color)
+            foe_hp_text = self.small_font.render(f"{enemy_party[n].stats.hp}/{enemy_party[n].stats.max_hp}", 1, self.white_color, self.black_color)
+            foe_ap_text = self.small_font.render(f"{enemy_party[n].stats.ap}/{enemy_party[n].stats.max_ap}", 1, self.white_color, self.black_color)
+            self.surf.blit(foe_name_text, (self.length - (.2 * (n + 1) * self.length), .1 * self.height))
+            self.surf.blit(foe_hp_text, (self.length - (.2 * (n + 1) * self.length), .15 * self.height))
+            self.surf.blit(foe_ap_text, (self.length - (.2 * (n + 1) * self.length), .2 * self.height))
+        if text_to_display is not None:
+            displayed_text = self.small_font.render(text_to_display, 1, self.white_color, self.black_color)
+            self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
+        pygame.display.update()
+        if wait_for_input:
+            while True:
+                self.clock.tick(30)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONUP:
+                        return
 
     def reset_screen(self):
         self.surf.fill(self.black_color)
