@@ -16,7 +16,7 @@ A normal magic attack.
 2
 0
 2
-100
+10
 0
 0
 Apply Bandage
@@ -26,6 +26,6 @@ Apply a bandage to a target. It is a physical heal. What does that even mean ?
 4
 0
 5
-100
+10
 1
 0

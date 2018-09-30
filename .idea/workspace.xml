@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/main.py" line="1993" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d3a74cdf-4a8d-4246-bd75-55e49183039c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abilities/Knight.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Knight.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abilities/Squire.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Squire.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abilities/Wizard.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Wizard.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/Characters.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Characters.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/Foe/Goblin King.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Goblin King.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Killer Bee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Killer Bee.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Mutant Slime.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Mutant Slime.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Queen Bee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Queen Bee.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Foe/Slime King.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Slime King.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,7 +25,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1538245310272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1538325618920" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Fight$test.coverage" NAME="test Coverage Results" MODIFIED="1533637374403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv/Tests" />
     <SUITE FILE_PATH="coverage/Fight$main.coverage" NAME="main Coverage Results" MODIFIED="1533744799533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
     <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1534783611000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
@@ -98,51 +109,83 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="37" />
-          <entry key="py" value="28442" />
+          <entry key="py" value="33142" />
           <entry key="txt" value="733" />
-          <entry key="xml" value="4" />
+          <entry key="xml" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="733" />
-          <entry key="Python" value="28479" />
-          <entry key="XML" value="4" />
+          <entry key="Python" value="33179" />
+          <entry key="XML" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="py" value="16" />
-          <entry key="txt" value="32" />
-          <entry key="xml" value="23" />
+          <entry key="txt" value="39" />
+          <entry key="xml" value="38" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="32" />
+          <entry key="PLAIN_TEXT" value="39" />
           <entry key="Python" value="16" />
-          <entry key="XML" value="23" />
+          <entry key="XML" value="38" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="true" current-in-tab="true">
+      <file pinned="true" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="1811" column="11" lean-forward="true" selection-start-line="1811" selection-start-column="11" selection-end-line="1811" selection-end-column="11" />
+            <state relative-caret-position="499">
+              <caret line="598" column="25" lean-forward="true" selection-start-line="598" selection-start-column="25" selection-end-line="598" selection-end-column="25" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <marker date="1538246021953" expanded="true" signature="1435:2481" ph="..." />
-                <marker date="1538246021953" expanded="true" signature="1549:1561" ph="..." />
-                <marker date="1538246021953" expanded="true" signature="1559:1561" ph="..." />
-                <marker date="1538246021953" expanded="true" signature="43963:43969" ph="..." />
-                <marker date="1538246021953" expanded="true" signature="69298:69303" ph="..." />
-                <marker date="1538246021953" expanded="true" signature="79490:83751" ph="..." />
-                <marker date="1538246021953" expanded="true" signature="83774:83783" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="1435:2500" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="1549:1561" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="1559:1561" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="8955:8961" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="26430:26436" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="44189:44195" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="51657:51693" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="62509:62745" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="70749:70754" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="80941:94874" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="91699:94874" ph="..." />
+                <marker date="1538325618004" expanded="true" signature="94897:94906" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Abilities/Knight.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Abilities/Wizard.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Data/Save.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="988" column="14" lean-forward="true" selection-start-line="988" selection-start-column="14" selection-end-line="988" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -158,9 +201,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>clone(self</find>
-      <find>staticmethod</find>
-      <find>DamageType</find>
       <find>ManagedFile</find>
       <find>do</find>
       <find>enum</find>
@@ -188,6 +228,9 @@
       <find>Level</find>
       <find>100</find>
       <find>color</find>
+      <find>display_xp</find>
+      <find>unspent_points</find>
+      <find>clone</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -226,12 +269,12 @@
         <option value="$PROJECT_DIR$/Abilities/Ninja.txt" />
         <option value="$PROJECT_DIR$/Abilities/Monk.txt" />
         <option value="$PROJECT_DIR$/Abilities/Necromancer.txt" />
-        <option value="$PROJECT_DIR$/Abilities/Knight.txt" />
-        <option value="$PROJECT_DIR$/Abilities/Wizard.txt" />
         <option value="$PROJECT_DIR$/Abilities/Template.txt" />
         <option value="$PROJECT_DIR$/Abilities/Squire.txt" />
         <option value="$PROJECT_DIR$/Data/Save.xml" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/Abilities/Knight.txt" />
+        <option value="$PROJECT_DIR$/Abilities/Wizard.txt" />
       </list>
     </option>
   </component>
@@ -241,7 +284,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="743" />
     <option name="y" value="103" />
     <option name="width" value="1920" />
@@ -258,6 +301,11 @@
             <path>
               <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
               <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fuzzy-broccoli" type="462c0819:PsiDirectoryNode" />
+              <item name="Abilities" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fuzzy-broccoli" type="b2602c69:ProjectViewProjectNode" />
@@ -408,12 +456,12 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23294243" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23294243" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2624729" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2624729" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39804772" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -443,33 +491,28 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>833</line>
+          <line>839</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>734</line>
+          <line>740</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>1786</line>
-          <option name="timeStamp" value="24" />
+          <line>1458</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>1775</line>
-          <option name="timeStamp" value="25" />
+          <line>1523</line>
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>1777</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>1850</line>
-          <option name="timeStamp" value="27" />
+          <line>1465</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -601,27 +644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Abilities/Knight.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="4" lean-forward="true" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Abilities/Wizard.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
-          <caret line="60" column="1" lean-forward="true" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Abilities/Squire.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="1" selection-start-line="29" selection-start-column="1" selection-end-line="29" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/enum.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5440">
@@ -650,55 +672,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Foe/Goblin King.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Foe/Goblin.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Levels/Level_2.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="2" lean-forward="true" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Levels/Level_3.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="2" lean-forward="true" selection-start-line="17" selection-start-column="2" selection-end-line="17" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Levels/level_format.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="12" lean-forward="true" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Levels/Level_1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Foe/Killer Bee.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Foe/Mutant Slime.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Foe/Queen Bee.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Foe/Slime King.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -710,21 +683,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="499" column="4" selection-start-line="499" selection-start-column="4" selection-end-line="499" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Characters.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="168" selection-start-column="168" selection-end-column="168" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Save.xml" />
-    <entry file="file://$PROJECT_DIR$/Data/Save2.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="162" selection-start-column="162" selection-end-column="162" />
         </state>
       </provider>
     </entry>
@@ -742,20 +700,116 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Squire.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="1" lean-forward="true" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Foe/Goblin.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Foe/Killer Bee.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Foe/Goblin King.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Foe/Mutant Slime.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Foe/Queen Bee.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Foe/Slime King.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Save2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="54" selection-end-column="16952" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Levels/Level_3.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="2" lean-forward="true" selection-start-line="17" selection-start-column="2" selection-end-line="17" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Levels/Level_2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="2" lean-forward="true" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Levels/Level_1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Levels/level_format.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="12" lean-forward="true" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Characters.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="126" selection-start-column="126" selection-end-column="126" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Save.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="988" column="14" lean-forward="true" selection-start-line="988" selection-start-column="14" selection-end-line="988" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="1811" column="11" lean-forward="true" selection-start-line="1811" selection-start-column="11" selection-end-line="1811" selection-end-column="11" />
+        <state relative-caret-position="499">
+          <caret line="598" column="25" lean-forward="true" selection-start-line="598" selection-start-column="25" selection-end-line="598" selection-end-column="25" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <marker date="1538246021953" expanded="true" signature="1435:2481" ph="..." />
-            <marker date="1538246021953" expanded="true" signature="1549:1561" ph="..." />
-            <marker date="1538246021953" expanded="true" signature="1559:1561" ph="..." />
-            <marker date="1538246021953" expanded="true" signature="43963:43969" ph="..." />
-            <marker date="1538246021953" expanded="true" signature="69298:69303" ph="..." />
-            <marker date="1538246021953" expanded="true" signature="79490:83751" ph="..." />
-            <marker date="1538246021953" expanded="true" signature="83774:83783" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="1435:2500" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="1549:1561" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="1559:1561" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="8955:8961" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="26430:26436" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="44189:44195" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="51657:51693" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="62509:62745" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="70749:70754" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="80941:94874" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="91699:94874" ph="..." />
+            <marker date="1538325618004" expanded="true" signature="94897:94906" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Knight.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Abilities/Wizard.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
         </state>
       </provider>
     </entry>

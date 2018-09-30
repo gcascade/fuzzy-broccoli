@@ -16,7 +16,7 @@ A blunt strike that attempts to stun the enemy. (It does not)
 4
 0
 2
-100
+10
 0
 0
 Furious Slash
@@ -26,7 +26,7 @@ A strong slash to defeat the enemy.
 10
 0
 5
-500
+50
 0
 0
 

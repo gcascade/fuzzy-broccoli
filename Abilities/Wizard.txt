@@ -26,7 +26,7 @@ A fire attack
 5
 0
 2
-100
+10
 0
 0
 Ice
@@ -36,7 +36,7 @@ An ice attack
 5
 0
 2
-100
+10
 0
 0
 Thunder
@@ -46,7 +46,7 @@ A thunder attack
 5
 0
 2
-100
+10
 0
 0
 Wind
@@ -56,6 +56,6 @@ A wind attack
 5
 0
 2
-100
+10
 0
 0
