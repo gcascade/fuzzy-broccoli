@@ -1474,7 +1474,7 @@ class Menu:
     def ask_level(self):
         """"Ask the user which level to start."""
         while "Input is wrong":
-            level_number = input("Enter level(1-{}):".format(max_level))
+            level_number = self.ui.input_text("Enter level(1-{}):".format(max_level))
             if level_number.isdigit() and 0 < int(level_number) <= max_level:
                 break
         return level_number
@@ -1493,6 +1493,22 @@ class Menu:
         option_list.append("Acquire abilities and equip talents")
         option_list.append("Change the name of a party member")
         choice = self.ui.display_menu(option_list)
+        if choice == 1:
+            # View Party
+            character = self.ui.choose_character(self.character_list, None)
+            if character is not None:
+                print(character.name)
+        elif choice == 2:
+            # Change Class
+            i = 1
+        elif choice == 3:
+            # Spend points
+            i = 1
+        elif choice == 4:
+            # Acquire abilities
+            i = 1
+        elif choice == 5:
+            new_name = self.ui.input_text("Choose the new name.")
         # with Indenter() as indent:
         #     indent.print_("Party Manager.")
         #     with indent:
@@ -1590,6 +1606,8 @@ class UserInterface:
     start_button_y_position = 700 - start_button_height / 2
     white_color = (224, 224, 224)
     black_color = (32, 32, 32)
+    gray_color = (128, 128, 128)
+    yellow_color = (255, 255, 0)
     max_option_nb = 8
 
     def __init__(self):
@@ -1727,10 +1745,150 @@ class UserInterface:
                     if event.type == pygame.MOUSEBUTTONUP:
                         return
 
+    def input_text(self, text):
+        """
+        Ask for the user to enter a text, then returns it
+        :param text: A string to be displayed
+        :return: Text the user entered
+        """
+        active = False
+        input_box = pygame.Rect(.45 * self.length, .45 * self.height, 140, 32)
+        color_inactive = self.gray_color
+        color_active = self.white_color
+        color = color_inactive
+        return_text = ''
+        done = False
+        self.reset_screen()
+        pygame.draw.rect(self.surf,
+                         self.white_color,
+                         (.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height), 1)
+        displayed_text = self.button_font.render(text, 1, self.white_color)
+        self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
+        pygame.draw.rect(self.surf,
+                         self.white_color,
+                         input_box, 1)
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if input_box.collidepoint(event.pos):
+                        active = not active
+                    else:
+                        active = False
+                    color = color_active if active else color_inactive
+                if event.type == pygame.KEYDOWN:
+                    if active:
+                        if event.key == pygame.K_RETURN:
+                            done = True
+                        elif event.key == pygame.K_BACKSPACE:
+                            return_text = return_text[:-1]
+                        else:
+                            return_text += event.unicode
+            txt_surface = self.button_font.render(return_text, True, color)
+            width = max(200, txt_surface.get_width()+10)
+            input_box.w = width
+            self.surf.fill(self.black_color)
+            pygame.draw.rect(self.surf,
+                             self.white_color,
+                             (.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height), 1)
+            displayed_text = self.button_font.render(text, 1, self.white_color)
+            self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
+            pygame.draw.rect(self.surf,
+                             self.white_color,
+                             input_box,
+                             1)
+            self.surf.blit(txt_surface, (input_box.x+5, input_box.y+5))
+            self.clock.tick(30)
+            pygame.display.update()
+        return return_text
+
+    def choose_character(self, character_list, text):
+        """
+        User interface to display the party, and to select a character from the party.
+        :param character_list: The list of characters
+        :param text: An optional text to be displayed.
+        :return: None if clicked on the return button, or a character from character_list
+        """
+        if len(character_list) > 4:
+            return
+        done = False
+        self.reset_screen()
+
+        # Note: 2 * offset + 4 * length + 3 * gap = 100%
+        offset = .05
+        length = 0.1875
+        gap = .05
+        rect_list = list()
+        return_button = pygame.Rect(.95 * self.length,
+                                    .01 * self.height,
+                                    .04 * self.length,
+                                    .03 * self.height)
+        pygame.draw.rect(self.surf,
+                         self.yellow_color,
+                         return_button)
+        if text is not None:
+            displayed_text = self.button_font.render(text, 1, self.white_color)
+            self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
+            pygame.draw.rect(self.surf,
+                             self.white_color,
+                             (.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height), 1)
+        for i in range(len(character_list)):
+            x = (offset + (length + gap) * i) * self.length
+            y = .2 * self.height
+            rect_list.append(pygame.Rect(x,
+                                         y,
+                                         length * self.length,
+                                         .4 * self.height))
+            character_name = character_list[i].name
+            character_job = f"{character_list[i].character_class.class_name} level {character_list[i].character_class.class_level}"
+            character_level = f"Level {character_list[i].level}"
+            character_phy_str = f"Phy. Str.: {round(character_list[i].stats.phy_str)}"
+            character_mag_pow = f"Mag. Pow.: {round(character_list[i].stats.mag_pow)}"
+            character_phy_res = f"Phy. Res.: {round(character_list[i].stats.phy_res)}"
+            character_mag_res = f"Mag. Res.: {round(character_list[i].stats.mag_res)}"
+            character_hp = f"{round(character_list[i].stats.hp)}/{round(character_list[i].stats.max_hp)} HP"
+            character_ap = f"{round(character_list[i].stats.ap)}/{round(character_list[i].stats.max_ap)} AP"
+            displayed_name = self.button_font.render(character_name, 1, self.white_color)
+            displayed_job = self.small_font.render(character_job, 1, self.white_color)
+            displayed_level = self.small_font.render(character_level, 1, self.white_color)
+            displayed_phy_str = self.small_font.render(character_phy_str, 1, self.white_color)
+            displayed_mag_pow = self.small_font.render(character_mag_pow, 1, self.white_color)
+            displayed_phy_res = self.small_font.render(character_phy_res, 1, self.white_color)
+            displayed_mag_res = self.small_font.render(character_mag_res, 1, self.white_color)
+            displayed_hp = self.small_font.render(character_hp, 1, self.white_color)
+            displayed_ap = self.small_font.render(character_ap, 1, self.white_color)
+            self.surf.blit(displayed_name, (x + 20, y + 20))
+            self.surf.blit(displayed_level, (x + 20, y + 60))
+            self.surf.blit(displayed_job, (x + 20, y + 80))
+            self.surf.blit(displayed_hp, (x + 20, y + 100))
+            self.surf.blit(displayed_ap, (x + 20, y + 120))
+            self.surf.blit(displayed_phy_str, (x + 20, y + 140))
+            self.surf.blit(displayed_mag_pow, (x + 20, y + 160))
+            self.surf.blit(displayed_phy_res, (x + 20, y + 180))
+            self.surf.blit(displayed_mag_res, (x + 20, y + 200))
+        for rect in rect_list:
+            pygame.draw.rect(self.surf,
+                             self.white_color,
+                             rect,
+                             1)
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if return_button.collidepoint(event.pos):
+                        return
+                    for i in range(len(rect_list)):
+                        if rect_list[i].collidepoint(event.pos):
+                            done = True
+                            return character_list[i]
+            pygame.display.update()
+
     def reset_screen(self):
+        """Reset the screen to a black surface. Refresh the display."""
         self.surf.fill(self.black_color)
         pygame.display.update()
-
 
 # -------------------------- main function -------------------------- #
 biggs_id = 1
