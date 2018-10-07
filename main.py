@@ -903,13 +903,6 @@ class BattleEngine:
                               f' inflicted {damage}' \
                               f' damage to {defender.name}' \
                               f' ({round(defender.stats.hp)}/{round(defender.stats.max_hp)}HP)'
-            # with Indenter() as indent:
-            #     with indent:
-            #         indent.print_(f'{ability.ability_name}! '
-            #                       f'{attacker.name} ({round(attacker.stats.ap)}/{round(attacker.stats.max_ap)}AP)'
-            #                       f' inflicted {damage}'
-            #                       f' damage to {defender.name}'
-            #                       f' ({round(defender.stats.hp)}/{round(defender.stats.max_hp)}HP)')
             ko_text = self.check_if_foe_ko(defender)
             if ko_text is not None:
                 text_to_display += ko_text
@@ -933,13 +926,8 @@ class BattleEngine:
             heal = round(heal)
             target.stats.hp = target.stats.max_hp if target.stats.hp + heal > target.stats.max_hp else target.stats.hp + heal
             text_to_display = f'{ability.ability_name}! {caster.name} ({caster.stats.ap}/{caster.stats.max_ap}AP)' \
-                                  f' healed {target.name} for ' \
-                                  f'{heal} HP. ({round(target.stats.hp)}/{round(target.stats.max_hp)}HP)'
-            # with Indenter() as indent:
-            #     with indent:
-            #         indent.print_(f'{ability.ability_name}! {caster.name} ({caster.stats.ap}/{caster.stats.max_ap}AP)'
-            #                       f' healed {target.name} for '
-            #                       f'{heal} HP. ({round(target.stats.hp)}/{round(target.stats.max_hp)}HP)')
+                              f' healed {target.name} for ' \
+                              f'{heal} HP. ({round(target.stats.hp)}/{round(target.stats.max_hp)}HP)'
 
         self.ui.battle_ui(self.character_list, self.foe_list, text_to_display)
 
@@ -1269,25 +1257,6 @@ class PartyManager:
             party_member.change_character_class(class_chosen)
             indent.print_("{}'s class was changed.".format(party_member.name))
 
-    # def change_name(self):
-    #     """"Choose a party member. Change it's name."""
-    #     party_member = self.select_party_member()
-    #     with Indenter() as indent:
-    #         indent.print_("{} the {}.".format(party_member.name, party_member.character_class.class_name))
-    #         new_name_confirmed = False
-    #         new_name = ''
-    #         while not new_name_confirmed:
-    #             new_name = input(indent.indent_text("What shall be {} new name ?".format(party_member.name))).strip()
-    #             confirmation = input("Do you confirm {} as {}'s new name ?"
-    #                                  "(Press Y or N or press Q to stop changing name)"
-    #                                  .format(new_name, party_member.name)).strip().upper()
-    #             if confirmation == 'Y':
-    #                 new_name_confirmed = True
-    #             if confirmation == 'Q':
-    #                 indent.print_("You have not changed {}'s name".format(party_member.name))
-    #                 return
-    #         party_member.name = new_name
-
     def change_name(self, character, name):
         character.name = name
 
@@ -1515,10 +1484,24 @@ class Menu:
                 print(character.name)
         elif choice == 2:
             # Change Class
-            i = 1
+            self.ui.display_text("Not implemented yet.")
         elif choice == 3:
             # Spend points
-            i = 1
+            character = self.ui.choose_character(self.character_list, "Choose a character.")
+            if character is not None:
+                char_cloned = character.clone()
+                stats_upgrade = self.ui.list_stats(char_cloned, "Spend stats points on the left box.")
+                if stats_upgrade is not None:
+                    hp_added = stats_upgrade["MAX_HP"]
+                    ap_added = stats_upgrade["MAX_AP"]
+                    phy_str_added = stats_upgrade["PHY_STR"]
+                    mag_pow_added = stats_upgrade["MAG_POW"]
+                    phy_res_added = stats_upgrade["PHY_RES"]
+                    mag_res_added = stats_upgrade["MAG_RES"]
+                    character.add_stats_points(phy_str_added, mag_pow_added, phy_res_added, mag_res_added, hp_added, ap_added)
+                    total_added = hp_added / 10 + ap_added + phy_str_added + mag_pow_added + phy_res_added + mag_res_added
+                    character.stats.spend_points(total_added)
+
         elif choice == 4:
             # Acquire abilities
             character = self.ui.choose_character(self.character_list, "Choose a character.")
@@ -1533,28 +1516,6 @@ class Menu:
             if character is not None:
                 new_name = self.ui.input_text("Choose the new name.")
                 self.party_manager.change_name(character, new_name)
-        # with Indenter() as indent:
-        #     indent.print_("Party Manager.")
-        #     with indent:
-        #         prompt_text = indent.indent_text("Press 0 to view your party.\n")
-        #         prompt_text += indent.indent_text("Press 1 to change the class of a party member.\n")
-        #         prompt_text += indent.indent_text("Press 2 to spend stat points on a party member.\n")
-        #         prompt_text += indent.indent_text("Press 3 to acquire abilities and equip talents.\n")
-        #         prompt_text += indent.indent_text("Press 4 to change the name of a party member.\n")
-        #         choice = ''
-        #         choice_accepted = range(5)
-        #         while not choice.isdigit() or int(choice) not in choice_accepted:
-        #             choice = input(prompt_text).strip().upper()
-        #         if choice == '0':
-        #             self.party_manager.view_party()
-        #         elif choice == '1':
-        #             self.party_manager.change_class()
-        #         elif choice == '2':
-        #             self.party_manager.spend_stat_points()
-        #         elif choice == '3':
-        #             self.party_manager.view_and_learn_abilities()
-        #         elif choice == '4':
-        #             self.party_manager.change_name()
 
     def display_menu(self):
         """Display the main menu of the game."""
@@ -1566,7 +1527,6 @@ class Menu:
         option_list.append("Quit")
         while 1:
             choice = self.ui.display_menu(option_list)
-            print("Choice = {}".format(choice))
             if choice == 1:
                 self.start_level(self.ask_level())
             elif choice == 2:
@@ -1577,27 +1537,6 @@ class Menu:
                 self.ui.display_text("Your party is healed.")
             elif choice == 4:
                 self.quit_game()
-        # with Indenter() as indent:
-        #     indent.print_("Main menu.")
-        #     with indent:
-        #         prompt_text = indent.indent_text("Press 0 to start playing.\n")
-        #         prompt_text += indent.indent_text("Press 1 to manage your party.\n")
-        #         prompt_text += indent.indent_text("Press 2 to heal your party.\n")
-        #         prompt_text += indent.indent_text('Press 3 to quit.\n')
-        #         choice = ''
-        #         choice_accepted = range(4)
-        #         while not choice.isdigit() or int(choice) not in choice_accepted:
-        #             choice = input(prompt_text).strip()
-        #         if choice == '0':
-        #             self.start_level(self.ask_level())
-        #         elif choice == '1':
-        #             self.manage_party()
-        #         elif choice == '2':
-        #             self.party_manager.heal_party()
-        #             indent.print_("*Healing sound*")
-        #             indent.print_("Your party is healed.")
-        #         elif choice == '3':
-        #             self.quit_game()
 
     def quit_game(self):
         """Exit the game."""
@@ -1610,15 +1549,6 @@ class Menu:
             party_xml = XmlHelper.export_party_to_xml(self.character_list)
             XmlHelper.write_xml_to_file(party_xml, filename)
             exit()
-        # with Indenter() as indent:
-        #     indent.print_("Save game? (Y/N)")
-        #     user_choice = input().strip().upper()
-        #     while user_choice not in ("Y", "N"):
-        #         user_choice = input().strip().upper()
-        #     if user_choice == 'Y':
-        #         filename = "Data/Save.xml"
-        #         party_xml = XmlHelper.export_party_to_xml(self.character_list)
-        #         XmlHelper.write_xml_to_file(party_xml, filename)
 
 
 class UserInterface:
@@ -1778,9 +1708,11 @@ class UserInterface:
         :return: Text the user entered
         """
         active = False
-        input_box = pygame.Rect(.45 * self.length, .45 * self.height, 140, 32)
+        input_box = pygame.Rect(.40 * self.length, .40 * self.height, .2 * self.length, 32)
         color_inactive = self.gray_color
         color_active = self.white_color
+        color_rect_active = self.white_color
+        color_rect_inactive = self.gray_color
         color = color_inactive
         return_text = ''
         done = False
@@ -1790,9 +1722,6 @@ class UserInterface:
                          (.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height), 1)
         displayed_text = self.button_font.render(text, 1, self.white_color)
         self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
-        pygame.draw.rect(self.surf,
-                         self.white_color,
-                         input_box, 1)
         while not done:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -1812,7 +1741,7 @@ class UserInterface:
                         else:
                             return_text += event.unicode
             txt_surface = self.button_font.render(return_text, True, color)
-            width = max(200, txt_surface.get_width()+10)
+            width = max(200, txt_surface.get_width() + 10)
             input_box.w = width
             self.surf.fill(self.black_color)
             pygame.draw.rect(self.surf,
@@ -1821,7 +1750,7 @@ class UserInterface:
             displayed_text = self.button_font.render(text, 1, self.white_color)
             self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
             pygame.draw.rect(self.surf,
-                             self.white_color,
+                             color_rect_active if active else color_rect_inactive,
                              input_box,
                              1)
             self.surf.blit(txt_surface, (input_box.x+5, input_box.y+5))
@@ -2026,12 +1955,194 @@ class UserInterface:
                                  1)
             pygame.display.update()
 
-    def display_character_box(self, character, display_details=False):
+    def list_stats(self, character, text=None):
+        """
+        List the stats of a character. The user can upgrade them by clicking on them in the left side of the screen.
+        :param character: The character whose stats are displayed
+        :param text: (Optional) Text to display
+        :return: A dictionary of the stats, and the number of upgrades applied.
+        """
+        self.reset_screen()
+        done = False
+        stats_dict = {
+            "PHY_STR": 0,
+            "MAG_POW": 0,
+            "PHY_RES": 0,
+            "MAG_RES": 0,
+            "MAX_HP": 0,
+            "MAX_AP": 0,
+        }
+        x = .05 * self.length
+        y = .1 * self.height
+        small_text_size = 20
+        button_text_size = 30
+        text_offset = 15
+        stats_x_pos = .25 * self.length
+        stats_y_pos = .1 * self.height
+        stats_box = pygame.Rect(stats_x_pos, stats_y_pos, .7 * self.length, .6 * self.height)
+        stats_rect = list()
+
+        for i in range(0, 6):
+            stats_rect.append(pygame.Rect(x + text_offset,
+                                          y + small_text_size * (5 + i),
+                                          .1 * self.length,
+                                          small_text_size))
+
+        # Draw return button.
+        return_button = pygame.Rect(.95 * self.length,
+                                    .01 * self.height,
+                                    .04 * self.length,
+                                    .03 * self.height)
+        pygame.draw.rect(self.surf,
+                         self.red_color,
+                         return_button)
+        # Draw confirm button.
+        confirm_button = pygame.Rect(.9 * self.length,
+                                     .01 * self.height,
+                                     .04 * self.length,
+                                     .03 * self.height)
+        pygame.draw.rect(self.surf,
+                         self.green_color,
+                         confirm_button)
+
+        # Draw stats box
+        pygame.draw.rect(self.surf,
+                         self.white_color,
+                         stats_box,
+                         1)
+
+        # Draw text box
+        if text is not None:
+            text_box = pygame.Rect(.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height)
+            displayed_text = self.button_font.render(text, 1, self.white_color)
+            self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
+            pygame.draw.rect(self.surf,
+                             self.white_color,
+                             text_box,
+                             1)
+
+        # Main while loop
+        while not done:
+            can_upgrade = True if character.stats.unspent_points > 0 else False
+            self.clock.tick(30)
+
+            # Handle the events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if return_button.collidepoint(event.pos):
+                        return None
+                    if confirm_button.collidepoint(event.pos):
+                        return stats_dict
+                    for i in range(len(stats_rect)):
+                        # If I click on a stats and I have enough upgrade points
+                        if stats_rect[i].collidepoint(event.pos) and can_upgrade:
+                            if i == 0:
+                                stats_dict["MAX_HP"] += 10
+                                character.add_stats_points(0, 0, 0, 0, 10, 0)
+                            if i == 1:
+                                stats_dict["MAX_AP"] += 1
+                                character.add_stats_points(0, 0, 0, 0, 0, 1)
+                            if i == 2:
+                                stats_dict["PHY_STR"] += 1
+                                character.add_stats_points(1, 0, 0, 0, 0, 0)
+                            if i == 3:
+                                stats_dict["MAG_POW"] += 1
+                                character.add_stats_points(0, 1, 0, 0, 0, 0)
+                            if i == 4:
+                                stats_dict["PHY_RES"] += 1
+                                character.add_stats_points(0, 0, 1, 0, 0, 0)
+                            if i == 5:
+                                stats_dict["MAG_RES"] += 1
+                                character.add_stats_points(0, 0, 0, 1, 0, 0)
+                            character.stats.unspent_points -= 1
+
+            # Refresh stats box
+            pygame.draw.rect(self.surf,
+                             self.black_color,
+                             stats_box)
+            pygame.draw.rect(self.surf,
+                             self.white_color,
+                             stats_box,
+                             1)
+            # Draw a line under the first string in the table
+            pygame.draw.line(self.surf,
+                             self.white_color,
+                             (stats_x_pos + 5, stats_y_pos + 50),
+                             (stats_x_pos + .69 * self.length, stats_y_pos + 50),
+                             1)
+            # Text X-axis definition
+            base_stats_text_x_position = stats_x_pos + 20
+            x_text_x_position = base_stats_text_x_position + 200
+            class_multiplier_text_x_position = x_text_x_position + 50
+            equal_text_position = class_multiplier_text_x_position + 200
+            active_stats_text_x_position = equal_text_position + 50
+            x_text = "X"
+            equal_text = "="
+            # Write each line in the right box.
+            for i in range(len(stats_rect) + 1):
+                if i == 0:
+                    base_stats_text = "Base stats"
+                    class_multiplier_text = "Class Multiplier"
+                    active_stats_text = "Active stats"
+                if i == 1:
+                    base_stats_text = f"{round(character.stats.base_max_hp, 0)} HP"
+                    class_multiplier_text = f"{character.character_class.hp_mult}"
+                    active_stats_text = f"{round(character.stats.max_hp, 0)} HP"
+                if i == 2:
+                    base_stats_text = f"{round(character.stats.base_max_ap, 0)} AP"
+                    class_multiplier_text = f"{character.character_class.ap_mult}"
+                    active_stats_text = f"{round(character.stats.max_ap, 0)} AP"
+                if i == 3:
+                    base_stats_text = f"{round(character.stats.base_phy_str, 0)} Phy. Str."
+                    class_multiplier_text = f"{character.character_class.phy_str_mult}"
+                    active_stats_text = f"{round(character.stats.phy_str, 0)} Phy. Str."
+                if i == 4:
+                    base_stats_text = f"{round(character.stats.base_mag_pow, 0)} Mag. Pow."
+                    class_multiplier_text = f"{character.character_class.mag_pow_mult}"
+                    active_stats_text = f"{round(character.stats.mag_pow, 0)} Mag. Pow."
+                if i == 5:
+                    base_stats_text = f"{round(character.stats.base_phy_res, 0)} Phy. Res."
+                    class_multiplier_text = f"{character.character_class.phy_res_mult}"
+                    active_stats_text = f"{round(character.stats.phy_res, 0)} Phy. Res."
+                if i == 6:
+                    base_stats_text = f"{round(character.stats.base_mag_res, 0)} Mag. Res."
+                    class_multiplier_text = f"{character.character_class.mag_res_mult}"
+                    active_stats_text = f"{round(character.stats.mag_res, 0)} Mag. Res."
+                displayed_base_stats_text = self.button_font.render(base_stats_text, 1, self.white_color)
+                displayed_x_text = self.button_font.render(x_text, 1, self.white_color)
+                displayed_class_multiplier_text = self.button_font.render(class_multiplier_text, 1, self.white_color)
+                displayed_equal_text = self.button_font.render(equal_text, 1, self.white_color)
+                displayed_active_stats_text = self.button_font.render(active_stats_text, 1, self.white_color)
+                self.surf.blit(displayed_base_stats_text, (base_stats_text_x_position, stats_y_pos + button_text_size * (i + 1)))
+                self.surf.blit(displayed_x_text, (x_text_x_position, stats_y_pos + button_text_size * (i + 1)))
+                self.surf.blit(displayed_class_multiplier_text, (class_multiplier_text_x_position, stats_y_pos + button_text_size * (i + 1)))
+                self.surf.blit(displayed_equal_text, (equal_text_position, stats_y_pos + button_text_size * (i + 1)))
+                self.surf.blit(displayed_active_stats_text, (active_stats_text_x_position, stats_y_pos + button_text_size * (i + 1)))
+            # Refresh Left Box
+            self.display_character_box(character, display_details=True, can_upgrade_stats=can_upgrade)
+            # Refresh display
+            pygame.display.update()
+
+    def display_character_box(self, character, display_details=False, can_upgrade_stats=False):
+        """
+        Display a box with character info on the left side of the screen
+        :param character: The character whose info are displayed
+        :param display_details: If we need to display the details: CP, Stats Points
+        :param can_upgrade_stats: Can the character upgrade its stats
+        :return: None
+        """
         x = .05 * self.length
         y = .1 * self.height
         small_text_size = 20
         text_offset = 15
         character_box = pygame.Rect(x, y, .1875 * self.length, .6 * self.height)
+
+        if can_upgrade_stats:
+            stats_color = self.green_color
+        else:
+            stats_color = self.white_color
 
         # First refresh the box, then draw it
         pygame.draw.rect(self.surf, self.black_color, character_box)
@@ -2052,12 +2163,12 @@ class UserInterface:
         displayed_name = self.button_font.render(character_name, 1, self.white_color)
         displayed_job = self.small_font.render(character_job, 1, self.white_color)
         displayed_level = self.small_font.render(character_level, 1, self.white_color)
-        displayed_phy_str = self.small_font.render(character_phy_str, 1, self.white_color)
-        displayed_mag_pow = self.small_font.render(character_mag_pow, 1, self.white_color)
-        displayed_phy_res = self.small_font.render(character_phy_res, 1, self.white_color)
-        displayed_mag_res = self.small_font.render(character_mag_res, 1, self.white_color)
-        displayed_hp = self.small_font.render(character_hp, 1, self.white_color)
-        displayed_ap = self.small_font.render(character_ap, 1, self.white_color)
+        displayed_phy_str = self.small_font.render(character_phy_str, 1, stats_color)
+        displayed_mag_pow = self.small_font.render(character_mag_pow, 1, stats_color)
+        displayed_phy_res = self.small_font.render(character_phy_res, 1, stats_color)
+        displayed_mag_res = self.small_font.render(character_mag_res, 1, stats_color)
+        displayed_hp = self.small_font.render(character_hp, 1, stats_color)
+        displayed_ap = self.small_font.render(character_ap, 1, stats_color)
         self.surf.blit(displayed_name, (x + text_offset, y + small_text_size))
         self.surf.blit(displayed_level, (x + text_offset, y + small_text_size * 3))
         self.surf.blit(displayed_job, (x + text_offset, y + small_text_size * 4))
@@ -2070,7 +2181,10 @@ class UserInterface:
         if display_details:
             character_class_points = f"Class points: {character.class_points}"
             displayed_cp = self.small_font.render(character_class_points, 1, self.white_color)
+            characters_stats_points = f"Stats points: {character.stats.unspent_points}"
+            displayed_stats_points = self.small_font.render(characters_stats_points, 1, self.white_color)
             self.surf.blit(displayed_cp, (x + text_offset, y + small_text_size * 11))
+            self.surf.blit(displayed_stats_points, (x + text_offset, y + small_text_size * 12))
 
     def reset_screen(self):
         """Reset the screen to a black surface. Refresh the display."""

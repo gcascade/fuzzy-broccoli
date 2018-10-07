@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/main.py" line="1993" />
+    <bookmark url="file://$PROJECT_DIR$/main.py" line="1922" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d3a74cdf-4a8d-4246-bd75-55e49183039c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Abilities/Knight.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Knight.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Abilities/Squire.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Squire.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Abilities/Wizard.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Abilities/Wizard.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/Characters.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Characters.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Big Mutant Slime.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Foe/Goblin King.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Goblin King.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Foe/Killer Bee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Killer Bee.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Foe/Mutant Slime.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Mutant Slime.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Foe/Queen Bee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Queen Bee.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Foe/Slime King.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Foe/Slime King.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1538325618920" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/fuzzy_broccoli$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1538924935591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Fight$test.coverage" NAME="test Coverage Results" MODIFIED="1533637374403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv/Tests" />
     <SUITE FILE_PATH="coverage/Fight$main.coverage" NAME="main Coverage Results" MODIFIED="1533744799533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
     <SUITE FILE_PATH="coverage/fuzzy_broccoli$main.coverage" NAME="main Coverage Results" MODIFIED="1534783611000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/venv" />
@@ -91,9 +82,10 @@
     <session id="1041423820">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="17" />
-          <entry key="project.open.time.11" value="1" />
+          <entry key="project.closed" value="19" />
+          <entry key="project.open.time.11" value="2" />
           <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.14" value="2" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.19" value="1" />
@@ -103,13 +95,13 @@
           <entry key="project.open.time.7" value="2" />
           <entry key="project.open.time.8" value="6" />
           <entry key="project.open.time.9" value="3" />
-          <entry key="project.opened" value="20" />
+          <entry key="project.opened" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="37" />
-          <entry key="py" value="33142" />
+          <entry key="py" value="37130" />
           <entry key="txt" value="733" />
           <entry key="xml" value="6" />
         </counts>
@@ -117,7 +109,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="733" />
-          <entry key="Python" value="33179" />
+          <entry key="Python" value="37167" />
           <entry key="XML" value="6" />
         </counts>
       </usages-collector>
@@ -139,25 +131,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="true" current-in-tab="false">
+      <file pinned="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="598" column="25" lean-forward="true" selection-start-line="598" selection-start-column="25" selection-end-line="598" selection-end-column="25" />
+            <state relative-caret-position="-34195">
+              <caret line="220" column="8" selection-start-line="220" selection-start-column="8" selection-end-line="220" selection-end-column="8" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <marker date="1538325618004" expanded="true" signature="1435:2500" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="1549:1561" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="1559:1561" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="8955:8961" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="26430:26436" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="44189:44195" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="51657:51693" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="62509:62745" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="70749:70754" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="80941:94874" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="91699:94874" ph="..." />
-                <marker date="1538325618004" expanded="true" signature="94897:94906" ph="..." />
+                <marker date="1538924926905" expanded="true" signature="1435:2500" ph="..." />
+                <marker date="1538924926905" expanded="true" signature="1549:1561" ph="..." />
+                <marker date="1538924926905" expanded="true" signature="1559:1561" ph="..." />
+                <marker date="1538924926905" expanded="true" signature="8955:8961" ph="..." />
+                <marker date="1538924926905" expanded="true" signature="26430:26436" ph="..." />
+                <marker date="1538924926905" expanded="true" signature="43332:43338" ph="..." />
+                <marker date="1538924926905" expanded="true" signature="49721:49757" ph="..." />
+                <marker date="1538924926905" expanded="true" signature="96790:96796" ph="..." />
               </folding>
             </state>
           </provider>
@@ -167,16 +155,16 @@
         <entry file="file://$PROJECT_DIR$/Abilities/Knight.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
-              <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+              <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Abilities/Wizard.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+              <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -184,8 +172,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Data/Save.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="988" column="14" lean-forward="true" selection-start-line="988" selection-start-column="14" selection-end-line="988" selection-end-column="14" />
+            <state relative-caret-position="16796">
+              <caret line="988" column="14" selection-start-line="988" selection-start-column="14" selection-end-line="988" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -201,7 +189,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ManagedFile</find>
       <find>do</find>
       <find>enum</find>
       <find>is_acquired</find>
@@ -231,6 +218,7 @@
       <find>display_xp</find>
       <find>unspent_points</find>
       <find>clone</find>
+      <find>add_stats_points</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -272,9 +260,9 @@
         <option value="$PROJECT_DIR$/Abilities/Template.txt" />
         <option value="$PROJECT_DIR$/Abilities/Squire.txt" />
         <option value="$PROJECT_DIR$/Data/Save.xml" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Abilities/Knight.txt" />
         <option value="$PROJECT_DIR$/Abilities/Wizard.txt" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -456,12 +444,12 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23294243" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23827292" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2624729" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2624729" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39804772" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -501,17 +489,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>1458</line>
+          <line>1427</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>1523</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>1465</line>
+          <line>1434</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
@@ -770,31 +753,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Data/Save.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="988" column="14" lean-forward="true" selection-start-line="988" selection-start-column="14" selection-end-line="988" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="598" column="25" lean-forward="true" selection-start-line="598" selection-start-column="25" selection-end-line="598" selection-end-column="25" />
+        <state relative-caret-position="-34195">
+          <caret line="220" column="8" selection-start-line="220" selection-start-column="8" selection-end-line="220" selection-end-column="8" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <marker date="1538325618004" expanded="true" signature="1435:2500" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="1549:1561" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="1559:1561" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="8955:8961" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="26430:26436" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="44189:44195" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="51657:51693" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="62509:62745" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="70749:70754" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="80941:94874" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="91699:94874" ph="..." />
-            <marker date="1538325618004" expanded="true" signature="94897:94906" ph="..." />
+            <marker date="1538924926905" expanded="true" signature="1435:2500" ph="..." />
+            <marker date="1538924926905" expanded="true" signature="1549:1561" ph="..." />
+            <marker date="1538924926905" expanded="true" signature="1559:1561" ph="..." />
+            <marker date="1538924926905" expanded="true" signature="8955:8961" ph="..." />
+            <marker date="1538924926905" expanded="true" signature="26430:26436" ph="..." />
+            <marker date="1538924926905" expanded="true" signature="43332:43338" ph="..." />
+            <marker date="1538924926905" expanded="true" signature="49721:49757" ph="..." />
+            <marker date="1538924926905" expanded="true" signature="96790:96796" ph="..." />
           </folding>
         </state>
       </provider>
@@ -802,14 +774,21 @@
     <entry file="file://$PROJECT_DIR$/Abilities/Knight.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
-          <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+          <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Abilities/Wizard.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data/Save.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16796">
+          <caret line="988" column="14" selection-start-line="988" selection-start-column="14" selection-end-line="988" selection-end-column="14" />
         </state>
       </provider>
     </entry>
