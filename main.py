@@ -965,13 +965,29 @@ class BattleEngine:
             xp_value = sum(map(lambda f: f.xp, self.foe_list))
             xp_gained_per_character = xp_value / len(self.character_list)
             character_alive = list(filter(lambda c: c.stats.hp > 0, self.character_list))
+            char_level_dict = dict()
+            char_current_class_level_dict = dict()
             for c in character_alive:
-                level_up_text = "{} gained {} experience points.".format(c.name, xp_gained_per_character)
-                self.ui.battle_ui(self.character_list, self.foe_list, level_up_text)
+                char_level_dict[c.name] = c.level
+                char_current_class_level_dict[c.name] = c.character_class.class_level
+                xp_up_text = "{} gained {} experience points.".format(c.name, xp_gained_per_character)
+                self.ui.battle_ui(self.character_list, self.foe_list, xp_up_text)
+                time.sleep(text_speed)
                 # print("{} gained {} experience points.".format(c.name, xp_gained_per_character))
             xp_helper = ExperienceHelper()
             xp_helper.apply_xp(xp_gained_per_character, character_alive)
             xp_helper.apply_class_xp(xp_gained_per_character, character_alive)
+            char_leveled_up = list(filter(lambda a: a.level > char_level_dict[a.name], character_alive))
+            class_leveled_up = list(filter(lambda a: a.character_class.class_level > char_level_dict[a.name], character_alive))
+            level_up_string = ''
+            for c in char_leveled_up:
+                level_up_string += f"Level up! {c.name} is now level {c.level}!\n"
+            for c in class_leveled_up:
+                level_up_string += f"Class level up! {c.name} is now a level {c.character_class.class_level} {c.character_class.class_name}!"
+            if level_up_string != '':
+                self.ui.battle_ui(self.character_list, self.foe_list, level_up_string)
+                time.sleep(text_speed)
+
 
     def handle_defeat(self):
         if all(c.stats.hp == 0 for c in self.character_list):
