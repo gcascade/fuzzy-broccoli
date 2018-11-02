@@ -2,11 +2,12 @@ from enum import Enum
 from abc import ABCMeta
 from lxml import etree
 from pathlib import Path
-import random
-import time
 import copy
+import logging
 import pygame
+import random
 import sys
+import time
 
 max_level = 3
 combat_text_speed = .75  # in seconds
@@ -238,13 +239,16 @@ class CharacterClass(metaclass=ABCMeta):
     hp_mult = 0
     ap_mult = 0
     ability_list = list()
+    class_requirements = dict()
 
     def __init__(self):
         self.experience_helper = ExperienceHelper()
         try:
             self.ability_list = self.get_class_abilities_from_file()
         except FileContentException:
-            print("An error occurred loading abilities, please check the content of the Abilities directory.")
+            logging_format = '%(asctime)s %(levelname)s:%(message)s'
+            logging.basicConfig(filename='fuzzy-broccoli.log', level=logging.DEBUG, format=logging_format)
+            logging.warning("An error occurred loading abilities, please check the content of the Abilities directory.")
 
     def __str__(self):
         return ("{}\n\t"
@@ -261,6 +265,7 @@ class CharacterClass(metaclass=ABCMeta):
         return self.experience_helper.get_xp_needed_for_next_level(self.class_level)
 
     def init_class(self, character_stats):
+        self.class_requirements = self.init_class_requirements()
         character_stats.phy_str *= self.phy_str_mult
         character_stats.mag_pow *= self.mag_pow_mult
         character_stats.phy_res *= self.phy_res_mult
@@ -372,6 +377,10 @@ class CharacterClass(metaclass=ABCMeta):
 
     @staticmethod
     def get_dict_of_class():
+        """
+        Create a dictionary with all the classes
+        :return: A dictionary: key=class_name, value=corresponding CharacterClass
+        """
         class_dictionary = {
             Squire.class_name: Squire(),
             Knight.class_name: Knight(),
@@ -389,6 +398,35 @@ class CharacterClass(metaclass=ABCMeta):
             Beastmaster.class_name: Beastmaster(),
         }
         return class_dictionary
+
+    def init_class_requirements(self):
+        """
+        Load all class requirements from the xml file {class_name}.xml and store them in the dictionary
+        :return: A dictionary: key = Class_name, Value = Requirement
+        """
+        character_class_dict = CharacterClass.get_dict_of_class()
+        formatted_class_name = self.class_name.replace(" ", "")
+        cr_xml = XmlHelper.load_xml(f"Data/ClassRequirements/{self.class_name}.xml")
+        for _ in cr_xml.xpath(formatted_class_name):
+            for key, value in character_class_dict.items():
+                requirement = XmlHelper.fetch_first_text_from_xml_and_value(cr_xml, key.replace(" ", ""))
+                if not requirement.isdigit():
+                    raise XmlFileContentException
+                character_class_dict[key] = int(requirement)
+        return character_class_dict
+
+    @staticmethod
+    def get_all_class_requirements():
+        """
+        Gets all the class requirements from all the character classes.
+        :return: A list of tuples (string class_name, dictionary class_requirement)
+        """
+        return_list = list()
+        class_dictionary = CharacterClass.get_dict_of_class()
+        for key, value in class_dictionary.items():
+            class_requirement = value.init_class_requirements()
+            return_list.append((key, class_requirement))
+        return return_list
 
     def to_xml(self):
         class_ = etree.Element("Class")
@@ -750,6 +788,26 @@ class Character:
             classes.append(self.class_dict[key].to_xml())
         return character
 
+    def can_change_to_class(self, class_name):
+        """
+        Check if the character can change to desired class.
+        :param class_name: The name of the class to change into.
+        :return: True / False if the character can change or not.
+        """
+        requirements = CharacterClass.get_all_class_requirements()
+        for c_name, c_dict in requirements:
+            if c_name == class_name:
+                selected_requirement = c_dict
+        if selected_requirement is not None:
+            can_change = True
+            for key, value in self.class_dict.items():
+                if selected_requirement.get(key) != 0 and selected_requirement.get(key) > value.class_level:
+                    can_change = False
+                    break
+            return can_change
+        else:
+            return False
+
     @staticmethod
     def create_from_xml(character_xml):
         name = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "Name")
@@ -757,6 +815,8 @@ class Character:
         level_text = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "Level")
         cp_text = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "CP")
         current_class = XmlHelper.fetch_first_text_from_xml_and_value(character_xml, "CurrentClass")
+
+        # Raise Exceptions
         if None in [name, xp_text, level_text, cp_text, current_class]:
             raise XmlFileContentException
         if any(x.isdigit() is False for x in [xp_text, level_text, cp_text]):
@@ -764,6 +824,7 @@ class Character:
         stats_xml = character_xml.xpath("Stats")
         if len(stats_xml) != 1:
             raise XmlFileContentException
+
         stats = Stats.create_from_xml(stats_xml[0])
         class_dictionary = CharacterClass.get_dict_of_class()
         for class_xml in character_xml.xpath("Classes/Class"):
@@ -1252,26 +1313,14 @@ class PartyManager:
             party_member = self.party[int(choice)]
             return party_member
 
-    def change_class(self):
+    def change_class(self, character, class_name):
         """Change the class of a party member."""
-        party_member = self.select_party_member()
-        with Indenter() as indent:
-            indent.print_("{} the {}.".format(party_member.name, party_member.character_class.class_name))
-            i = 0
-            class_available = dict()
-            indent.print_("Available classes:")
-            for k, v in party_member.class_dict.items():
-                print(f"{k},".ljust(20) + f"level {v.class_level}".ljust(30) + f"[{i}]")
-                class_available[i] = k
-                i += 1
-            choice_accepted = range(i + 1)
-            choice = ''
-            while not choice.isdigit() or int(choice) not in choice_accepted:
-                choice = input("Choose class [0-{}]".format(i - 1))
-            key_chosen = class_available[int(choice)]
-            class_chosen = party_member.class_dict[key_chosen]
-            party_member.change_character_class(class_chosen)
-            indent.print_("{}'s class was changed.".format(party_member.name))
+        if character.class_dict[class_name] is not None:
+            character.change_character_class(character.class_dict[class_name])
+        else:
+            logging_format = '%(asctime)s %(levelname)s:%(message)s'
+            logging.basicConfig(filename='fuzzy-broccoli.log', level=logging.DEBUG, format=logging_format)
+            logging.error(f"Party Manager - Could not change {character.name}'s class to {class_name}'.")
 
     def change_name(self, character, name):
         character.name = name
@@ -1500,7 +1549,12 @@ class Menu:
                 print(character.name)
         elif choice == 2:
             # Change Class
-            self.ui.display_text("Not implemented yet.")
+            character = self.ui.choose_character(self.character_list, "Choose a character.")
+            if character is not None:
+                char_cloned = character.clone()
+                chosen_class_name = self.ui.list_class(char_cloned, "You can change your character's class here.")
+                if chosen_class_name is not None:
+                    self.party_manager.change_class(character, chosen_class_name)
         elif choice == 3:
             # Spend points
             character = self.ui.choose_character(self.character_list, "Choose a character.")
@@ -2138,6 +2192,149 @@ class UserInterface:
                 self.surf.blit(displayed_active_stats_text, (active_stats_text_x_position, stats_y_pos + button_text_size * (i + 1)))
             # Refresh Left Box
             self.display_character_box(character, display_details=True, can_upgrade_stats=can_upgrade)
+            # Refresh display
+            pygame.display.update()
+
+    def list_class(self, character, text=None):
+        """
+        Display a list of classes for the selected character.
+        :param character: The selected character
+        :param text: (Optional) A text to display
+        :return: The character's selected class
+        """
+        self.reset_screen()
+        done = False
+        class_x_pos = .25 * self.length
+        class_y_pos = .1 * self.height
+        text_offset = 15
+        small_text_size = 20
+        text_box = pygame.Rect(.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height)
+        class_box = pygame.Rect(class_x_pos, class_y_pos, .7 * self.length, .6 * self.height)
+        class_rect = list()
+        class_title = self.button_font.render("Classes:", 1, self.white_color)
+        current_class = character.character_class.class_name
+
+        for i in range(len(CharacterClass.get_dict_of_class())):
+            class_rect.append(pygame.Rect(class_x_pos + text_offset,
+                                          class_y_pos + small_text_size * (i + 2),
+                                          .7 * self.length,
+                                          small_text_size))
+        ct = 0
+        class_dict = dict()
+        for key, value in CharacterClass.get_dict_of_class().items():
+            class_dict[ct] = value.class_name
+            ct += 1
+
+        # Draw return button.
+        return_button = pygame.Rect(.95 * self.length,
+                                    .01 * self.height,
+                                    .04 * self.length,
+                                    .03 * self.height)
+        pygame.draw.rect(self.surf,
+                         self.red_color,
+                         return_button)
+        # Draw confirm button.
+        confirm_button = pygame.Rect(.9 * self.length,
+                                     .01 * self.height,
+                                     .04 * self.length,
+                                     .03 * self.height)
+        pygame.draw.rect(self.surf,
+                         self.green_color,
+                         confirm_button)
+
+        # Draw text box
+        if text is not None:
+            text_box = pygame.Rect(.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height)
+            displayed_text = self.button_font.render(text, 1, self.white_color)
+            self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height))
+            pygame.draw.rect(self.surf,
+                             self.white_color,
+                             text_box,
+                             1)
+
+        # Main while loop
+        while not done:
+            self.clock.tick(30)
+
+            # Handle the events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if return_button.collidepoint(event.pos):
+                        return None
+                    if confirm_button.collidepoint(event.pos):
+                        return current_class
+                    for i in range(len(class_rect)):
+                        if class_rect[i].collidepoint(event.pos):
+                            if character.can_change_to_class(class_dict[i]):
+                                current_class = class_dict[i]
+                                new_class = CharacterClass.get_dict_of_class()[class_dict[i]]
+                                character.change_character_class(new_class)
+                if event.type == pygame.MOUSEMOTION:
+                    for i in range(len(class_rect)):
+                        if class_rect[i].collidepoint(event.pos):
+                            current_class = class_dict[i]
+                            new_class = CharacterClass.get_dict_of_class()[class_dict[i]]
+                            text = current_class
+                            text += "\nRequirements:\n"
+                            if current_class != 'Squire':
+                                new_class_requirements = new_class.init_class_requirements()
+                                for key, value in new_class_requirements.items():
+                                    if value != 0:
+                                        text += f"{key} : {value}\n"
+                            else:
+                                text += "None"
+
+            # Refresh class box
+            pygame.draw.rect(self.surf,
+                             self.black_color,
+                             class_box)
+            pygame.draw.rect(self.surf,
+                             self.white_color,
+                             class_box,
+                             1)
+            self.surf.blit(class_title, (class_x_pos + text_offset, class_y_pos + small_text_size))
+
+            # Refresh text box
+            pygame.draw.rect(self.surf,
+                             self.black_color,
+                             text_box)
+
+            # Draw a line under the first string in the table
+            pygame.draw.line(self.surf,
+                             self.white_color,
+                             (class_x_pos + 5, class_y_pos + 40),
+                             (class_x_pos + .69 * self.length, class_y_pos + 40),
+                             1)
+
+            # Write each class name
+            for i in range(len(class_rect)):
+                if class_dict[i] == character.character_class.class_name:
+                    color = self.yellow_color
+                elif character.can_change_to_class(class_dict[i]):
+                    color = self.green_color
+                else:
+                    color = self.white_color
+                displayed_class = self.button_font.render(class_dict[i], 1, color)
+                self.surf.blit(displayed_class, (class_x_pos + text_offset, class_y_pos + small_text_size * (2 + i)))
+
+            # Refresh Left Box
+            self.display_character_box(character, display_details=True, can_upgrade_stats=False)
+
+            # Draw text box
+            if text is not None:
+                text_box = pygame.Rect(.05 * self.length, .75 * self.height, 0.90 * self.length, .20 * self.height)
+                line_nb = 0
+                for line in text.splitlines():
+                    displayed_text = self.button_font.render(line, 1, self.white_color)
+                    self.surf.blit(displayed_text, (.055 * self.length, .78 * self.height + line_nb * small_text_size))
+                    line_nb += 1
+                pygame.draw.rect(self.surf,
+                                 self.white_color,
+                                 text_box,
+                                 1)
+
             # Refresh display
             pygame.display.update()
 
