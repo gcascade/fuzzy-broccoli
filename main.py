@@ -928,7 +928,7 @@ class AbilityType(Enum):
 
     @staticmethod
     def list():
-        return list(map(lambda at: at.value, AbilityTarget))
+        return list(map(lambda at: at.value, AbilityType))
 
 
 class BattleEngine:
@@ -1031,10 +1031,9 @@ class BattleEngine:
             for c in character_alive:
                 char_level_dict[c.name] = c.level
                 char_current_class_level_dict[c.name] = c.character_class.class_level
-                xp_up_text = "{} gained {} experience points.".format(c.name, xp_gained_per_character)
+                xp_up_text = "{} gained {} experience points.".format(c.name, round(xp_gained_per_character))
                 self.ui.battle_ui(self.character_list, self.foe_list, xp_up_text)
                 time.sleep(text_speed)
-                # print("{} gained {} experience points.".format(c.name, xp_gained_per_character))
             xp_helper = ExperienceHelper()
             xp_helper.apply_xp(xp_gained_per_character, character_alive)
             xp_helper.apply_class_xp(xp_gained_per_character, character_alive)
@@ -1048,7 +1047,6 @@ class BattleEngine:
             if level_up_string != '':
                 self.ui.battle_ui(self.character_list, self.foe_list, level_up_string)
                 time.sleep(text_speed)
-
 
     def handle_defeat(self):
         if all(c.stats.hp == 0 for c in self.character_list):
@@ -1211,11 +1209,6 @@ class Level:
                 text +="\n{}".format(foe.name)
             self.ui.battle_ui(character_list, foe_list, text)
             time.sleep(text_speed)
-            # with Indenter() as indent:
-            #     indent.print_("Your party encounters:")
-            #     with indent:
-            #         for foe in foe_list:
-            #             indent.print_(foe.name)
             with BattleEngine(character_list, foe_list, self.ui) as battle:
                 battle.fight()
             if battle_number == self.end_level:
@@ -1745,16 +1738,16 @@ class UserInterface:
         for n in range(0, len(party)):
             pm_name = party[n].name
             pm_name_text = self.small_font.render(pm_name, 1, self.white_color)
-            pm_hp_text = self.small_font.render(f"{party[n].stats.hp}/{party[n].stats.max_hp}", 1, self.white_color, self.black_color)
-            pm_ap_text = self.small_font.render(f"{party[n].stats.ap}/{party[n].stats.max_ap}", 1, self.white_color, self.black_color)
+            pm_hp_text = self.small_font.render(f"{round(party[n].stats.hp)}/{round(party[n].stats.max_hp)}", 1, self.white_color, self.black_color)
+            pm_ap_text = self.small_font.render(f"{round(party[n].stats.ap)}/{round(party[n].stats.max_ap)}", 1, self.white_color, self.black_color)
             self.surf.blit(pm_name_text, (.2 * (n + 1) * self.length, .5 * self.height))
             self.surf.blit(pm_hp_text, (.2 * (n + 1) * self.length, .55 * self.height))
             self.surf.blit(pm_ap_text, (.2 * (n + 1) * self.length, .6 * self.height))
         for n in range(0, len(enemy_party)):
             foe_name = enemy_party[n].name
             foe_name_text = self.small_font.render(foe_name, 1, self.white_color)
-            foe_hp_text = self.small_font.render(f"{enemy_party[n].stats.hp}/{enemy_party[n].stats.max_hp}", 1, self.white_color, self.black_color)
-            foe_ap_text = self.small_font.render(f"{enemy_party[n].stats.ap}/{enemy_party[n].stats.max_ap}", 1, self.white_color, self.black_color)
+            foe_hp_text = self.small_font.render(f"{round(enemy_party[n].stats.hp)}/{round(enemy_party[n].stats.max_hp)}", 1, self.white_color, self.black_color)
+            foe_ap_text = self.small_font.render(f"{round(enemy_party[n].stats.ap)}/{round(enemy_party[n].stats.max_ap)}", 1, self.white_color, self.black_color)
             self.surf.blit(foe_name_text, (self.length - (.2 * (n + 1) * self.length), .1 * self.height))
             self.surf.blit(foe_hp_text, (self.length - (.2 * (n + 1) * self.length), .15 * self.height))
             self.surf.blit(foe_ap_text, (self.length - (.2 * (n + 1) * self.length), .2 * self.height))
@@ -2274,11 +2267,11 @@ class UserInterface:
                 if event.type == pygame.MOUSEMOTION:
                     for i in range(len(class_rect)):
                         if class_rect[i].collidepoint(event.pos):
-                            current_class = class_dict[i]
-                            new_class = CharacterClass.get_dict_of_class()[class_dict[i]]
-                            text = current_class
+                            selected_class = class_dict[i]
+                            new_class = CharacterClass.get_dict_of_class()[selected_class]
+                            text = selected_class
                             text += "\nRequirements:\n"
-                            if current_class != 'Squire':
+                            if selected_class != 'Squire':
                                 new_class_requirements = new_class.init_class_requirements()
                                 for key, value in new_class_requirements.items():
                                     if value != 0:
@@ -2404,6 +2397,7 @@ class UserInterface:
         self.surf.fill(self.black_color)
         pygame.display.update()
 
+
 # -------------------------- main function -------------------------- #
 biggs_id = 1
 wedge_id = 2
@@ -2413,9 +2407,9 @@ elaine_stat = CharacterStats(20, 20, 20, 20, 1000, 50)
 biggs_stat = CharacterStats(20, 20, 20, 20, 1000, 50)
 wedge_stat = CharacterStats(20, 20, 20, 20, 1000, 50)
 viviane_stat = CharacterStats(20, 20, 20, 20, 1000, 50)
-elaine_job = Wizard()
-biggs_job = Knight()
-wedge_job = Knight()
+elaine_job = Squire()
+biggs_job = Squire()
+wedge_job = Squire()
 viviane_job = Squire()
 elaine = Character("Elaine", elaine_stat, elaine_job)
 biggs = Character("Owen", biggs_stat, biggs_job)
@@ -2434,40 +2428,3 @@ if save.exists():
 menu = Menu(my_party)
 while "User has not quit":
     menu.display_menu()
-
-
-# ui = UserInterface()
-# ui.display_start_screen()
-
-# pygame.init()
-# clock = pygame.time.Clock()
-# red = 255
-# surf = pygame.display.set_mode((1000, 800), pygame.SRCALPHA)
-# button_x_length = 60
-# button_x_start = 500 - button_x_length / 2
-# button_y_length = 30
-# button_y_start = 700 - button_y_length / 2
-# font = pygame.font.Font(None, 36)
-# button_font = pygame.font.Font(None, 28)
-# welcome_text = font.render("Welcome to the Fuzzy-broccoli game !", 1, (224, 224, 224))
-# while True:
-#     clock.tick(30)
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             sys.exit()
-#         if event.type == pygame.MOUSEBUTTONUP:
-#             p = pygame.mouse.get_pos()
-#             if button_x_start <= p[0] <= button_x_start + button_x_length and button_y_start <= p[1] <= button_y_start + button_y_length:
-#                 welcome_text = font.render("Starting game...", 1, (224, 224, 224))
-#                 save = Path("Data/Save.xml")
-#                 if save.exists():
-#                     tree = XmlHelper.load_xml("Data/Save.xml")
-#                     my_party = XmlHelper.load_party_from_xml(tree)
-#             else:
-#                 welcome_text = font.render("Click the start button, you idiot...", 1, (224, 224, 224))
-#     surf.fill((32, 32, 32))
-#     # pygame.draw.rect(surf, (0, 255, 0), (button_x_start, button_y_start, button_x_length, button_y_length))
-#     play_text = button_font.render("Start", 1, (224, 224, 224))
-#     surf.blit(welcome_text, (300, 400))
-#     surf.blit(play_text, (button_x_start, button_y_start))
-#     pygame.display.update()
